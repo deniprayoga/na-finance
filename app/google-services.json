@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "862927619861",
+    "firebase_url": "https://nasyiatul-aisyiyah-finance.firebaseio.com",
+    "project_id": "nasyiatul-aisyiyah-finance",
+    "storage_bucket": "nasyiatul-aisyiyah-finance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862927619861:android:848734e0c0561328",
+        "android_client_info": {
+          "package_name": "com.example.denip.nasyiatulaisyiyahfinance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862927619861-befdv5d3c10ufth3d7qb80cjuvqg30g9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.denip.nasyiatulaisyiyahfinance",
+            "certificate_hash": "c00b6beaefb1d3b64096a567f96297200b9f641f"
+          }
+        },
+        {
+          "client_id": "862927619861-36mte69qq741eg1bh0f7l1bndef4f8b1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm25U73FJ9X8XRyvhlUVLWJhBBnXOUn_I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862927619861-36mte69qq741eg1bh0f7l1bndef4f8b1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
