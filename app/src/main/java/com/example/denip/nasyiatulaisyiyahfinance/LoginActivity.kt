@@ -11,51 +11,83 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        //get firebase auth instance
-        val auth = FirebaseAuth.getInstance()
-
-        if (auth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        checkCurrentUser()
 
         sign_in_button.setOnClickListener {
             val email = email_field.text.toString()
             val password = password_field.text.toString()
 
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(applicationContext, "Enter email address!", Toast.LENGTH_LONG).show()
+                showEmptyEmail()
                 return@setOnClickListener
             }
 
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_LONG).show()
+                showEmptyPassword()
                 return@setOnClickListener
             }
 
-            login_progress.visibility = View.VISIBLE
+            showLoginProgress()
 
-            //authenticate user
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                login_progress.visibility = View.GONE
+                hideLoginProgres()
                 if (!task.isSuccessful) {
                     if (password.length < 6) {
-                        password_field.error = getString(R.string.minimum_password)
+                        passwordError()
+                    } else if (!email.contains("@gmail")) {
+                        emailError()
                     } else {
-                        Toast.makeText(applicationContext, "auth failed", Toast.LENGTH_LONG).show()
+                        showAuthFailed()
                     }
                 } else {
-                    //val intent: Intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
+                    launchMainActivity()
                 }
             }
         }
     }
 
+    private fun checkCurrentUser() {
+        if (auth.currentUser != null) {
+            launchMainActivity()
+        }
+    }
+
+    private fun showLoginProgress() {
+        login_progress.visibility = View.VISIBLE
+    }
+
+    private fun hideLoginProgres() {
+        login_progress.visibility = View.GONE
+    }
+
+    private fun launchMainActivity() {
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
+    }
+
+    private fun showEmptyEmail() {
+        Toast.makeText(applicationContext, "Enter email address!", Toast.LENGTH_LONG).show()
+    }
+
+    private fun showEmptyPassword() {
+        Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_LONG).show()
+    }
+
+    private fun emailError() {
+        email_field.error = getString(R.string.error_invalid_email)
+    }
+
+    private fun passwordError() {
+        password_field.error = getString(R.string.minimum_password)
+    }
+
+    private fun showAuthFailed() {
+        Toast.makeText(applicationContext, "auth failed", Toast.LENGTH_LONG).show()
+    }
 }
