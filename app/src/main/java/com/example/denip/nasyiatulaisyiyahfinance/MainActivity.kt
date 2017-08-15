@@ -39,10 +39,10 @@ class MainActivity : AppCompatActivity() {
             dialogBuilder
                 .setTitle(getString(R.string.confirmation))
                 .setMessage(getString(R.string.are_you_sure))
-                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.yes), { dialog, which ->
                     auth.signOut()
                 })
-                .setNegativeButton(getString(R.string.no), DialogInterface.OnClickListener { dialog, which ->
+                .setNegativeButton(getString(R.string.no), { dialog, which ->
                     dialog.cancel()
                 })
                 .show()
