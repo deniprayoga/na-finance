@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
             showLoginProgress()
 
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                hideLoginProgres()
+                hideLoginProgress()
                 if (!task.isSuccessful) {
                     if (password.length < 6) {
                         passwordError()
@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         login_progress.visibility = View.VISIBLE
     }
 
-    private fun hideLoginProgres() {
+    private fun hideLoginProgress() {
         login_progress.visibility = View.GONE
     }
 

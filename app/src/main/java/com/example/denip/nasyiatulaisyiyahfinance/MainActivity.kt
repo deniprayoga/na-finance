@@ -9,7 +9,9 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var text: String
+    val auth:FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,19 +20,15 @@ class MainActivity : AppCompatActivity() {
         text = editText.text.toString()
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 
-        //get firebase auth instance
-        val auth = FirebaseAuth.getInstance()
-
         //get current user
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        //val currentUser = FirebaseAuth.getInstance().currentUser
 
         val authListener = FirebaseAuth.AuthStateListener {
             firebaseAuth ->
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+                launchLoginActivity()
             }
         }
 
@@ -39,5 +37,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity(){
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
