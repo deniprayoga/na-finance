@@ -16,4 +16,8 @@
         completions."
     </string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="are_you_sure">Are your sure want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
