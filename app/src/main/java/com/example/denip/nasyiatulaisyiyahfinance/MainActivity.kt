@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var text: String
-    val auth:FirebaseAuth = FirebaseAuth.getInstance()
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         auth.addAuthStateListener(authListener)
     }
 
-    private fun launchLoginActivity(){
+    private fun launchLoginActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
