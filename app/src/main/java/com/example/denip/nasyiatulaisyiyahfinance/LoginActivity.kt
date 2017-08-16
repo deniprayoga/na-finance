@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
                 if (!task.isSuccessful) {
                     if (password.length < 6) {
                         passwordError()
-                    } else if (!email.contains("@gmail")) {
+                    } else if (!email.contains(getString(R.string.contain_at_gmail))) {
                         emailError()
                     } else {
                         showAuthFailed()

@@ -20,4 +20,5 @@
     <string name="are_you_sure">Are your sure want to exit?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="contain_at_gmail">\@gmail</string>
 </resources>
