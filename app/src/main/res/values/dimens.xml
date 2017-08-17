@@ -5,6 +5,7 @@
     <dimen name="padding_logo_na">48dp</dimen>
     <dimen name="login_logo">100dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_setting_icon">13dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
-
+    <dimen name="add_income_expense_size">70dp</dimen>
 </resources>
