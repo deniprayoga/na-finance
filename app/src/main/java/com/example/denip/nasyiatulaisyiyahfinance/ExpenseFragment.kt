@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_expense.view.*
 
-
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
@@ -21,8 +20,6 @@ import kotlinx.android.synthetic.main.fragment_expense.view.*
  */
 class ExpenseFragment : Fragment(), View.OnClickListener {
 
-
-    // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
 
@@ -49,7 +46,6 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         if (mListener != null) {
             mListener!!.onFragmentInteraction(uri)
@@ -80,12 +76,12 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        // TODO: Rename parameter arguments, choose names that match
+
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
@@ -100,7 +96,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
          * *
          * @return A new instance of fragment ExpenseFragment.
          */
-        // TODO: Rename and change types and number of parameters
+
         fun newInstance(param1: String, param2: String): ExpenseFragment {
             val fragment = ExpenseFragment()
             val args = Bundle()
