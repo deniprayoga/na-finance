@@ -2,12 +2,12 @@ package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
 /**
@@ -21,37 +21,32 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        if (arguments.getInt(ARG_SECTION_NUMBER) == 1) {
-            val fragmentIncomeView = inflater?.inflate(R.layout.fragment_expense, container, false)
-            return fragmentIncomeView
-        } else if (arguments.getInt(ARG_SECTION_NUMBER) == 2) {
+        if (arguments.getInt(ARG_SECTION_NUMBER) == 0) {
+            inflateExpenseFragment(inflater)
+        } else if (arguments.getInt(ARG_SECTION_NUMBER) == 1) {
             val fragmentMainView = inflater!!.inflate(R.layout.fragment_main, container, false)
-            fragmentMainView?.button2_sign_out?.setOnClickListener {
-                showDialog()
-            }
-
+            fragmentMainView?.sign_out_button?.setOnClickListener(this)
             return fragmentMainView
-        } else {
-            val fragmentExpenseView = inflater!!.inflate(R.layout.fragment_income, container, false)
-            return fragmentExpenseView
+        } else if (arguments.getInt(ARG_SECTION_NUMBER) == 2) {
+            inflateIncomeFragment(inflater)
         }
+        return null
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.main_expense_button -> {
-                val fragmentExpense: Fragment = ExpenseFragment()
-                replaceFragment(fragmentExpense)
-            }
+            R.id.sign_out_button -> showDialog()
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction
-            .replace(R.id.container_fragment_main, fragment)
-            .addToBackStack(null)
-            .commit()
+    private fun inflateExpenseFragment(inflater: LayoutInflater?): View? {
+        val fragmentExpenseView = inflater?.inflate(R.layout.fragment_expense, container, false)
+        return fragmentExpenseView
+    }
+
+    private fun inflateIncomeFragment(inflater: LayoutInflater?): View? {
+        val fragmentExpenseView = inflater?.inflate(R.layout.fragment_income, container, false)
+        return fragmentExpenseView
     }
 
     private fun showDialog() {

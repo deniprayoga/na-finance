@@ -1,6 +1,7 @@
 package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -12,7 +13,12 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
+    IncomeFragment.OnFragmentInteractionListener {
+
+    override fun onFragmentInteraction(uri: Uri) {
+
+    }
 
     private var sectionsPagerAdapter: SectionsPagerAdapter? = null
     private var mViewPager: ViewPager? = null
@@ -70,11 +76,20 @@ class MainActivity : AppCompatActivity() {
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            return PlaceholderFragment.newInstance(position + 1)
+            when (position) {
+                0 -> {
+                    val expenseFragment = ExpenseFragment()
+                    return expenseFragment
+                }
+                2 -> {
+                    val incomeFragment = IncomeFragment()
+                    return incomeFragment
+                }
+            }
+            return PlaceholderFragment.newInstance(position)
         }
 
         override fun getCount(): Int {
-            // Show 3 total pages.
             return 3
         }
 
@@ -87,43 +102,4 @@ class MainActivity : AppCompatActivity() {
             return null
         }
     }
-
-    /*class PlaceholderFragment : Fragment(), View.OnClickListener {
-
-        override fun onClick(v: View?) {
-
-
-        }
-
-        override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                                  savedInstanceState: Bundle?): View? {
-
-            if (arguments.getInt(ARG_SECTION_NUMBER) == 1) {
-                val fragmentIncomeView = inflater!!.inflate(R.layout.fragment_income, container, false)
-                fragmentIncomeView.button2_sign_out.setOnClickListener {
-
-                }
-                return fragmentIncomeView
-            } else if (arguments.getInt(ARG_SECTION_NUMBER) == 2) {
-                val fragmentMainView = inflater!!.inflate(R.layout.fragment_main, container, false)
-                return fragmentMainView
-            } else {
-                val fragmentExpenseView = inflater!!.inflate(R.layout.fragment_expense, container, false)
-                return fragmentExpenseView
-            }
-        }
-
-        companion object {
-
-            private val ARG_SECTION_NUMBER = "section_number"
-
-            fun newInstance(sectionNumber: Int): PlaceholderFragment {
-                val fragment = PlaceholderFragment()
-                val args = Bundle()
-                args.putInt(ARG_SECTION_NUMBER, sectionNumber)
-                fragment.arguments = args
-                return fragment
-            }
-        }
-    }*/
 }

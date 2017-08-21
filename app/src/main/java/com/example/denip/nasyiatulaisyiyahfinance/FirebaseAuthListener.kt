@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class FirebaseAuthListener {
 
-    val authLisetener = FirebaseAuth.AuthStateListener {
+    val authListener = FirebaseAuth.AuthStateListener {
         firebaseAuth ->
         val user: FirebaseUser? = firebaseAuth.currentUser
 

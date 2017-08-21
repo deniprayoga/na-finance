@@ -1,12 +1,15 @@
 package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_income.*
+import kotlinx.android.synthetic.main.fragment_income.view.*
 
 
 /**
@@ -17,7 +20,7 @@ import android.view.ViewGroup
  * Use the [IncomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class IncomeFragment : Fragment() {
+class IncomeFragment : Fragment(), View.OnClickListener {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -36,7 +39,18 @@ class IncomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_income, container, false)
+        val fragmentIncomeView = inflater!!.inflate(R.layout.fragment_income, container, false)
+
+        fragmentIncomeView.add_income_button.setOnClickListener(this)
+        return fragmentIncomeView
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+              R.id.add_income_button -> {
+                  startActivity(Intent(context, AddIncomeActivity::class.java))
+              }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

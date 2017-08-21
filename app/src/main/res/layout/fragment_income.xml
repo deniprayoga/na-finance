@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/income_button"
+        android:id="@+id/add_income_button"
         android:layout_width="@dimen/add_income_expense_size"
         android:layout_height="@dimen/add_income_expense_size"
         android:layout_marginBottom="8dp"
