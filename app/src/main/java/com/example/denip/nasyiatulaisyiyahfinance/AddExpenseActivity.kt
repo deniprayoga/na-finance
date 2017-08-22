@@ -4,15 +4,25 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import kotlinx.android.synthetic.main.activity_add_expense.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
-class AddExpenseActivity : AppCompatActivity(), View.OnClickListener {
-    
+class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
+    CalendarDatePickerDialogFragment.OnDateSetListener {
+
+    companion object {
+        val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_expense)
 
         expense_value_field.text
+
+        showCurrentDate()
 
         one_button.setOnClickListener(this)
         two_button.setOnClickListener(this)
@@ -26,15 +36,20 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener {
         zero_button.setOnClickListener(this)
         delete_field_button.setOnClickListener(this)
         check_value_button.setOnClickListener(this)
+        calendar_button.setOnClickListener(this)
+
+    }
+
+    override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        calendar_result_text.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear, dayOfMonth)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.check_value_button -> {
-                val expenseValueField = expense_value_field?.text.toString()
-                Toast.makeText(this, expenseValueField, Toast.LENGTH_LONG).show()
+                val expenseValueField = expense_value_field?.text?.toString()
+                Toast.makeText(this, expenseValueField, Toast.LENGTH_SHORT).show()
             }
-
             R.id.zero_button -> {
                 addNumberToField(0)
             }
@@ -66,25 +81,31 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener {
                 addNumberToField(9)
             }
             R.id.delete_field_button -> {
-                //removeLastNumber()
-                val number = expense_value_field.text.toString()
-                val numbernew = number.substring(0, number.length - 1)
-                expense_value_field.setText(numbernew)
+                setEmpty()
+            }
+            R.id.calendar_button -> {
+                showCalendar()
             }
         }
     }
 
-    fun removeLastNumber(): String {
-        val number = expense_value_field.text.toString()
-        if (number.isNotEmpty()) {
-            number.substring(0, number.length - 1)
-            expense_value_field.setText(number)
-        }
-        return number
+    private fun showCalendar() {
+        val calendarDatePicker = CalendarDatePickerDialogFragment()
+            .setOnDateSetListener(this)
+        calendarDatePicker.show(supportFragmentManager, FRAG_TAG_DATE_PICKER)
     }
 
-    fun addNumberToField(num: Int?) {
+    private fun showCurrentDate() {
+        val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("dd-MM-yyyy")
+        calendar_result_text.text = currentDate.toString()
+    }
+
+    private fun setEmpty() {
+        expense_value_field?.setText("")
+    }
+
+    private fun addNumberToField(num: Int?) {
         val expenseValueField = expense_value_field?.text.toString()
-        expense_value_field?.setText(expenseValueField?.plus(num))
+        expense_value_field?.setText(expenseValueField.plus(num))
     }
 }
