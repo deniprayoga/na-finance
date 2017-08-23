@@ -1,7 +1,10 @@
 package com.example.denip.nasyiatulaisyiyahfinance
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
@@ -14,6 +17,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
     companion object {
         val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
+        val context: Context? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +38,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         eight_button.setOnClickListener(this)
         nine_button.setOnClickListener(this)
         zero_button.setOnClickListener(this)
-        delete_field_button.setOnClickListener(this)
+        clear_button.setOnClickListener(this)
         check_value_button.setOnClickListener(this)
         calendar_button.setOnClickListener(this)
 
@@ -47,11 +51,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.check_value_button -> {
-                val expenseValueField = expense_value_field?.text?.toString()
+                val expenseValueField = expense_value_field.text.toString()
                 Toast.makeText(this, expenseValueField, Toast.LENGTH_SHORT).show()
             }
             R.id.zero_button -> {
-                addNumberToField(0)
+                val currentValue = expense_value_field.text.toString()
+                if (currentValue.isEmpty()) {
+                    avoidZeroInFirstInput("")
+                } else {
+                    addNumberToField(0)
+                }
             }
             R.id.one_button -> {
                 addNumberToField(1)
@@ -80,8 +89,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             R.id.nine_button -> {
                 addNumberToField(9)
             }
-            R.id.delete_field_button -> {
-                setEmpty()
+            R.id.clear_button -> {
+                clearField()
             }
             R.id.calendar_button -> {
                 showCalendar()
@@ -100,12 +109,17 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         calendar_result_text.text = currentDate.toString()
     }
 
-    private fun setEmpty() {
-        expense_value_field?.setText("")
+    private fun clearField() {
+        expense_value_field.text.clear()
     }
 
     private fun addNumberToField(num: Int?) {
         val expenseValueField = expense_value_field?.text.toString()
         expense_value_field?.setText(expenseValueField.plus(num))
+    }
+
+    private fun avoidZeroInFirstInput(s: String?) {
+        val expenseValueField = expense_value_field?.text.toString()
+        expense_value_field?.setText(expenseValueField.plus(s))
     }
 }
