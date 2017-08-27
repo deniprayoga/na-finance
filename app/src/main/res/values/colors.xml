@@ -5,4 +5,6 @@
     <color name="colorAccent">#000000</color>
     <color name="colorButtonIncome">#ff99cc00</color>
     <color name="colorButtonExpense">#ffff4444</color>
+    <color name="colorCenterGradientBackgroundExpense">#FFFFFA79</color>
+    <color name="colorCenterGradientBackgroundIncome">#FFDDFF76</color>
 </resources>
