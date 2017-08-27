@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance
 
+import android.Manifest
 import android.content.Context
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -32,10 +33,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_add_expense)
         glideRequestManager = Glide.with(this)
 
-        expense_value_field.text
+        initLayout()
+    }
 
+    private fun initLayout() {
         showCurrentDate()
-
         one_button.setOnClickListener(this)
         two_button.setOnClickListener(this)
         three_button.setOnClickListener(this)
@@ -50,7 +52,6 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         check_value_button.setOnClickListener(this)
         calendar_button.setOnClickListener(this)
         pick_image_button.setOnClickListener(this)
-
     }
 
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -111,9 +112,9 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun pickImage() {
-        val permissionListener = object : PermissionListener {
+        val permissionListener: PermissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
-                val bottomSheetDialogFragment = TedBottomPicker.Builder(this@AddExpenseActivity)
+                val bottomSheetDialogFragment: TedBottomPicker = TedBottomPicker.Builder(this@AddExpenseActivity)
                     .setOnImageSelectedListener { uri ->
                         Log.d("ted", "uri:" + uri)
                         Log.d("ted", "uri.path:" + uri.path)
@@ -131,25 +132,27 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                     .setPeekHeight(1200)
                     .create()
                 bottomSheetDialogFragment.show(supportFragmentManager)
-
             }
 
             override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-                Toast.makeText(this@AddExpenseActivity, "Permission denied\n" +
-                    deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
+                showPermissionDenied(deniedPermissions)
             }
         }
 
         TedPermission(this@AddExpenseActivity)
             .setPermissionListener(permissionListener)
             .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-            .setPermissions("android.permission.WRITE_EXTERNAL_STORAGE")
+            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .check()
     }
 
+    private fun showPermissionDenied(deniedPermissions: ArrayList<String>?) {
+        Toast.makeText(this@AddExpenseActivity, "Permission denied\n" +
+            deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
+    }
+
     private fun showCalendar() {
-        val calendarDatePicker = CalendarDatePickerDialogFragment()
-            .setOnDateSetListener(this)
+        val calendarDatePicker = CalendarDatePickerDialogFragment().setOnDateSetListener(this)
         calendarDatePicker.show(supportFragmentManager, FRAG_TAG_DATE_PICKER)
     }
 
