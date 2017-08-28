@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -121,13 +122,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         selectedUri = uri
 
                         show_image_imageview.visibility = View.VISIBLE
-                        selected_photos_container.visibility = View.VISIBLE
                         show_image_imageview.post {
                             glideRequestManager
                                 .load(uri)
+                                .fitCenter()
                                 .into(show_image_imageview)
                         }
+
+                        show_image_imageview.layoutParams = LinearLayout.LayoutParams(250, 250)
                     }
+
                     .setSelectedUri(selectedUri)
                     .setPeekHeight(1200)
                     .create()
