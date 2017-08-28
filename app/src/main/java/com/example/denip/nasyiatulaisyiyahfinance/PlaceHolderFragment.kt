@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -26,6 +27,7 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
         } else if (arguments.getInt(ARG_SECTION_NUMBER) == 1) {
             val fragmentMainView = inflater!!.inflate(R.layout.fragment_main, container, false)
             fragmentMainView?.sign_out_button?.setOnClickListener(this)
+            fragmentMainView?.setting_button?.setOnClickListener(this)
             return fragmentMainView
         } else if (arguments.getInt(ARG_SECTION_NUMBER) == 2) {
             inflateIncomeFragment(inflater)
@@ -36,6 +38,7 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.sign_out_button -> showDialog()
+            R.id.setting_button -> startActivity(Intent(context, SettingActivity::class.java))
         }
     }
 
