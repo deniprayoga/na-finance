@@ -62,11 +62,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.check_value_button -> {
-                val expenseValueField = expense_value_field.text.toString()
+                val expenseValueField = expense_amount_field.text.toString()
                 Toast.makeText(this, expenseValueField, Toast.LENGTH_SHORT).show()
             }
             R.id.zero_button -> {
-                val currentValue = expense_value_field.text.toString()
+                val currentValue = expense_amount_field.text.toString()
                 if (currentValue.isEmpty()) {
                     avoidZeroInFirstInput("")
                 } else {
@@ -166,16 +166,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun clearField() {
-        expense_value_field.text.clear()
+        expense_amount_field.text.clear()
     }
 
     private fun addNumberToField(num: Int?) {
-        val expenseValueField = expense_value_field?.text.toString()
-        expense_value_field?.setText(expenseValueField.plus(num))
+        val expenseValueField = expense_amount_field?.text.toString()
+        expense_amount_field?.setText(expenseValueField.plus(num))
     }
 
     private fun avoidZeroInFirstInput(s: String?) {
-        val expenseValueField = expense_value_field?.text.toString()
-        expense_value_field?.setText(expenseValueField.plus(s))
+        val expenseValueField = expense_amount_field?.text.toString()
+        expense_amount_field?.setText(expenseValueField.plus(s))
     }
 }
