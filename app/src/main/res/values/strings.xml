@@ -38,4 +38,5 @@
     <string name="add_note">Add note</string>
     <string name="clear">clear</string>
     <string name="calendar_date_picker_result_values">Year: %1$d\nMonth: %2$d\nDay: %3$d</string>
+    <string name="setting_title">Setting</string>
 </resources>
