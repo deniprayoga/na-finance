@@ -25,11 +25,16 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_add_expense_layout) as Toolbar
+        val toolbar = findViewById(R.id.toolbar_setting_layout) as Toolbar
         setSupportActionBar(toolbar)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+/*        val actionBarTitleId: Int = Resources.getSystem().getIdentifier("action_bar_title", "id", "android")
+        if (actionBarTitleId > 0) {
+            val title = findViewById(actionBarTitleId) as TextView?
+            title?.setTextColor(Color.BLACK)
+        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

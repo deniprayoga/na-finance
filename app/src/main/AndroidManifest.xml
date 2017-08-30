@@ -37,11 +37,11 @@
 
         <activity
             android:name=".AddIncomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Income" />
 
         <activity
             android:name=".AddExpenseActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Expense" />
 
         <activity
             android:name=".SettingActivity"

@@ -7,5 +7,10 @@
     <color name="colorButtonExpense">#fff500</color>
     <color name="colorCenterGradientBackgroundExpense">#FFFFFA79</color>
     <color name="colorCenterGradientBackgroundIncome">#FFDDFF76</color>
-    <color name="colorActionBar">#FFDFFF3F</color>
+    <color name="colorActionBar">#8b8b8b</color>
+    <color name="colorActionBarDark">#505050</color>
+    <color name="colorActionBarIncome">#ff99cc00</color>
+    <color name="colorActionBarIncomeDark">#455c00</color>
+    <color name="colorActionBarExpense">#FFFFBB00</color>
+    <color name="colorActionBarExpenseDark">#6b4e00</color>
 </resources>
