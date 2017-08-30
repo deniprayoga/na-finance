@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val authListener = FirebaseAuth.AuthStateListener {
-            firebaseAuth ->
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
@@ -54,23 +53,22 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
+        when (id) {
+            android.R.id.home -> onBackPressed()
+        }
 
+/*        val id = item.itemId
 
         if (id == R.id.action_settings) {
             return true
-        }
-
-        return super.onOptionsItemSelected(item)
+        }*/
+        return true
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

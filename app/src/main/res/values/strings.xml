@@ -22,7 +22,6 @@
     <string name="no">No</string>
     <string name="contain_at_gmail">\@gmail</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="zero">0</string>
@@ -39,4 +38,5 @@
     <string name="clear">clear</string>
     <string name="calendar_date_picker_result_values">Year: %1$d\nMonth: %2$d\nDay: %3$d</string>
     <string name="setting_title">Setting</string>
+    <string name="action_bar_done">Done</string>
 </resources>

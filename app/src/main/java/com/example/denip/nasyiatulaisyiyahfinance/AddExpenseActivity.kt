@@ -5,7 +5,10 @@ import android.content.Context
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -38,6 +41,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun initLayout() {
+        initToolbar()
         showCurrentDate()
         one_button.setOnClickListener(this)
         two_button.setOnClickListener(this)
@@ -55,8 +59,29 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         pick_image_button.setOnClickListener(this)
     }
 
+    private fun initToolbar() {
+        val toolbar = findViewById(R.id.toolbar_add_expense_layout) as Toolbar
+        setSupportActionBar(toolbar)
+
+        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         calendar_result_text.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear, dayOfMonth)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_bar_done -> finish()
+            android.R.id.home -> onBackPressed()
+        }
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
 
     override fun onClick(v: View?) {
