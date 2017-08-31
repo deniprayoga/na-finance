@@ -29,23 +29,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".AddIncomeActivity"
             android:theme="@style/AppTheme.NoActionBar.Income" />
-
         <activity
             android:name=".AddExpenseActivity"
             android:theme="@style/AppTheme.NoActionBar.Expense" />
-
         <activity
             android:name=".SettingActivity"
             android:label="@string/setting_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/profile_title"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
