@@ -42,15 +42,11 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun inflateExpenseFragment(inflater: LayoutInflater?): View? {
-        val fragmentExpenseView = inflater?.inflate(R.layout.fragment_expense, container, false)
-        return fragmentExpenseView
-    }
+    private fun inflateExpenseFragment(inflater: LayoutInflater?): View? =
+        inflater?.inflate(R.layout.fragment_expense, container, false)
 
-    private fun inflateIncomeFragment(inflater: LayoutInflater?): View? {
-        val fragmentExpenseView = inflater?.inflate(R.layout.fragment_income, container, false)
-        return fragmentExpenseView
-    }
+    private fun inflateIncomeFragment(inflater: LayoutInflater?): View? =
+        inflater?.inflate(R.layout.fragment_income, container, false)
 
     private fun showDialog() {
         val dialogBuilder = AlertDialog.Builder(context)
