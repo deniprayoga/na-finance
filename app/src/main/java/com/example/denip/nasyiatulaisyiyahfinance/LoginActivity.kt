@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         checkCurrentUser()
-        showOrHidePassword()
 
         sign_in_button.setOnClickListener {
             val email = email_field.text.toString()
@@ -52,13 +49,6 @@ class LoginActivity : AppCompatActivity() {
                     launchMainActivity()
                 }
             }
-        }
-    }
-
-    private fun showOrHidePassword() {
-        show_password_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) password_field.transformationMethod = PasswordTransformationMethod.getInstance()
-            else password_field.transformationMethod = HideReturnsTransformationMethod.getInstance()
         }
     }
 
