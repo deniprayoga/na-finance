@@ -13,4 +13,8 @@
     <color name="colorActionBarIncomeDark">#455c00</color>
     <color name="colorActionBarExpense">#FFFFBB00</color>
     <color name="colorActionBarExpenseDark">#6b4e00</color>
+    <color name="colorBackgroundNumpad">#ccf1ff</color>
+    <color name="colorBackgroundNumpadPressed">#8fe0ff</color>
+    <color name="colorBackgroundNumpadClear">#ffbaba</color>
+    <color name="colorBackgroundNumpadClearPressed">#FFFF9595</color>
 </resources>

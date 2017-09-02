@@ -36,6 +36,7 @@
     <string name="nine">9</string>
     <string name="add_note">Add note</string>
     <string name="clear">clear</string>
+    <string name="clear_short">C</string>
     <string name="calendar_date_picker_result_values">Year: %1$d\nMonth: %2$d\nDay: %3$d</string>
     <string name="setting_title">Setting</string>
     <string name="action_bar_done">Done</string>
