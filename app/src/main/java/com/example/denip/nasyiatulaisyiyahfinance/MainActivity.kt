@@ -62,12 +62,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         when (id) {
             android.R.id.home -> onBackPressed()
         }
-
-/*        val id = item.itemId
-
-        if (id == R.id.action_settings) {
-            return true
-        }*/
         return true
     }
 
@@ -76,20 +70,16 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         override fun getItem(position: Int): Fragment {
             when (position) {
                 0 -> {
-                    val expenseFragment = ExpenseFragment()
-                    return expenseFragment
+                    return ExpenseFragment()
                 }
                 2 -> {
-                    val incomeFragment = IncomeFragment()
-                    return incomeFragment
+                    return IncomeFragment()
                 }
             }
             return PlaceholderFragment.newInstance(position)
         }
 
-        override fun getCount(): Int {
-            return 3
-        }
+        override fun getCount(): Int = 3
 
         override fun getPageTitle(position: Int): CharSequence? {
             when (position) {

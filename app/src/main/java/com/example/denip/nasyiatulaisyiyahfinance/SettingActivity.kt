@@ -27,6 +27,7 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         initToolbar()
         profile_button.setOnClickListener(this)
         category_setting_button.setOnClickListener(this)
+        sign_out_button.setOnClickListener(this)
     }
 
     private fun initToolbar() {
@@ -41,6 +42,9 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.profile_button -> startActivity(Intent(this, ProfileActivity::class.java))
             R.id.category_setting_button -> startActivity(Intent(this, CategorySettingActivity::class.java))
+            R.id.sign_out_button -> {
+
+            }
         }
     }
 

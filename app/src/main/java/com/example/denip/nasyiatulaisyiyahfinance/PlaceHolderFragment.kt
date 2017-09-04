@@ -26,7 +26,6 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
             inflateExpenseFragment(inflater)
         } else if (arguments.getInt(ARG_SECTION_NUMBER) == 1) {
             val fragmentMainView = inflater!!.inflate(R.layout.fragment_main, container, false)
-            fragmentMainView?.sign_out_button?.setOnClickListener(this)
             fragmentMainView?.setting_button?.setOnClickListener(this)
             return fragmentMainView
         } else if (arguments.getInt(ARG_SECTION_NUMBER) == 2) {
