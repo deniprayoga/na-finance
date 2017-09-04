@@ -45,7 +45,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun initLayout() {
-        expense_amount_field.isCursorVisible = false
+        expense_amount_field.isFocusable = false
         initToolbar()
         showCurrentDate()
         calendar_button.setOnClickListener(this)
