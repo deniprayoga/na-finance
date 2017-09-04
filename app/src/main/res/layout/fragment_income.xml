@@ -17,6 +17,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/export_income_imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:padding="@dimen/padding_setting_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_unarchive_black_24dp" />
+
     <ImageView
         android:id="@+id/add_income_button"
         android:layout_width="@dimen/add_income_expense_size"
@@ -30,16 +41,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_add_circle_outline_black_48dp" />
-
-    <ImageButton
-        android:id="@+id/export_income_imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:padding="@dimen/padding_setting_icon"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_unarchive_black_24dp" />
 
 </android.support.constraint.ConstraintLayout>

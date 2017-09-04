@@ -5,19 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_expense.view.*
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ExpenseFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ExpenseFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ExpenseFragment : Fragment(), View.OnClickListener {
 
     private var mParam1: String? = null
@@ -37,13 +31,31 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
                               savedInstanceState: Bundle?): View? {
         val fragmentExpenseView = inflater!!.inflate(R.layout.fragment_expense, container, false)
         fragmentExpenseView.add_expense_button.setOnClickListener(this)
+        fragmentExpenseView.export_expense_imageButton?.setOnClickListener(this)
         return fragmentExpenseView
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.add_expense_button -> startActivity(Intent(context, AddExpenseActivity::class.java))
+            R.id.export_expense_imageButton -> {
+                showDialogExport()
+            }
         }
+    }
+
+    private fun showDialogExport() {
+        val dialogBuilder = AlertDialog.Builder(context)
+        dialogBuilder
+            .setTitle(R.string.confirmation)
+            .setMessage(R.string.confirmation_export_expense)
+            .setPositiveButton(R.string.yes, { dialog, _ ->
+                Toast.makeText(context, "Make your export expense action.", Toast.LENGTH_SHORT).show()
+            })
+            .setNegativeButton(R.string.no, { dialog, _ ->
+                dialog.cancel()
+            })
+            .show()
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -66,15 +78,6 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         mListener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
     interface OnFragmentInteractionListener {
 
         fun onFragmentInteraction(uri: Uri)
@@ -86,17 +89,6 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
 
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-
-         * @param param1 Parameter 1.
-         * *
-         * @param param2 Parameter 2.
-         * *
-         * @return A new instance of fragment ExpenseFragment.
-         */
-
         fun newInstance(param1: String, param2: String): ExpenseFragment {
             val fragment = ExpenseFragment()
             val args = Bundle()
@@ -106,4 +98,4 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             return fragment
         }
     }
-}// Required empty public constructor
+}
