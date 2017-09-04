@@ -34,7 +34,9 @@
             android:theme="@style/AppTheme.NoActionBar.Income" />
         <activity
             android:name=".AddExpenseActivity"
-            android:theme="@style/AppTheme.NoActionBar.Expense" />
+            android:label="@string/add_expense_title"
+            android:theme="@style/AppTheme.NoActionBar.Expense"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SettingActivity"
             android:label="@string/setting_title"
@@ -47,6 +49,10 @@
             android:name=".CategorySettingActivity"
             android:label="@string/category_title"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddAmountActivity"
+            android:label="@string/add_expense_title"
+            android:theme="@style/AppTheme.NoActionBar.Expense.AddAmount" />
     </application>
 
 </manifest>
