@@ -28,7 +28,7 @@ class AddAmountActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_add_expense_layout) as Toolbar
+        val toolbar = findViewById(R.id.toolbar_add_amount_layout) as Toolbar
         setSupportActionBar(toolbar)
 
         supportActionBar!!.setHomeButtonEnabled(true)
@@ -115,10 +115,9 @@ class AddAmountActivity : AppCompatActivity(), View.OnClickListener {
             R.id.action_bar_done -> finish()
             android.R.id.home -> {
                 val currentAmount = expense_amount_field_add_amount?.text.toString()
-/*                val bundleAmount = Bundle()
-                bundleAmount.putString(getString(R.string.EXTRA_AMOUNT), currentAmount)*/
                 val intent = Intent(this, AddExpenseActivity::class.java)
                 intent.putExtra(getString(R.string.EXTRA_AMOUNT), currentAmount)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }
         }
