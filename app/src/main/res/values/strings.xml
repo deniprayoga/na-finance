@@ -17,7 +17,7 @@
     </string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
     <string name="confirmation">Confirmation</string>
-    <string name="are_you_sure_exit">Are you sure want to exit?</string>
+    <string name="confirmation_sign_out">Are you sure want to sign out?</string>
     <string name="confirmation_export_expense">Are you sure want to export Expense?</string>
     <string name="confirmation_export_income">Are you sure want to export Income?</string>
     <string name="yes">Yes</string>

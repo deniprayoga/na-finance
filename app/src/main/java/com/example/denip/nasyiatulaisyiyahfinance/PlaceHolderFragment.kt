@@ -51,7 +51,7 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder
             .setTitle(getString(R.string.confirmation))
-            .setMessage(getString(R.string.are_you_sure_exit))
+            .setMessage(getString(R.string.confirmation_sign_out))
             .setPositiveButton(getString(R.string.yes), { _, _ ->
                 auth.signOut()
             })
