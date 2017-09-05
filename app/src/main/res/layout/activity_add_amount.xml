@@ -54,7 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_text_field_amount"
-            android:drawablePadding="8dp"
+            android:drawablePadding="-24dp"
             android:drawableStart="@drawable/ic_indonesian_rupiah_24dp"
             android:drawableTint="@color/bpblack"
             android:ems="10"
