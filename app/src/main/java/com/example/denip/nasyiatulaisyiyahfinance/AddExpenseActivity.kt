@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -55,8 +54,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_add_expense_layout) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_add_expense_layout)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

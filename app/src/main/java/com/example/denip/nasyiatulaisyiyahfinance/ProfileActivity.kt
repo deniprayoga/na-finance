@@ -2,8 +2,8 @@ package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -19,8 +19,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_profile_layout) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_profile_layout)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

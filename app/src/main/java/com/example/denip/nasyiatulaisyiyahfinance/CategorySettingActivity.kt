@@ -2,10 +2,9 @@ package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.android.synthetic.main.activity_category_setting.*
 
 class CategorySettingActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -23,8 +22,7 @@ class CategorySettingActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_category_setting_layout) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_category_setting_layout)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

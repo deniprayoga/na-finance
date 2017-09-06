@@ -2,9 +2,9 @@ package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_add_income.*
 
 class AddIncomeActivity : AppCompatActivity() {
 
@@ -16,8 +16,7 @@ class AddIncomeActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_add_income_layout) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_add_income_layout)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
