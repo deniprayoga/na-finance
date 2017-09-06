@@ -43,10 +43,10 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initLayout() {
         initToolbar()
-        profile_button.setOnClickListener(this)
-        category_setting_button.setOnClickListener(this)
-        change_password_button.setOnClickListener(this)
-        sign_out_button.setOnClickListener(this)
+        setting_profile.setOnClickListener(this)
+        setting_category.setOnClickListener(this)
+        setting_change_password.setOnClickListener(this)
+        setting_sign_out.setOnClickListener(this)
     }
 
     private fun initToolbar() {
@@ -58,10 +58,10 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.profile_button -> startActivity(Intent(this, ProfileActivity::class.java))
-            R.id.category_setting_button -> startActivity(Intent(this, CategorySettingActivity::class.java))
-            R.id.change_password_button -> startActivity(Intent(this, ChangePasswordActivity::class.java))
-            R.id.sign_out_button -> {
+            R.id.setting_profile -> startActivity(Intent(this, ProfileActivity::class.java))
+            R.id.setting_category -> startActivity(Intent(this, CategorySettingActivity::class.java))
+            R.id.setting_change_password -> startActivity(Intent(this, ChangePasswordActivity::class.java))
+            R.id.setting_sign_out -> {
                 showDialogSignOut()
             }
         }
