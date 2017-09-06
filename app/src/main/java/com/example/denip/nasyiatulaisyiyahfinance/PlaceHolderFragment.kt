@@ -3,7 +3,6 @@ package com.example.denip.nasyiatulaisyiyahfinance
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +35,6 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.sign_out_button -> showDialog()
             R.id.setting_button -> startActivity(Intent(context, SettingActivity::class.java))
         }
     }
@@ -46,20 +44,6 @@ class PlaceholderFragment : Fragment(), View.OnClickListener {
 
     private fun inflateIncomeFragment(inflater: LayoutInflater?): View? =
         inflater?.inflate(R.layout.fragment_income, container, false)
-
-    private fun showDialog() {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder
-            .setTitle(getString(R.string.confirmation))
-            .setMessage(getString(R.string.confirmation_sign_out))
-            .setPositiveButton(getString(R.string.yes), { _, _ ->
-                auth.signOut()
-            })
-            .setNegativeButton(getString(R.string.no), { dialog, _ ->
-                dialog.cancel()
-            })
-            .show()
-    }
 
     companion object {
 
