@@ -47,4 +47,7 @@
     <string name="add_expense_title">Add Expense</string>
     <string name="EXTRA_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.EXTRA_AMOUNT</string>
     <string name="select_category">Select Category</string>
+    <string name="change_password">Change Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
 </resources>
