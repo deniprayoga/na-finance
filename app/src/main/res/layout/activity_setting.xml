@@ -28,7 +28,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview_categories_setting"
+        android:id="@+id/cardview_profile_setting"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -51,14 +51,14 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview_signout_setting"
+        android:id="@+id/cardview_category_setting"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/cardview_categories_setting"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_categories_setting">
+        app:layout_constraintRight_toRightOf="@+id/cardview_profile_setting"
+        app:layout_constraintTop_toBottomOf="@+id/cardview_profile_setting">
 
         <Button
             android:id="@+id/category_setting_button"
@@ -73,7 +73,29 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview_profile_setting"
+        android:id="@+id/cardview_change_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/cardview_profile_setting"
+        app:layout_constraintTop_toBottomOf="@+id/cardview_category_setting">
+
+        <Button
+            android:id="@+id/change_password_button"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_lock_black_24dp"
+            android:text="@string/change_password"
+            android:textAlignment="textStart" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview_signout_setting"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -81,8 +103,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/cardview_signout_setting"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_signout_setting">
+        app:layout_constraintRight_toRightOf="@+id/cardview_category_setting"
+        app:layout_constraintTop_toBottomOf="@+id/cardview_change_password">
 
         <Button
             android:id="@+id/sign_out_button"
