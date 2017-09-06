@@ -43,31 +43,31 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:textColor="@color/bpblack"
                 android:id="@+id/calendar_result_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="Calendar result"
+                android:textColor="@color/bpblack"
                 android:textSize="19sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/calendar_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/ic_today_black_36dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent" />
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_today_black_36dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardview_amount_field"
@@ -77,10 +77,10 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/calendar_result_text">
 
                 <EditText
@@ -128,7 +128,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="8dp"
@@ -138,6 +138,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:clickable="true"
+                    android:gravity="center"
                     android:orientation="vertical"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
