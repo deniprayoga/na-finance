@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
@@ -46,12 +45,12 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         initToolbar()
         profile_button.setOnClickListener(this)
         category_setting_button.setOnClickListener(this)
+        change_password_button.setOnClickListener(this)
         sign_out_button.setOnClickListener(this)
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById(R.id.toolbar_setting_layout) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_setting_layout)
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -61,6 +60,7 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.profile_button -> startActivity(Intent(this, ProfileActivity::class.java))
             R.id.category_setting_button -> startActivity(Intent(this, CategorySettingActivity::class.java))
+            R.id.change_password_button -> startActivity(Intent(this, ChangePasswordActivity::class.java))
             R.id.sign_out_button -> {
                 showDialogSignOut()
             }
