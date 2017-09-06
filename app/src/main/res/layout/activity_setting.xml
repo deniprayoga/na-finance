@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar_add_expense_layout">
 
         <Button
-            android:id="@+id/profile_button"
+            android:id="@+id/setting_profile"
             style="?attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardview_profile_setting">
 
         <Button
-            android:id="@+id/category_setting_button"
+            android:id="@+id/setting_category"
             style="?attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardview_category_setting">
 
         <Button
-            android:id="@+id/change_password_button"
+            android:id="@+id/setting_change_password"
             style="?attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -107,7 +107,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardview_change_password">
 
         <Button
-            android:id="@+id/sign_out_button"
+            android:id="@+id/setting_sign_out"
             style="?attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
