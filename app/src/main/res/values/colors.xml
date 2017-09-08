@@ -21,4 +21,5 @@
     <color name="colorTextButton">#ff99cc00</color>
     <color name="colorBackgroundProfile">#bfff00</color>
     <color name="colorBackgroundProfileName">#7f848484</color>
+    <color name="colorTransparent">#00FFFFFF</color>
 </resources>
