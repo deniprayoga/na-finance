@@ -52,4 +52,11 @@
     <string name="new_password">New Password</string>
     <string name="edit">Edit</string>
     <string name="save">save</string>
+    <string name="add_income_title">Add Income</string>
+    <string name="jakarta">Jakarta</string>
+    <string name="yogyakarta">Yogyakarta</string>
+    <string-array name="locations">
+        <item>Jakarta</item>
+        <item>Yogyakarta</item>
+    </string-array>
 </resources>
