@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import kotlinx.android.synthetic.main.activity_add_amount.*
+import kotlinx.android.synthetic.main.activity_add_amount_expense.*
 
-class AddAmountActivity : AppCompatActivity(), View.OnClickListener {
+class AddAmountExpenseActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_amount)
+        setContentView(R.layout.activity_add_amount_expense)
 
         initLayout()
 
