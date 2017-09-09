@@ -28,7 +28,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/add_expense_scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/calendar_result_text"
+                android:id="@+id/calendar_result_text_expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -59,7 +59,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/calendar_button"
+                android:id="@+id/calendar_button_expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -70,7 +70,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_amount_field"
+                android:id="@+id/cardview_amount_field_expense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -81,7 +81,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calendar_result_text">
+                app:layout_constraintTop_toBottomOf="@+id/calendar_result_text_expense">
 
                 <EditText
                     android:id="@+id/expense_amount_field"
@@ -93,7 +93,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/background_text_field_amount"
+                    android:background="@drawable/background_text_field_amount_expense"
                     android:drawablePadding="-24dp"
                     android:drawableStart="@drawable/ic_indonesian_rupiah_24dp"
                     android:drawableTint="@color/bpblack"
@@ -109,11 +109,11 @@
                     app:layout_constraintHorizontal_bias="0.503"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/calendar_button" />
+                    app:layout_constraintTop_toBottomOf="@+id/calendar_button_expense" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_pick_image_field"
+                android:id="@+id/cardview_pick_image_field_expense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -124,10 +124,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardview_note_field">
+                app:layout_constraintTop_toBottomOf="@+id/cardview_note_field_expense">
 
                 <LinearLayout
-                    android:id="@+id/linearLayout"
+                    android:id="@+id/layout_pick_image_expense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -145,7 +145,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
-                        android:id="@+id/pick_image_button"
+                        android:id="@+id/pick_image_button_expense"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -159,7 +159,7 @@
                         android:visibility="visible" />
 
                     <ImageView
-                        android:id="@+id/image_preview"
+                        android:id="@+id/image_preview_expense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
@@ -173,7 +173,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_note_field"
+                android:id="@+id/cardview_note_field_expense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -184,7 +184,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardview_amount_field">
+                app:layout_constraintTop_toBottomOf="@+id/cardview_amount_field_expense">
 
                 <EditText
                     android:id="@+id/expense_note_field"
@@ -214,7 +214,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_categories_field"
+                android:id="@+id/cardview_categories_field_expense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -227,7 +227,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardview_pick_image_field">
+                app:layout_constraintTop_toBottomOf="@+id/cardview_pick_image_field_expense">
 
                 <EditText
                     android:id="@+id/expense_categories_field"
@@ -249,7 +249,7 @@
                     android:inputType="text"
                     android:padding="8dp"
                     android:scrollbars="vertical"
-                    app:layout_constraintBottom_toBottomOf="@id/cardview_pick_image_field"
+                    app:layout_constraintBottom_toBottomOf="@id/cardview_pick_image_field_expense"
                     app:layout_constraintHorizontal_bias="0.503"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
