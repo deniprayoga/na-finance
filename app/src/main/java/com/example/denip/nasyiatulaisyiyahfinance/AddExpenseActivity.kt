@@ -47,8 +47,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         expense_amount_field.isFocusable = false
         initToolbar()
         showCurrentDate()
-        calendar_button.setOnClickListener(this)
-        pick_image_button.setOnClickListener(this)
+        calendar_button_expense.setOnClickListener(this)
+        pick_image_button_expense.setOnClickListener(this)
         expense_amount_field.setOnClickListener(this)
 
     }
@@ -61,7 +61,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        calendar_result_text.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth)
+        calendar_result_text_expense.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -84,10 +84,10 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             R.id.clear_button -> {
                 clearField()
             }
-            R.id.calendar_button -> {
+            R.id.calendar_button_expense -> {
                 showCalendar()
             }
-            R.id.pick_image_button -> {
+            R.id.pick_image_button_expense -> {
                 pickImage()
             }
             R.id.expense_amount_field -> {
@@ -97,7 +97,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun navigateToAddAmount() {
-        val intent = Intent(this, AddAmountActivity::class.java)
+        val intent = Intent(this, AddAmountExpenseActivity::class.java)
         val amount = expense_amount_field?.text.toString()
         intent.putExtra(getString(R.string.EXTRA_AMOUNT), amount)
         startActivity(intent)
@@ -112,15 +112,15 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         Log.d("ted", "uri.path:" + uri.path)
                         selectedUri = uri
 
-                        image_preview.visibility = View.VISIBLE
-                        image_preview.post {
+                        image_preview_expense.visibility = View.VISIBLE
+                        image_preview_expense.post {
                             glideRequestManager
                                 .load(uri)
                                 .fitCenter()
-                                .into(image_preview)
+                                .into(image_preview_expense)
                         }
 
-                        image_preview.layoutParams = LinearLayout.LayoutParams(800, 800)
+                        image_preview_expense.layoutParams = LinearLayout.LayoutParams(800, 800)
                     }
 
                     .setSelectedUri(selectedUri)
@@ -153,7 +153,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun showCurrentDate() {
         val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("dd-MM-yyyy")
-        calendar_result_text.text = currentDate.toString()
+        calendar_result_text_expense.text = currentDate.toString()
     }
 
     private fun clearField() {
