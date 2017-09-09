@@ -41,6 +41,15 @@
         <item name="homeAsUpIndicator">@drawable/ic_done_white_24dp</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.Income.AddAmount" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorActionBarIncome</item>
+        <item name="colorPrimaryDark">@color/colorActionBarIncomeDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="homeAsUpIndicator">@drawable/ic_done_white_24dp</item>
+    </style>
+
     <style name="SpinnerTheme" parent="android:Widget.Spinner">
         <item name="android:background">@drawable/background_spinner_location</item>
     </style>
