@@ -18,7 +18,7 @@
     <color name="colorBackgroundNumpadClear">#ffffff</color>
     <color name="colorBackgroundNumpadClearPressed">#ffd9d9</color>
     <color name="colorBorderButton">#ffd1d2d4</color>
-    <color name="colorTextButton">#ff99cc00</color>
+    <color name="colorTextButton">#747474</color>
     <color name="colorBackgroundProfile">#bfff00</color>
     <color name="colorBackgroundProfileName">#7f848484</color>
     <color name="colorTransparent">#00FFFFFF</color>
