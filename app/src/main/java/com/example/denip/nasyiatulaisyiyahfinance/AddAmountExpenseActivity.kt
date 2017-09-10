@@ -14,16 +14,19 @@ class AddAmountExpenseActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_add_amount_expense)
 
         initLayout()
-
-        val bundle: Bundle? = intent!!.extras
-        val amount: String? = bundle?.getString(getString(R.string.EXTRA_AMOUNT))
-        expense_amount_field_add_amount.setText(amount)
     }
 
     private fun initLayout() {
         expense_amount_field_add_amount?.isFocusable = false
         initToolbar()
         initNumpad()
+        initAmount()
+    }
+
+    private fun initAmount() {
+        val bundle: Bundle? = intent!!.extras
+        val amount: String? = bundle?.getString(getString(R.string.EXTRA_AMOUNT))
+        expense_amount_field_add_amount.setText(amount)
     }
 
     private fun initToolbar() {
@@ -110,7 +113,6 @@ class AddAmountExpenseActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_bar_done -> finish()
             android.R.id.home -> {
                 val currentAmount = expense_amount_field_add_amount?.text.toString()
                 val intent = Intent(this, AddExpenseActivity::class.java)
