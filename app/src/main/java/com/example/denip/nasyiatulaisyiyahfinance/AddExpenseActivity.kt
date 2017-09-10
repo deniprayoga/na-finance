@@ -48,6 +48,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         initToolbar()
         showCurrentDate()
         calendar_button_expense.setOnClickListener(this)
+        calendar_result_text_expense.setOnClickListener(this)
         pick_image_button_expense.setOnClickListener(this)
         expense_amount_field.setOnClickListener(this)
 
@@ -67,9 +68,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_bar_done -> finish()
-            android.R.id.home -> {
-                finish()
-            }
+            android.R.id.home -> finish()
         }
         return true
     }
@@ -81,18 +80,10 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.clear_button -> {
-                clearField()
-            }
-            R.id.calendar_button_expense -> {
-                showCalendar()
-            }
-            R.id.pick_image_button_expense -> {
-                pickImage()
-            }
-            R.id.expense_amount_field -> {
-                navigateToAddAmount()
-            }
+            R.id.calendar_button_expense -> showCalendar()
+            R.id.pick_image_button_expense -> pickImage()
+            R.id.expense_amount_field -> navigateToAddAmount()
+            R.id.calendar_result_text_expense -> showCalendar()
         }
     }
 
@@ -155,9 +146,4 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("dd-MM-yyyy")
         calendar_result_text_expense.text = currentDate.toString()
     }
-
-    private fun clearField() {
-        expense_amount_field.text.clear()
-    }
-
 }
