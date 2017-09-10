@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
     }
 
     private var sectionsPagerAdapter: SectionsPagerAdapter? = null
-    private var mViewPager: ViewPager? = null
+    private var viewPager: ViewPager? = null
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
-        mViewPager = findViewById(R.id.container) as ViewPager
-        mViewPager!!.adapter = sectionsPagerAdapter
+        viewPager = findViewById(R.id.container) as ViewPager
+        viewPager!!.adapter = sectionsPagerAdapter
 
-        mViewPager!!.currentItem = 1
+        viewPager!!.currentItem = 1
 
         auth.addAuthStateListener(authListener)
 
