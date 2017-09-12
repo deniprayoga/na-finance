@@ -23,7 +23,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="contain_at_gmail">\@gmail</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">Home</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="zero">0</string>
@@ -55,6 +55,8 @@
     <string name="add_income_title">Add Income</string>
     <string name="jakarta">Jakarta</string>
     <string name="yogyakarta">Yogyakarta</string>
+    <string name="calendar_result">Calendar result</string>
+    <string name="phone_number">Phone Number</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
