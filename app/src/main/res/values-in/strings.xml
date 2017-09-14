@@ -36,7 +36,7 @@
     <string name="seven">7</string>
     <string name="eight">8</string>
     <string name="nine">9</string>
-    <string name="note">Catatan</string>
+    <string name="note">Catatan (maks 100 karakter)</string>
     <string name="clear">Hapus</string>
     <string name="clear_short">C</string>
     <string name="calendar_date_picker_result_values">%3$02d-%2$02d-%1$d</string>
