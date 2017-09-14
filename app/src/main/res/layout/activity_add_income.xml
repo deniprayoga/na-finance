@@ -200,6 +200,7 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_description_black_24dp"
                     android:ems="10"
+                    android:maxLength="100"
                     android:focusableInTouchMode="true"
                     android:hint="@string/note"
                     android:imeOptions="actionDone"
