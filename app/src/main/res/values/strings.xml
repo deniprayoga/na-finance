@@ -43,7 +43,7 @@
     <string name="setting_title">Setting</string>
     <string name="action_bar_done">Done</string>
     <string name="profile_title">Profile</string>
-    <string name="category_title">Categories</string>
+    <string name="category_title">Category</string>
     <string name="add_expense_title">Add Expense</string>
     <string name="EXTRA_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.EXTRA_AMOUNT</string>
     <string name="select_category">Select Category</string>
@@ -59,6 +59,8 @@
     <string name="phone_number">Phone Number</string>
     <string name="expense">Expense</string>
     <string name="income">Income</string>
+    <string name="expense_category">Expense Category</string>
+    <string name="income_category">Income Category</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>

@@ -59,6 +59,8 @@
     <string name="phone_number">Telepon</string>
     <string name="expense">Pengeluaran</string>
     <string name="income">Pemasukan</string>
+    <string name="expense_category">Kategori Pengeluaran</string>
+    <string name="income_category">Kategori Pemasukan</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
