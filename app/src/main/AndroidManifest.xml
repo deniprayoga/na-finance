@@ -48,10 +48,6 @@
             android:label="@string/profile_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CategorySettingActivity"
-            android:label="@string/category_title"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".AddAmountExpenseActivity"
             android:label="@string/add_expense_title"
             android:theme="@style/AppTheme.NoActionBar.Expense.AddAmount" />
@@ -61,8 +57,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddAmountIncomeActivity"
-            android:theme="@style/AppTheme.NoActionBar.Income.AddAmount"
-            android:label="@string/add_income_title"/>
+            android:label="@string/add_income_title"
+            android:theme="@style/AppTheme.NoActionBar.Income.AddAmount" />
+        <activity
+            android:name=".CategoryExpenseSettingActivity"
+            android:label="@string/expense_category"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CategoryIncomeSettingActivity"
+            android:label="@string/income_category"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
