@@ -46,7 +46,8 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/ic_face_black_24dp"
             android:text="@string/profile_title"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textStyle="bold" />
 
     </android.support.v7.widget.CardView>
 
@@ -60,15 +61,16 @@
         app:layout_constraintRight_toRightOf="@+id/cardview_profile_setting"
         app:layout_constraintTop_toBottomOf="@+id/cardview_profile_setting">
 
-        <Button
-            android:id="@+id/setting_category"
-            style="?attr/borderlessButtonStyle"
+        <ExpandableListView
+            android:id="@+id/lvExp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:drawablePadding="8dp"
-            android:drawableStart="@drawable/ic_label_black_24dp"
-            android:text="@string/category_title"
-            android:textAlignment="textStart" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardview_signout_setting" />
 
     </android.support.v7.widget.CardView>
 
@@ -90,7 +92,8 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/ic_lock_black_24dp"
             android:text="@string/change_password"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textStyle="bold" />
 
     </android.support.v7.widget.CardView>
 
@@ -114,7 +117,8 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/ic_exit_to_app_black_24dp"
             android:text="@string/action_sign_out"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textStyle="bold" />
 
     </android.support.v7.widget.CardView>
 
