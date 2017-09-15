@@ -57,6 +57,8 @@
     <string name="yogyakarta">Yogyakarta</string>
     <string name="calendar_result">Calendar result</string>
     <string name="phone_number">Phone Number</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
