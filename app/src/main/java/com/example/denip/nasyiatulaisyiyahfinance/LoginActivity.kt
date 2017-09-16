@@ -9,7 +9,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -18,7 +18,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         checkCurrentUser()
+        initLayout()
 
+    }
+
+    private fun initLayout() {
+        forgot_password_text_view.setOnClickListener(this)
+        initSignInButton()
+    }
+
+    private fun initSignInButton() {
         sign_in_button.setOnClickListener {
             val email = email_field.text.toString()
             val password = password_field.text.toString()
@@ -52,6 +61,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.forgot_password_text_view -> launchForgotPasswordActivity()
+        }
+    }
+
+    private fun launchForgotPasswordActivity() {
+        startActivity(Intent(this, ForgotPasswordActivity::class.java))
+    }
+
     private fun checkCurrentUser() {
         if (auth.currentUser != null) {
             launchMainActivity()
@@ -72,11 +91,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showEmptyEmail() {
-        Toast.makeText(applicationContext, "Enter email address!", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, getString(R.string.prompt_enter_email), Toast.LENGTH_LONG).show()
     }
 
     private fun showEmptyPassword() {
-        Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, getString(R.string.prompt_enter_password), Toast.LENGTH_LONG).show()
     }
 
     private fun emailError() {
@@ -88,6 +107,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showAuthFailed() {
-        Toast.makeText(applicationContext, "auth failed", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
     }
 }
