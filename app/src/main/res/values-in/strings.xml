@@ -66,6 +66,13 @@
     <string name="auth_failed">Email atau Password salah</string>
     <string name="forgot_password">Lupa kata sandi?</string>
     <string name="reset_password">Atur ulang kata sandi</string>
+    <string name="reset_password_failed">Atur Ulang Kata Kunci Gagal</string>
+    <string name="reset_password_failed_message">Email tidak terdaftar.</string>
+    <string name="reset_password_success">Atur Ulang Kata Kunci Sukses</string>
+    <string name="reset_password_success_message">Permintaan untuk mengatur ulang kata sandi Anda
+        telah dikirim. Silahkan periksa email Anda.</string>
+
+    <string name="ok">Oke</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
