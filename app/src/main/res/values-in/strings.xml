@@ -71,7 +71,7 @@
     <string name="reset_password_success">Atur Ulang Kata Kunci Sukses</string>
     <string name="reset_password_success_message">Permintaan untuk mengatur ulang kata sandi Anda
         telah dikirim. Silahkan periksa email Anda.</string>
-
+    <string name="login_failed_title">Gagal Masuk</string>
     <string name="ok">Oke</string>
     <string-array name="locations">
         <item>Jakarta</item>

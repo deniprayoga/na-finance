@@ -71,7 +71,8 @@
     <string name="reset_password_success">Reset Password Success</string>
     <string name="reset_password_success_message">A request to reset your password has been
         sent. Please check your email.</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
+    <string name="login_failed_title">Login Failed</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
