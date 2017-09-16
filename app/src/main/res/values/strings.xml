@@ -61,6 +61,11 @@
     <string name="income">Income</string>
     <string name="expense_category">Expense Category</string>
     <string name="income_category">Income Category</string>
+    <string name="prompt_enter_email">Enter email address!</string>
+    <string name="prompt_enter_password">Enter password!</string>
+    <string name="auth_failed">Email or Password is incorrect</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="reset_password">Reset password</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>

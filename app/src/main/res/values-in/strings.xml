@@ -61,6 +61,11 @@
     <string name="income">Pemasukan</string>
     <string name="expense_category">Kategori Pengeluaran</string>
     <string name="income_category">Kategori Pemasukan</string>
+    <string name="prompt_enter_email">Masukkan Alamat Email!</string>
+    <string name="prompt_enter_password">Masukkan Kata Sandi!</string>
+    <string name="auth_failed">Email atau Password salah</string>
+    <string name="forgot_password">Lupa kata sandi?</string>
+    <string name="reset_password">Atur ulang kata sandi</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
