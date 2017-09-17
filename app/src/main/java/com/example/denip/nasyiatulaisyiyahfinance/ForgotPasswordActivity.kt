@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -66,6 +67,8 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             })
             .show()
+        email_field?.setText("")
+        password_field?.setText("")
     }
 
     private fun showDialogResetPasswordFailed() {
