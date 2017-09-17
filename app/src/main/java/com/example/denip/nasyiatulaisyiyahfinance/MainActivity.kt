@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import me.relex.circleindicator.CircleIndicator
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
     IncomeFragment.OnFragmentInteractionListener {
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     private var sectionsPagerAdapter: SectionsPagerAdapter? = null
     private var viewPager: ViewPager? = null
+    private var indicator: CircleIndicator? = null
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,9 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         viewPager = findViewById(R.id.container) as ViewPager
+        indicator = findViewById(R.id.dotsIndicator) as CircleIndicator
         viewPager!!.adapter = sectionsPagerAdapter
+        indicator!!.setViewPager(viewPager)
 
         viewPager!!.currentItem = 1
 
@@ -76,7 +80,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                     return IncomeFragment()
                 }
             }
-            return PlaceholderFragment.newInstance(position)
+            return PlaceHolderFragment.newInstance(position)
         }
 
         override fun getCount(): Int = 3
