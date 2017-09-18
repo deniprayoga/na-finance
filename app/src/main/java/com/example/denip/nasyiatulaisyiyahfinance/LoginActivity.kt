@@ -2,16 +2,16 @@ package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
-    val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,10 +79,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showLoginProgress() {
         login_progress.visibility = View.VISIBLE
+        sign_in_button.isEnabled = false
     }
 
     private fun hideLoginProgress() {
         login_progress.visibility = View.GONE
+        sign_in_button.isEnabled = true
     }
 
     private fun launchMainActivity() {
@@ -91,11 +93,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showEmptyEmail() {
-        Toast.makeText(applicationContext, getString(R.string.prompt_enter_email), Toast.LENGTH_LONG).show()
+        email_field?.error = getString(R.string.prompt_enter_email)
     }
 
     private fun showEmptyPassword() {
-        Toast.makeText(applicationContext, getString(R.string.prompt_enter_password), Toast.LENGTH_LONG).show()
+        password_field?.error = getString(R.string.prompt_enter_password)
     }
 
     private fun emailError() {
@@ -107,6 +109,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showAuthFailed() {
-        Toast.makeText(applicationContext, getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(getString(R.string.login_failed_title))
+            .setMessage(getString(R.string.auth_failed))
+            .show()
     }
 }
