@@ -1,12 +1,13 @@
 package com.example.denip.nasyiatulaisyiyahfinance
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +16,9 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -25,11 +29,15 @@ import java.util.ArrayList
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
+
     companion object {
-        val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
-        val context: Context? = null
-        var selectedUri: Uri? = null
-        lateinit var glideRequestManager: RequestManager
+        private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
+        private var selectedUri: Uri? = null
+        private lateinit var glideRequestManager: RequestManager
+        private val auth = FirebaseAuth.getInstance()
+        private val categories: List<Category> = listOf()
+        private val dbExpenseRef = FirebaseDatabase.getInstance()?.getReference("expenses")
+        private val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,21 +45,49 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_add_expense)
         glideRequestManager = Glide.with(this)
 
+        initLayout()
+        initAuth()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getAmount()
+        initCategories()
+
+    }
+
+    private fun initCategories() {
+
+    }
+
+    private fun getAmount() {
         val bundle: Bundle? = intent!!.extras
         val amount: String? = bundle?.getString(getString(R.string.EXTRA_AMOUNT))
         expense_amount_field.setText(amount)
-        initLayout()
     }
 
     private fun initLayout() {
         expense_amount_field.isFocusable = false
+        expense_categories_field.isFocusable = false
         initToolbar()
         showCurrentDate()
         calendar_button_expense.setOnClickListener(this)
         calendar_result_text_expense.setOnClickListener(this)
         pick_image_button_expense.setOnClickListener(this)
         expense_amount_field.setOnClickListener(this)
+        expense_categories_field.setOnClickListener(this)
+    }
 
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                finish()
+                launchLoginActivity()
+            }
+        }
+        auth.addAuthStateListener(authListener)
     }
 
     private fun initToolbar() {
@@ -67,10 +103,32 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_bar_done -> finish()
+            R.id.action_bar_done -> {
+                saveExpense()
+            }
             android.R.id.home -> finish()
         }
         return true
+    }
+
+    private fun saveExpense() {
+        val dateCreated = calendar_result_text_expense?.text.toString()
+        val amount = expense_amount_field?.text.toString()
+        val note = expense_note_field?.text.toString()
+        val notePhotoUri = selectedUri.toString()
+        val cat = expense_categories_field?.text.toString()
+        //TODO: category choosing appears in expandable listview
+
+        if (!amount.isEmpty()) {
+            val id: String? = dbExpenseRef?.push()?.key
+            val expense = Expense(id, auth.currentUser?.displayName, amount.toInt(), cat,
+                dateCreated, note, notePhotoUri)
+            dbExpenseRef?.child(id)?.setValue(expense)
+            Log.d("value", expense.toString())
+            Toast.makeText(this, "Expense Added", Toast.LENGTH_SHORT).show()
+        } else {
+            expense_amount_field.error = getString(R.string.prompt_amount_empty)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -84,7 +142,18 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             R.id.pick_image_button_expense -> pickImage()
             R.id.expense_amount_field -> navigateToAddAmount()
             R.id.calendar_result_text_expense -> showCalendar()
+            R.id.expense_categories_field -> showCategoryDialog()
         }
+    }
+
+    private fun showCategoryDialog() {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val categoryInflater: LayoutInflater = layoutInflater
+        val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
+        dialogBuilder.setView(view)
+        dialogBuilder.setTitle(getString(R.string.select_category))
+        val dialog: AlertDialog = dialogBuilder.create()
+        dialog.show()
     }
 
     private fun navigateToAddAmount() {
@@ -135,6 +204,10 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     private fun showPermissionDenied(deniedPermissions: ArrayList<String>?) {
         Toast.makeText(this@AddExpenseActivity, "Permission denied\n" +
             deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun showCalendar() {
