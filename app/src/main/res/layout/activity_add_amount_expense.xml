@@ -4,28 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.denip.nasyiatulaisyiyahfinance.AddAmountExpenseActivity">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_add_expense_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_add_amount_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
+    tools:context="com.example.denip.nasyiatulaisyiyahfinance.AddExpenseActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_amount_field_expense"
@@ -36,12 +15,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/numpad_container"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar_add_expense_layout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.505">
 
         <EditText
             android:id="@+id/expense_amount_field_add_amount"
@@ -58,6 +38,7 @@
             android:drawableStart="@drawable/ic_indonesian_rupiah_24dp"
             android:drawableTint="@color/bpblack"
             android:ems="10"
+            android:focusableInTouchMode="false"
             android:hint="@string/zero"
             android:inputType="none"
             android:maxLength="9"
@@ -80,6 +61,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:paddingTop="32dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
