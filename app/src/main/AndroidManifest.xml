@@ -48,10 +48,6 @@
             android:label="@string/profile_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddAmountExpenseActivity"
-            android:label="@string/add_expense_title"
-            android:theme="@style/AppTheme.NoActionBar.Expense.AddAmount" />
-        <activity
             android:name=".ChangePasswordActivity"
             android:label="@string/change_password"
             android:theme="@style/AppTheme.NoActionBar" />
