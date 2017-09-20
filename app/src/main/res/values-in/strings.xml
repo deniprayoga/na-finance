@@ -73,6 +73,12 @@
         telah dikirim. Silahkan periksa email Anda.</string>
     <string name="login_failed_title">Gagal Masuk</string>
     <string name="ok">Oke</string>
+    <string name="prompt_amount_empty">Jumlah tidak boleh kosong</string>
+    <string name="add_category">Tambah Kategori</string>
+    <string name="category_name">Nama Kategori</string>
+    <string name="add">Tambahkan</string>
+    <string name="add_expense_category">Tambah Kategori Pengeluaran</string>
+    <string name="amount">Jumlah</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
