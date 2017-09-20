@@ -22,10 +22,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
+import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_add_expense.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -35,9 +36,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
-        private val categories: List<Category> = listOf()
         private val dbExpenseRef = FirebaseDatabase.getInstance()?.getReference("expenses")
-        private val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,23 +46,6 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
         initLayout()
         initAuth()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        getAmount()
-        initCategories()
-
-    }
-
-    private fun initCategories() {
-
-    }
-
-    private fun getAmount() {
-        val bundle: Bundle? = intent!!.extras
-        val amount: String? = bundle?.getString(getString(R.string.EXTRA_AMOUNT))
-        expense_amount_field.setText(amount)
     }
 
     private fun initLayout() {
@@ -117,7 +99,6 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val note = expense_note_field?.text.toString()
         val notePhotoUri = selectedUri.toString()
         val cat = expense_categories_field?.text.toString()
-        //TODO: category choosing appears in expandable listview
 
         if (!amount.isEmpty()) {
             val id: String? = dbExpenseRef?.push()?.key
@@ -129,6 +110,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         } else {
             expense_amount_field.error = getString(R.string.prompt_amount_empty)
         }
+
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -136,11 +119,88 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         return true
     }
 
+    private fun showAddAmountDialog() {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val addAmountInflater: LayoutInflater = layoutInflater
+        val view: View = addAmountInflater.inflate(R.layout.activity_add_amount_expense, null)
+
+        view.one_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(1))
+        }
+
+        view.two_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(2))
+        }
+
+        view.three_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(3))
+        }
+
+        view.four_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(4))
+        }
+
+        view.five_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(5))
+        }
+
+        view.six_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(6))
+        }
+
+        view.seven_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(7))
+        }
+
+        view.eight_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(8))
+        }
+
+        view.nine_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            view.expense_amount_field_add_amount?.setText(currentAmount.plus(9))
+        }
+
+        view.zero_button?.setOnClickListener {
+            val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+            if (currentAmount.isEmpty()) {
+                view.expense_amount_field_add_amount?.setText(currentAmount.plus(""))
+            } else {
+                view.expense_amount_field_add_amount?.setText(currentAmount.plus(0))
+            }
+        }
+
+        view.clear_button?.setOnClickListener {
+            view.expense_amount_field_add_amount?.text?.clear()
+        }
+
+        dialogBuilder.setView(view)
+        dialogBuilder.setTitle(getString(R.string.amount))
+        dialogBuilder.setPositiveButton(getString(R.string.ok), { dialog, _ ->
+            run {
+                val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+                expense_amount_field.text.clear()
+                expense_amount_field.setText(currentAmount)
+                dialog.dismiss()
+            }
+        })
+        val dialog: AlertDialog = dialogBuilder.create()
+        dialog.show()
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.calendar_button_expense -> showCalendar()
             R.id.pick_image_button_expense -> pickImage()
-            R.id.expense_amount_field -> navigateToAddAmount()
+            R.id.expense_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_expense -> showCalendar()
             R.id.expense_categories_field -> showCategoryDialog()
         }
@@ -154,13 +214,6 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         dialogBuilder.setTitle(getString(R.string.select_category))
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
-    }
-
-    private fun navigateToAddAmount() {
-        val intent = Intent(this, AddAmountExpenseActivity::class.java)
-        val amount = expense_amount_field?.text.toString()
-        intent.putExtra(getString(R.string.EXTRA_AMOUNT), amount)
-        startActivity(intent)
     }
 
     private fun pickImage() {
