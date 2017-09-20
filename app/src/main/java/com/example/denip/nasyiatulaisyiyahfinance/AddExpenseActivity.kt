@@ -102,7 +102,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
         if (!amount.isEmpty()) {
             val id: String? = dbExpenseRef?.push()?.key
-            val expense = Expense(id, auth.currentUser?.displayName, amount.toInt(), cat,
+            val expense = Expense(id, auth.currentUser?.email, amount.toInt(), cat,
                 dateCreated, note, notePhotoUri)
             dbExpenseRef?.child(id)?.setValue(expense)
             Log.d("value", expense.toString())
