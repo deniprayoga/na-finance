@@ -8,8 +8,14 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
 import me.relex.circleindicator.CircleIndicator
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
@@ -24,6 +30,8 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         private var viewPager: ViewPager? = null
         private var indicator: CircleIndicator? = null
         private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
+        private var expenses = mutableListOf<ExpenseModel>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +40,42 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         initViewPager()
         initAuth()
+        initListExpenses()
+        expenses = ArrayList()
+        Log.d("reference", databaseExpenseRef.toString())
+
+        listViewExpenses.setOnItemClickListener { parent, view, position, id ->
+
+        }
+    }
+
+    private fun initListExpenses() {
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        databaseExpenseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                expenses.clear()
+                //val expense = dataSnapshot!!.getValue(ExpenseModel::class.java)
+                //expenses.add(expense)
+                for (postSnapshot: DataSnapshot in dataSnapshot!!.children) {
+                    val expense = postSnapshot.getValue(ExpenseModel::class.java)
+                    expenses.add(expense)
+                }
+
+                val expenseAdapter = ExpenseList(this@MainActivity, expenses)
+
+                listViewExpenses.adapter = expenseAdapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+        })
+        Log.d("expensse", expenses.toString())
     }
 
     private fun initViewPager() {
