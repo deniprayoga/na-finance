@@ -9,20 +9,19 @@ import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by denip on 9/15/2017.
  */
 
-class PlaceHolderFragment : Fragment(), View.OnClickListener {
+class MainFragment : Fragment(), View.OnClickListener {
 
     companion object {
 
         private val ARG_SECTION_NUMBER = "section_number"
 
-        fun newInstance(sectionNumber: Int): PlaceHolderFragment {
-            val fragment = PlaceHolderFragment()
+        fun newInstance(sectionNumber: Int): MainFragment {
+            val fragment = MainFragment()
             val args = Bundle()
             args.putInt(ARG_SECTION_NUMBER, sectionNumber)
             fragment.arguments = args
@@ -35,13 +34,15 @@ class PlaceHolderFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val fragmentMainView = inflater!!.inflate(R.layout.fragment_main, container, false)
+        val fragmentExpenseView = inflater.inflate(R.layout.fragment_expense, container, false)
+        val fragmentIncomeView = inflater.inflate(R.layout.fragment_income, container, false)
+
+        fragmentMainView.setting_button.setOnClickListener(this)
+
         when {
-            arguments.getInt(ARG_SECTION_NUMBER) == 0 -> inflateExpenseFragment(inflater)
-            arguments.getInt(ARG_SECTION_NUMBER) == 1 -> {
-                fragmentMainView?.setting_button?.setOnClickListener(this)
-                return fragmentMainView
-            }
-            arguments.getInt(ARG_SECTION_NUMBER) == 2 -> inflateIncomeFragment(inflater)
+            arguments.getInt(ARG_SECTION_NUMBER) == 0 -> return fragmentExpenseView
+            arguments.getInt(ARG_SECTION_NUMBER) == 1 -> return fragmentMainView
+            arguments.getInt(ARG_SECTION_NUMBER) == 2 -> return fragmentIncomeView
         }
 
         initLayout()
@@ -58,12 +59,6 @@ class PlaceHolderFragment : Fragment(), View.OnClickListener {
             R.id.setting_button -> startActivity(Intent(context, SettingActivity::class.java))
         }
     }
-
-    private fun inflateExpenseFragment(inflater: LayoutInflater?): View? =
-        inflater?.inflate(R.layout.fragment_expense, container, false)
-
-    private fun inflateIncomeFragment(inflater: LayoutInflater?): View? =
-        inflater?.inflate(R.layout.fragment_income, container, false)
 
     private fun launchLoginActivity() {
         startActivity(Intent(context, LoginActivity::class.java))
