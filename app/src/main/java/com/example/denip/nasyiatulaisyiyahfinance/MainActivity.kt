@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import me.relex.circleindicator.CircleIndicator
@@ -21,23 +19,22 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     }
 
-    private var sectionsPagerAdapter: SectionsPagerAdapter? = null
-    private var viewPager: ViewPager? = null
-    private var indicator: CircleIndicator? = null
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    companion object {
+        private var sectionsPagerAdapter: SectionsPagerAdapter? = null
+        private var viewPager: ViewPager? = null
+        private var indicator: CircleIndicator? = null
+        private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            val user: FirebaseUser? = firebaseAuth.currentUser
+        initViewPager()
+        initAuth()
+    }
 
-            if (user == null) {
-                launchLoginActivity()
-            }
-        }
-
+    private fun initViewPager() {
         sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         viewPager = findViewById(R.id.container) as ViewPager
@@ -46,9 +43,18 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         indicator!!.setViewPager(viewPager)
 
         viewPager!!.currentItem = 1
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                launchLoginActivity()
+            }
+        }
 
         auth.addAuthStateListener(authListener)
-
     }
 
     private fun launchLoginActivity() {
@@ -56,31 +62,14 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         finish()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            android.R.id.home -> onBackPressed()
-        }
-        return true
-    }
-
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             when (position) {
-                0 -> {
-                    return ExpenseFragment()
-                }
-                2 -> {
-                    return IncomeFragment()
-                }
+                0 -> return ExpenseFragment()
+                2 -> return IncomeFragment()
             }
-            return PlaceHolderFragment.newInstance(position)
+            return MainFragment.newInstance(position)
         }
 
         override fun getCount(): Int = 3
