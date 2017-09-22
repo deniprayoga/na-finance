@@ -98,12 +98,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val amount = expense_amount_field?.text.toString()
         val note = expense_note_field?.text.toString()
         val notePhotoUri = selectedUri.toString()
-        val cat = expense_categories_field?.text.toString()
+        val category = expense_categories_field?.text.toString()
 
         if (!amount.isEmpty()) {
             val id: String? = dbExpenseRef?.push()?.key
-            val expense = Expense(id, auth.currentUser?.email, amount.toInt(), cat,
-                dateCreated, note, notePhotoUri)
+            val expense = ExpenseModel(auth.currentUser?.email, amount.toInt(), category, dateCreated, id,
+                 note, notePhotoUri)
             dbExpenseRef?.child(id)?.setValue(expense)
             Log.d("value", expense.toString())
             Toast.makeText(this, "Expense Added", Toast.LENGTH_SHORT).show()
