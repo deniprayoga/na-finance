@@ -79,6 +79,14 @@
     <string name="add">Tambahkan</string>
     <string name="add_expense_category">Tambah Kategori Pengeluaran</string>
     <string name="amount">Jumlah</string>
+    <string name="EXPENSE_NOTE">com.example.denip.nasyiatulaisyiyahfinance.expensenote</string>
+    <string name="EXPENSE_ID">com.example.denip.nasyiatulaisyiyahfinance.expenseid</string>
+    <string name="EXPENSE_CATEGORY">com.example.denip.nasyiatulaisyiyahfinance.expensecategory</string>
+    <string name="EXPENSE_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.expenseamount</string>
+    <string name="EXPENSE_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.expensenotephotouri</string>
+    <string name="EXPENSE_DATE">com.example.denip.nasyiatulaisyiyahfinance.expensedate</string>
+    <string name="EXPENSE_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasure</string>
+    <string name="expense_detail_title">Detail Pengeluaran</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
