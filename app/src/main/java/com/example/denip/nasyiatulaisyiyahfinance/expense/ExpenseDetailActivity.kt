@@ -1,10 +1,11 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.expense
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import com.example.denip.nasyiatulaisyiyahfinance.R
 import kotlinx.android.synthetic.main.activity_expense_detail.*
 
 class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener {
