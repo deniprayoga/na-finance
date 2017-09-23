@@ -1,4 +1,4 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.profile
 
 import android.Manifest
 import android.net.Uri
@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -74,11 +75,11 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                     .setOnImageSelectedListener { uri ->
                         Log.d("ted", "uri:" + uri)
                         Log.d("ted", "uri.path:" + uri.path)
-                        ProfileActivity.selectedUri = uri
+                        selectedUri = uri
 
                         profile_photo.visibility = View.VISIBLE
                         profile_photo.post {
-                            ProfileActivity.glideRequestManager
+                            glideRequestManager
                                 .load(uri)
                                 .fitCenter()
                                 .into(profile_photo)
@@ -87,7 +88,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                         profile_photo.layoutParams = LinearLayout.LayoutParams(400, 400, 1F)
                     }
 
-                    .setSelectedUri(ProfileActivity.selectedUri)
+                    .setSelectedUri(selectedUri)
                     .setPeekHeight(1200)
                     .create()
                 bottomSheetDialogFragment.show(supportFragmentManager)
