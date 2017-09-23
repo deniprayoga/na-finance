@@ -1,10 +1,11 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.expense
 
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.example.denip.nasyiatulaisyiyahfinance.R
 
 /**
  * Created by denip on 9/21/2017.
