@@ -34,11 +34,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
 
     companion object {
+        private val TAGGG = "huisjkf_AddExpense"
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
-        private val dbExpenseRef = FirebaseDatabase.getInstance()?.getReference("expenses")
+        private val dbAddExpenseRef = FirebaseDatabase.getInstance()?.getReference("expenses")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +49,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
         initLayout()
         initAuth()
+        Log.d(TAGGG, "In the onCreate() event")
     }
 
     private fun initLayout() {
+        expense_note_field.isCursorVisible = false
+        expense_amount_field.isCursorVisible = false
         expense_amount_field.isFocusable = false
         expense_categories_field.isFocusable = false
         initToolbar()
@@ -60,6 +64,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         pick_image_button_expense.setOnClickListener(this)
         expense_amount_field.setOnClickListener(this)
         expense_categories_field.setOnClickListener(this)
+        expense_note_field.setOnClickListener(this)
     }
 
     private fun initAuth() {
@@ -103,17 +108,15 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val category = expense_categories_field?.text.toString()
 
         if (!amount.isEmpty()) {
-            val id: String? = dbExpenseRef?.push()?.key
+            val id: String? = dbAddExpenseRef?.push()?.key
             val expense = ExpenseModel(auth.currentUser?.email, amount.toInt(), category, dateCreated, id,
                 note, notePhotoUri)
-            dbExpenseRef?.child(id)?.setValue(expense)
+            dbAddExpenseRef?.child(id)?.setValue(expense)
             Log.d("value", expense.toString())
             Toast.makeText(this, "Expense Added", Toast.LENGTH_SHORT).show()
         } else {
             expense_amount_field.error = getString(R.string.prompt_amount_empty)
         }
-
-        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -192,10 +195,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                 expense_amount_field.text.clear()
                 expense_amount_field.setText(currentAmount)
                 dialog.dismiss()
+                expense_amount_field.error = null
             }
         })
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
+        hideCursorOnNoteField()
     }
 
     override fun onClick(v: View?) {
@@ -205,10 +210,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             R.id.expense_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_expense -> showCalendar()
             R.id.expense_categories_field -> showCategoryDialog()
+            R.id.expense_note_field -> showCursorOnNoteField()
         }
     }
 
     private fun showCategoryDialog() {
+        hideCursorOnNoteField()
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val categoryInflater: LayoutInflater = layoutInflater
         val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
@@ -216,6 +223,14 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         dialogBuilder.setTitle(getString(R.string.select_category))
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
+    }
+
+    private fun showCursorOnNoteField() {
+        expense_note_field?.isCursorVisible = true
+    }
+
+    private fun hideCursorOnNoteField() {
+        expense_note_field.isCursorVisible = false
     }
 
     private fun pickImage() {
@@ -254,6 +269,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
             .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .check()
+        hideCursorOnNoteField()
     }
 
     private fun showPermissionDenied(deniedPermissions: ArrayList<String>?) {
@@ -268,10 +284,41 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     private fun showCalendar() {
         val calendarDatePicker = CalendarDatePickerDialogFragment().setOnDateSetListener(this)
         calendarDatePicker.show(supportFragmentManager, FRAG_TAG_DATE_PICKER)
+        hideCursorOnNoteField()
     }
 
     private fun showCurrentDate() {
         val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("dd-MM-yyyy")
         calendar_result_text_expense.text = currentDate.toString()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAGGG, "In the onRestart() event")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAGGG, "In the onResume() event")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAGGG, "In the onPause() event")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAGGG, "In the onStop() event")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAGGG, "In the onStart() event")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAGGG, "In the onDestroy() event")
     }
 }
