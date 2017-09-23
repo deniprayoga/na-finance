@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,46 +27,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddIncomeActivity"
+            android:name=".income.AddIncomeActivity"
             android:label="@string/add_income_title"
             android:theme="@style/AppTheme.NoActionBar.Income" />
         <activity
-            android:name=".AddExpenseActivity"
+            android:name=".expense.AddExpenseActivity"
             android:label="@string/add_expense_title"
             android:theme="@style/AppTheme.NoActionBar.Expense"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SettingActivity"
+            android:name=".setting.SettingActivity"
             android:label="@string/setting_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:label="@string/profile_title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ChangePasswordActivity"
+            android:name=".login.ChangePasswordActivity"
             android:label="@string/change_password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddAmountIncomeActivity"
+            android:name=".income.AddAmountIncomeActivity"
             android:label="@string/add_income_title"
             android:theme="@style/AppTheme.NoActionBar.Income.AddAmount" />
         <activity
-            android:name=".CategoryExpenseSettingActivity"
+            android:name=".category.CategoryExpenseSettingActivity"
             android:label="@string/expense_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CategoryIncomeSettingActivity"
+            android:name=".category.CategoryIncomeSettingActivity"
             android:label="@string/income_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".login.ForgotPasswordActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:theme="@style/AppTheme.NoActionBar.Expense"
+            android:label="@string/expense_detail_title"
+            android:name=".expense.ExpenseDetailActivity" />
     </application>
 
 </manifest>
