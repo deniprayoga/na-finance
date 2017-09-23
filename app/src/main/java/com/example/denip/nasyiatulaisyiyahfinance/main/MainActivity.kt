@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             Log.d("inteee", expense.amount.toString())
             startActivity(intent)
         }
-        
+
         listViewExpenses?.setOnItemLongClickListener { parent, view, position, id ->
             val expense = expenses[position]
             Toast.makeText(this, expense.amount.toString(), Toast.LENGTH_SHORT).show()
