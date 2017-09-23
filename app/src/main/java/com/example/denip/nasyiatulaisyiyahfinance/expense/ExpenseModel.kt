@@ -1,4 +1,4 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.expense
 
 /**
  * Created by denip on 9/18/2017.
