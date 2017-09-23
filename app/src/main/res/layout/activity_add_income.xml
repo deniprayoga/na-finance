@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.denip.nasyiatulaisyiyahfinance.AddIncomeActivity">
+    tools:context="com.example.denip.nasyiatulaisyiyahfinance.income.AddIncomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_add_income_layout"
@@ -200,11 +200,11 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_description_black_24dp"
                     android:ems="10"
-                    android:maxLength="100"
                     android:focusableInTouchMode="true"
                     android:hint="@string/note"
                     android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:maxLength="100"
                     android:padding="8dp"
                     android:scrollbars="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
