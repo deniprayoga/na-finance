@@ -1,10 +1,11 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.income
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import com.example.denip.nasyiatulaisyiyahfinance.R
 import kotlinx.android.synthetic.main.activity_add_amount_income.*
 
 class AddAmountIncomeActivity : AppCompatActivity(), View.OnClickListener {
