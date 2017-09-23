@@ -82,11 +82,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun showLoginProgress() {
         login_progress.visibility = View.VISIBLE
         sign_in_button.isEnabled = false
+        forgot_password_text_view.isEnabled = false
     }
 
     private fun hideLoginProgress() {
         login_progress.visibility = View.GONE
         sign_in_button.isEnabled = true
+        forgot_password_text_view.isEnabled = true
     }
 
     private fun launchMainActivity() {
