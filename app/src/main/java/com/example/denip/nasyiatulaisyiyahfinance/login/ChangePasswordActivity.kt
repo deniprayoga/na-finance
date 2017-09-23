@@ -1,9 +1,10 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.login
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import com.example.denip.nasyiatulaisyiyahfinance.R
 import kotlinx.android.synthetic.main.activity_change_password.*
 
 class ChangePasswordActivity : AppCompatActivity(), View.OnClickListener {
