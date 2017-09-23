@@ -12,6 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,10 +26,10 @@ import java.util.ArrayList
 class ExpenseFragment : Fragment(), View.OnClickListener {
 
     companion object {
-
+        private val auth = FirebaseAuth.getInstance()
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
-        private var expenses = mutableListOf<ExpenseModel>()
+        private var expenses = arrayListOf<ExpenseModel>()
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
 
         fun newInstance(param1: String, param2: String): ExpenseFragment {
@@ -53,6 +56,23 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         }
 
         Log.d(TAGGA, "In the onCreate() event")
+        initAuth()
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+
+                launchLoginActivity()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(context, LoginActivity::class.java))
     }
 
     override fun onStart() {
@@ -88,7 +108,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             intent.putExtra(getString(R.string.EXPENSE_CATEGORY), expense.category)
             intent.putExtra(getString(R.string.EXPENSE_DATE), expense.dateCreated)
             intent.putExtra(getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
-
+            intent.putExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE), auth.currentUser?.email)
             startActivity(intent)
         }
 
