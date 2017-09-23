@@ -9,10 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseDetailActivity
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseFragment
-import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseList
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseModel
 import com.example.denip.nasyiatulaisyiyahfinance.income.IncomeFragment
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
@@ -23,7 +20,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_main.*
 import me.relex.circleindicator.CircleIndicator
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
@@ -53,26 +49,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         expenses = ArrayList()
         Log.d("reference", databaseExpenseRef.toString())
 
-        listViewExpenses?.setOnItemClickListener { parent, view, position, id ->
-            val expense = expenses[position]
-            val intent = Intent(applicationContext, ExpenseDetailActivity::class.java)
-
-            intent.putExtra(getString(R.string.EXPENSE_ID), expense.expenseId)
-            intent.putExtra(getString(R.string.EXPENSE_NOTE), expense.note)
-            intent.putExtra(getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
-            intent.putExtra(getString(R.string.EXPENSE_CATEGORY), expense.category)
-            intent.putExtra(getString(R.string.EXPENSE_DATE), expense.dateCreated)
-            intent.putExtra(getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
-            Log.d("inteee", expense.amount.toString())
-            startActivity(intent)
-        }
-
-        listViewExpenses?.setOnItemLongClickListener { parent, view, position, id ->
-            val expense = expenses[position]
-            Toast.makeText(this, expense.amount.toString(), Toast.LENGTH_SHORT).show()
-            true
-        }
-
         Log.d("exxx", expenses.toString())
         Log.d(TAGGG, "In the onCreate() event")
     }
@@ -82,17 +58,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         databaseExpenseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                expenses.clear()
-                //val expense = dataSnapshot!!.getValue(ExpenseModel::class.java)
-                //expenses.add(expense)
-                for (postSnapshot: DataSnapshot in dataSnapshot!!.children) {
-                    val expense = postSnapshot.getValue(ExpenseModel::class.java)
-                    expenses.add(expense)
-                }
 
-                val expenseAdapter = ExpenseList(this@MainActivity, expenses)
-
-                listViewExpenses.adapter = expenseAdapter
             }
 
             override fun onCancelled(databaseError: DatabaseError?) {
