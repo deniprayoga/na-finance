@@ -1,4 +1,4 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.main
 
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseDetailActivity
+import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseFragment
+import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseList
+import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseModel
+import com.example.denip.nasyiatulaisyiyahfinance.income.IncomeFragment
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -22,10 +30,12 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
     IncomeFragment.OnFragmentInteractionListener {
 
     override fun onFragmentInteraction(uri: Uri) {
+        Log.d(TAGGG, "onFragmentInteraction")
 
     }
 
     companion object {
+        private val TAGGG = "MainActivity"
         private var sectionsPagerAdapter: SectionsPagerAdapter? = null
         private var viewPager: ViewPager? = null
         private var indicator: CircleIndicator? = null
@@ -40,17 +50,31 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         initViewPager()
         initAuth()
-        initListExpenses()
         expenses = ArrayList()
         Log.d("reference", databaseExpenseRef.toString())
 
-        listViewExpenses.setOnItemClickListener { parent, view, position, id ->
+        listViewExpenses?.setOnItemClickListener { parent, view, position, id ->
+            val expense = expenses[position]
+            val intent = Intent(applicationContext, ExpenseDetailActivity::class.java)
 
+            intent.putExtra(getString(R.string.EXPENSE_ID), expense.expenseId)
+            intent.putExtra(getString(R.string.EXPENSE_NOTE), expense.note)
+            intent.putExtra(getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
+            intent.putExtra(getString(R.string.EXPENSE_CATEGORY), expense.category)
+            intent.putExtra(getString(R.string.EXPENSE_DATE), expense.dateCreated)
+            intent.putExtra(getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
+            Log.d("inteee", expense.amount.toString())
+            startActivity(intent)
         }
-    }
+        
+        listViewExpenses?.setOnItemLongClickListener { parent, view, position, id ->
+            val expense = expenses[position]
+            Toast.makeText(this, expense.amount.toString(), Toast.LENGTH_SHORT).show()
+            true
+        }
 
-    private fun initListExpenses() {
-
+        Log.d("exxx", expenses.toString())
+        Log.d(TAGGG, "In the onCreate() event")
     }
 
     override fun onStart() {
@@ -76,6 +100,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             }
         })
         Log.d("expensse", expenses.toString())
+        Log.d(TAGGG, "In the onStart() event")
     }
 
     private fun initViewPager() {
@@ -126,5 +151,30 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             }
             return null
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAGGG, "In the onRestart() event")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAGGG, "In the onResume() event")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAGGG, "In the onPause() event")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAGGG, "In the onStop() event")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAGGG, "In the onDestroy() event")
     }
 }
