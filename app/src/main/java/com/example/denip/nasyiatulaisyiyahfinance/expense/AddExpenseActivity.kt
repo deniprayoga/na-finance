@@ -1,4 +1,4 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.expense
 
 import android.Manifest
 import android.content.Intent
@@ -16,6 +16,8 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -103,7 +105,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         if (!amount.isEmpty()) {
             val id: String? = dbExpenseRef?.push()?.key
             val expense = ExpenseModel(auth.currentUser?.email, amount.toInt(), category, dateCreated, id,
-                 note, notePhotoUri)
+                note, notePhotoUri)
             dbExpenseRef?.child(id)?.setValue(expense)
             Log.d("value", expense.toString())
             Toast.makeText(this, "Expense Added", Toast.LENGTH_SHORT).show()
