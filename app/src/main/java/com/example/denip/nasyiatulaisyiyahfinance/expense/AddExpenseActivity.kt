@@ -113,7 +113,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                 note, notePhotoUri)
             dbAddExpenseRef?.child(id)?.setValue(expense)
             Log.d("value", expense.toString())
-            Toast.makeText(this, "Expense Added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.expense_added), Toast.LENGTH_SHORT).show()
+            finish()
         } else {
             expense_amount_field.error = getString(R.string.prompt_amount_empty)
         }
@@ -266,7 +267,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
         TedPermission(this@AddExpenseActivity)
             .setPermissionListener(permissionListener)
-            .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+            .setDeniedMessage(getString(R.string.ted_permission_denied))
             .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .check()
         hideCursorOnNoteField()
