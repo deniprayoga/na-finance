@@ -124,7 +124,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         dialogBuilder
             .setTitle(getString(R.string.confirmation))
             .setMessage(getString(R.string.delete_expense_message))
-            .setPositiveButton(getString(R.string.ok), { dialog, which ->
+            .setPositiveButton(getString(R.string.yes), { dialog, which ->
                 val dbDeleteExpenseRef = FirebaseDatabase
                     .getInstance()
                     .getReference("expenses")
