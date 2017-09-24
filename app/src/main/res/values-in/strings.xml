@@ -87,6 +87,8 @@
     <string name="EXPENSE_DATE">com.example.denip.nasyiatulaisyiyahfinance.expensedate</string>
     <string name="EXPENSE_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasure</string>
     <string name="expense_detail_title">Detail Pengeluaran</string>
+    <string name="delete_expense_message">Anda yakin ingin menghapus pengeluaran ini?</string>
+    <string name="expense_deleted">Pengeluaran berhasil dihapus</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
