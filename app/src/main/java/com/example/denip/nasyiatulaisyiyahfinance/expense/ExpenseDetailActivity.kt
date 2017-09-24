@@ -46,7 +46,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         val amount = intent?.getStringExtra(getString(R.string.EXPENSE_AMOUNT))
         val category = intent.getStringExtra(getString(R.string.EXPENSE_CATEGORY))
         val dateCreated = intent.getStringExtra(getString(R.string.EXPENSE_DATE))
-        val addedBy = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
+        val addedByTreasure = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
 
         expense_detail_id_text_view?.text = expenseId
         expense_detail_note_field?.setText(note)
@@ -272,21 +272,21 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         when (item?.itemId) {
             android.R.id.home -> onBackPressed()
             R.id.action_bar_save -> {
-                val updatedByTreaseure = auth.currentUser?.email
+                val addedByTreasure = auth.currentUser?.email
                 val amount = expense_detail_amount_field.text.toString()
                 val category = expense_detail_categories_field.text
                 val dateUpdated = calendar_result_text_expense_detail.text.toString()
                 val expenseId = expense_detail_id_text_view.text.toString()
                 val note = expense_detail_note_field.text.toString()
 
-                updateExpense(updatedByTreaseure, amount.toInt(), category.toString(),
+                updateExpense(addedByTreasure, amount.toInt(), category.toString(),
                     dateUpdated, expenseId, note)
             }
         }
         return true
     }
 
-    private fun updateExpense(updatedByTreasure: String?,
+    private fun updateExpense(addedByTreasure: String?,
                               amount: Int?,
                               category: String?,
                               dateUpdated: String?,
@@ -296,10 +296,11 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             .getInstance()
             .getReference("expenses")
             .child(expenseId)
-        val expense = ExpenseModel(updatedByTreasure, amount, category,
+        val expense = ExpenseModel(addedByTreasure, amount, category,
             dateUpdated, expenseId, note, null)
         dbUpdateExpenseRef.setValue(expense)
-        Toast.makeText(applicationContext, "Expense Updated", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, getString(R.string.expense_updated), Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     override fun onRestart() {
