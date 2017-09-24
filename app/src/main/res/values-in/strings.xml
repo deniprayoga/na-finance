@@ -89,6 +89,10 @@
     <string name="expense_detail_title">Detail Pengeluaran</string>
     <string name="delete_expense_message">Anda yakin ingin menghapus pengeluaran ini?</string>
     <string name="expense_deleted">Pengeluaran berhasil dihapus</string>
+    <string name="expense_updated">Pengeluaran berhasil diperbarui</string>
+    <string name="expense_added">Pengeluaran berhasil ditambahkan</string>
+    <string name="ted_permission_denied">Jika Anda menolak izin, Anda tidak dapat menggunakan
+        layanan ini\n\n.Harap aktifkan izin di [Pengaturan] > [Izin]</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
