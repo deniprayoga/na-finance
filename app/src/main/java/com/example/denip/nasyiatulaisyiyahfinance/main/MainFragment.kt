@@ -1,11 +1,16 @@
-package com.example.denip.nasyiatulaisyiyahfinance
+package com.example.denip.nasyiatulaisyiyahfinance.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseList
+import com.example.denip.nasyiatulaisyiyahfinance.setting.SettingActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_main.view.*
@@ -17,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_main.view.*
 class MainFragment : Fragment(), View.OnClickListener {
 
     companion object {
+        private val TAGGG = "MainFragment"
 
         private val ARG_SECTION_NUMBER = "section_number"
 
@@ -30,6 +36,11 @@ class MainFragment : Fragment(), View.OnClickListener {
     }
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAGGG, "In the onCreate() event")
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -75,5 +86,30 @@ class MainFragment : Fragment(), View.OnClickListener {
         }
 
         auth.addAuthStateListener(authListener)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAGGG, "In the onStart() event")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAGGG, "In the onResume() event")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAGGG, "In the onPause() event")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAGGG, "In the onStop() event")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAGGG, "In the onDestroy() event")
     }
 }
