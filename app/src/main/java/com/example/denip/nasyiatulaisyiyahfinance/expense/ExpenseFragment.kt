@@ -114,9 +114,35 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
         listViewExpensesF?.setOnItemLongClickListener { parent, view, position, id ->
             val expense = expenses[position]
-            Toast.makeText(context, expense.amount.toString(), Toast.LENGTH_SHORT).show()
+            showDeleteDialog(expense.expenseId)
             true
         }
+    }
+
+    private fun showDeleteDialog(expenseId: String?): Boolean {
+        val dialogBuilder = AlertDialog.Builder(context)
+        dialogBuilder
+            .setTitle(getString(R.string.confirmation))
+            .setMessage(getString(R.string.delete_expense_message))
+            .setPositiveButton(getString(R.string.ok), { dialog, which ->
+                val dbDeleteExpenseRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("expenses")
+                    .child(expenseId)
+                dbDeleteExpenseRef.removeValue()
+                showDeletedSuccessfully()
+            })
+            .setNegativeButton(getString(R.string.no), { dialog, which ->
+                dialog.dismiss()
+            })
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+        return true
+    }
+
+    private fun showDeletedSuccessfully() {
+        Toast.makeText(context, getString(R.string.expense_deleted), Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() {
