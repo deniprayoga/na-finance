@@ -188,17 +188,18 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             view.expense_amount_field_add_amount?.text?.clear()
         }
 
-        dialogBuilder.setView(view)
-        dialogBuilder.setTitle(getString(R.string.amount))
-        dialogBuilder.setPositiveButton(getString(R.string.ok), { dialog, _ ->
-            run {
-                val currentAmount = view.expense_amount_field_add_amount?.text.toString()
-                expense_amount_field.text.clear()
-                expense_amount_field.setText(currentAmount)
-                dialog.dismiss()
-                expense_amount_field.error = null
-            }
-        })
+        dialogBuilder
+            .setView(view)
+            .setTitle(getString(R.string.amount))
+            .setPositiveButton(getString(R.string.ok), { dialog, _ ->
+                run {
+                    val currentAmount = view.expense_amount_field_add_amount?.text.toString()
+                    expense_amount_field.text.clear()
+                    expense_amount_field.setText(currentAmount)
+                    dialog.dismiss()
+                    expense_amount_field.error = null
+                }
+            })
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
         hideCursorOnNoteField()
