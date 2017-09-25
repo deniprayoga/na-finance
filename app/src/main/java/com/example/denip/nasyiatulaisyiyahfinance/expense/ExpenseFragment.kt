@@ -80,7 +80,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
         databaseExpenseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                //expenses.clear()
+                expenses.clear()
 
                 dataSnapshot!!.children
                     .map { it.getValue(ExpenseModel::class.java) }
@@ -97,8 +97,6 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
         recycler_view_expense_list?.layoutManager = LinearLayoutManager(context)
 
-        val expenseListAdapter = ExpenseListAdapter(context, expenses)
-        recycler_view_expense_list?.adapter = expenseListAdapter
     }
 
     private fun showDeleteDialog(expenseId: String?): Boolean {
