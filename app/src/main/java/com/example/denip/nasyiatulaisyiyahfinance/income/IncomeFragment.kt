@@ -6,18 +6,40 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_income.*
 import kotlinx.android.synthetic.main.fragment_income.view.*
 
 
 class IncomeFragment : Fragment(), View.OnClickListener {
 
-    private var mParam1: String? = null
-    private var mParam2: String? = null
+    companion object {
+
+        private val ARG_PARAM1 = "param1"
+        private val ARG_PARAM2 = "param2"
+        private var mParam1: String? = null
+        private var mParam2: String? = null
+        private val dbIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
+        private val incomes = ArrayList<IncomeModel>()
+
+        fun newInstance(param1: String, param2: String): IncomeFragment {
+            val fragment = IncomeFragment()
+            val args = Bundle()
+            args.putString(ARG_PARAM1, param1)
+            args.putString(ARG_PARAM2, param2)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -37,6 +59,28 @@ class IncomeFragment : Fragment(), View.OnClickListener {
         fragmentIncomeView.add_income_button.setOnClickListener(this)
         fragmentIncomeView.export_income_imageButton.setOnClickListener(this)
         return fragmentIncomeView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dbIncomeRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                incomes.clear()
+
+                dataSnapshot!!.children
+                    .map { it.getValue(IncomeModel::class.java) }
+                    .forEach { incomes.add(it) }
+
+                val incomeAdapter = IncomeListAdapter(activity, incomes)
+                recycler_view_income_list?.adapter = incomeAdapter
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+        })
+        recycler_view_income_list?.layoutManager = LinearLayoutManager(context)
     }
 
     override fun onClick(v: View?) {
@@ -85,18 +129,27 @@ class IncomeFragment : Fragment(), View.OnClickListener {
         fun onFragmentInteraction(uri: Uri)
     }
 
-    companion object {
+    override fun onPause() {
+        super.onPause()
+    }
 
-        private val ARG_PARAM1 = "param1"
-        private val ARG_PARAM2 = "param2"
+    override fun onResume() {
+        super.onResume()
+    }
 
-        fun newInstance(param1: String, param2: String): IncomeFragment {
-            val fragment = IncomeFragment()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            fragment.arguments = args
-            return fragment
-        }
+    override fun onAttachFragment(childFragment: Fragment?) {
+        super.onAttachFragment(childFragment)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
