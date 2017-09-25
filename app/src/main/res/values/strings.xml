@@ -86,11 +86,22 @@
     <string name="EXPENSE_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.expensenotephotouri</string>
     <string name="EXPENSE_DATE">com.example.denip.nasyiatulaisyiyahfinance.expensedate</string>
     <string name="EXPENSE_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasure</string>
+    <string name="INCOME_NOTE">com.example.denip.nasyiatulaisyiyahfinance.incomenote</string>
+    <string name="INCOME_ID">com.example.denip.nasyiatulaisyiyahfinance.incomeid</string>
+    <string name="INCOME_CATEGORY">com.example.denip.nasyiatulaisyiyahfinance.incomecategory</string>
+    <string name="INCOME_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.incomeamount</string>
+    <string name="INCOME_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.incomenotephotouri</string>
+    <string name="INCOME_DATE">com.example.denip.nasyiatulaisyiyahfinance.incomedate</string>
+    <string name="INCOME_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
     <string name="expense_detail_title">Expense Detail</string>
     <string name="delete_expense_message">Are you sure want to delete this expense?</string>
+    <string name="delete_income_message">Are you sure want to delete this income?</string>
     <string name="expense_deleted">Expense successfully deleted</string>
     <string name="expense_updated">Expense successfully updated</string>
     <string name="expense_added">Expense successfully added</string>
+    <string name="income_added">Income successfully added</string>
+    <string name="income_updated">Incomes successfully updated</string>
+    <string name="income_deleted">Income successfully deleted</string>
     <string name="ted_permission_denied">If you reject permission, you can not use this
         service\n\nPlease turn on permissions at [Setting] > [Permission]</string>
     <string-array name="locations">
