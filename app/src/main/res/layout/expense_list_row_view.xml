@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
@@ -55,7 +56,6 @@
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
-            android:textColor="@color/bpblack"
             android:id="@+id/expense_list_row_view_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,19 +63,20 @@
             android:layout_marginTop="8dp"
             android:ems="15"
             android:text="Category here"
+            android:textColor="@color/bpblack"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/expense_list_row_view_note" />
 
         <TextView
-            android:textAlignment="textEnd"
-            android:textSize="10dp"
-            android:ems="12"
             android:id="@+id/expense_list_row_view_added_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:ems="12"
             android:text="Added by : Deni Prayoga"
+            android:textAlignment="textEnd"
+            android:textSize="10dp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
