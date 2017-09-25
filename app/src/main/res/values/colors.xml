@@ -4,11 +4,11 @@
     <color name="colorPrimaryDark">#aba400</color>
     <color name="colorAccent">#000000</color>
     <color name="colorButtonIncome">#ff99cc00</color>
-    <color name="colorButtonExpense">#fff500</color>
+    <color name="colorButtonExpense">#FFFFBB00</color>
     <color name="colorCenterGradientBackgroundExpense">#FFFFFA79</color>
     <color name="colorCenterGradientBackgroundIncome">#FFDDFF76</color>
-    <color name="colorActionBar">#8b8b8b</color>
-    <color name="colorActionBarDark">#505050</color>
+    <color name="colorActionBar">#059442</color>
+    <color name="colorActionBarDark">#5a025325</color>
     <color name="colorActionBarIncome">#ff99cc00</color>
     <color name="colorActionBarIncomeDark">#455c00</color>
     <color name="colorActionBarExpense">#FFFFBB00</color>
