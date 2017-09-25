@@ -7,7 +7,7 @@ package com.example.denip.nasyiatulaisyiyahfinance.income
 data class IncomeModel(val incomeId: String?,
                        val addedByTreasure: String?,
                        val amount: Int?,
-                       val cat: String?,
+                       val category: String?,
                        val dateCreated: String?,
                        val note: String?,
                        val notePhotoUri: String?)
