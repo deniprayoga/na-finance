@@ -10,4 +10,6 @@ data class IncomeModel(val incomeId: String?,
                        val category: String?,
                        val dateCreated: String?,
                        val note: String?,
-                       val notePhotoUri: String?)
+                       val notePhotoUri: String?) {
+    constructor() : this("", "", 0, "", "", "", "")
+}
