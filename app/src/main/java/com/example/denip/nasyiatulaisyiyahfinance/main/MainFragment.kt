@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
-import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseList
 import com.example.denip.nasyiatulaisyiyahfinance.setting.SettingActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
