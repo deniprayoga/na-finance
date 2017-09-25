@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +30,12 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         private val auth = FirebaseAuth.getInstance()
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
-        private var expenses = arrayListOf<ExpenseModel>()
+        private var expenses = ArrayList<ExpenseModel>()
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
+        private var mParam1: String? = null
+        private var mParam2: String? = null
+        internal var TAGGA = "ExpenseFragment"
+        private var mListener: OnFragmentInteractionListener? = null
 
         fun newInstance(param1: String, param2: String): ExpenseFragment {
             val fragment = ExpenseFragment()
@@ -41,12 +46,6 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             return fragment
         }
     }
-
-    private var mParam1: String? = null
-    private var mParam2: String? = null
-    internal var TAGGA = "ExpenseFragment"
-
-    private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
-
+                //finish()
                 launchLoginActivity()
             }
         }
@@ -81,14 +80,14 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
         databaseExpenseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                expenses.clear()
+                //expenses.clear()
 
                 dataSnapshot!!.children
                     .map { it.getValue(ExpenseModel::class.java) }
                     .forEach { expenses.add(it) }
 
-                val expenseAdapter = ExpenseList(activity, expenses)
-                listViewExpensesF.adapter = expenseAdapter
+                val expenseAdapter = ExpenseListAdapter(activity, expenses)
+                recycler_view_expense_list.adapter = expenseAdapter
             }
 
             override fun onCancelled(databaseError: DatabaseError?) {
@@ -96,27 +95,10 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             }
         })
 
-        expenses = ArrayList()
+        recycler_view_expense_list?.layoutManager = LinearLayoutManager(context)
 
-        listViewExpensesF?.setOnItemClickListener { parent, view, position, id ->
-            val expense = expenses[position]
-            val intent = Intent(context, ExpenseDetailActivity::class.java)
-
-            intent.putExtra(getString(R.string.EXPENSE_ID), expense.expenseId)
-            intent.putExtra(getString(R.string.EXPENSE_NOTE), expense.note)
-            intent.putExtra(getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
-            intent.putExtra(getString(R.string.EXPENSE_CATEGORY), expense.category)
-            intent.putExtra(getString(R.string.EXPENSE_DATE), expense.dateCreated)
-            intent.putExtra(getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
-            intent.putExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE), auth.currentUser?.email)
-            startActivity(intent)
-        }
-
-        listViewExpensesF?.setOnItemLongClickListener { parent, view, position, id ->
-            val expense = expenses[position]
-            showDeleteDialog(expense.expenseId)
-            true
-        }
+        val expenseListAdapter = ExpenseListAdapter(context, expenses)
+        recycler_view_expense_list?.adapter = expenseListAdapter
     }
 
     private fun showDeleteDialog(expenseId: String?): Boolean {
