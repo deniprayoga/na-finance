@@ -5,19 +5,23 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
+import kotlinx.android.synthetic.main.activity_add_amount_income.view.*
 import kotlinx.android.synthetic.main.activity_add_income.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -29,6 +33,8 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
         var selectedUri: Uri? = null
         lateinit var glideRequestManager: RequestManager
+        private val auth = FirebaseAuth.getInstance()
+        private val dbAddIncomeRef = FirebaseDatabase.getInstance()?.getReference("incomes")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,16 +46,38 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val amount: String? = bundle?.getString(getString(R.string.EXTRA_AMOUNT))
         income_amount_field.setText(amount)
         initLayout()
+        initAuth()
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                finish()
+                launchLoginActivity()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun initLayout() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         income_amount_field.isFocusable = false
+        income_amount_field.isCursorVisible = false
+        income_note_field.isCursorVisible = false
+        income_categories_field.isFocusable = false
         initToolbar()
         showCurrentDate()
         calendar_button_income.setOnClickListener(this)
         calendar_result_text_income.setOnClickListener(this)
         income_amount_field.setOnClickListener(this)
         pick_image_button_income.setOnClickListener(this)
+        income_note_field.setOnClickListener(this)
     }
 
     private fun showCurrentDate() {
@@ -68,9 +96,99 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         when (v?.id) {
             R.id.calendar_button_income -> showCalendar()
             R.id.calendar_result_text_income -> showCalendar()
-            R.id.income_amount_field -> navigateToAddAmount()
+            R.id.income_amount_field -> showAddAmountDialog()
             R.id.pick_image_button_income -> pickImage()
+            R.id.income_note_field -> showCursorOnNoteField()
         }
+    }
+
+    private fun showAddAmountDialog() {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val addAmountInflater: LayoutInflater = layoutInflater
+        val view: View = addAmountInflater.inflate(R.layout.activity_add_amount_income, null)
+
+
+        view.one_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(1))
+        }
+
+        view.two_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(2))
+        }
+
+        view.three_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(3))
+        }
+
+        view.four_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(4))
+        }
+
+        view.five_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(5))
+        }
+
+        view.six_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(6))
+        }
+
+        view.seven_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(7))
+        }
+
+        view.eight_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(8))
+        }
+
+        view.nine_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            view.income_amount_field_add_amount?.setText(currentAmount.plus(9))
+        }
+
+        view.zero_button?.setOnClickListener {
+            val currentAmount = view.income_amount_field_add_amount?.text.toString()
+            if (currentAmount.isEmpty()) {
+                view.income_amount_field_add_amount?.setText(currentAmount.plus(""))
+            } else {
+                view.income_amount_field_add_amount?.setText(currentAmount.plus(0))
+            }
+        }
+
+        view.clear_button?.setOnClickListener {
+            view.income_amount_field_add_amount?.text?.clear()
+        }
+
+        dialogBuilder
+            .setView(view)
+            .setTitle(getString(R.string.amount))
+            .setPositiveButton(getString(R.string.ok), { dialog, which ->
+                run {
+                    val currentAmount = view.income_amount_field_add_amount?.text.toString()
+                    income_amount_field.text.clear()
+                    income_amount_field.setText(currentAmount)
+                    dialog.dismiss()
+                    income_amount_field.error = null
+                }
+            })
+        val dialog: AlertDialog = dialogBuilder.create()
+        dialog.show()
+        hideCursorOnNoteField()
+    }
+
+    private fun hideCursorOnNoteField() {
+        income_note_field.isCursorVisible = false
+    }
+
+    private fun showCursorOnNoteField() {
+        income_note_field?.isCursorVisible = true
     }
 
     private fun pickImage() {
@@ -114,13 +232,6 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
     }
 
-    private fun navigateToAddAmount() {
-        val intent = Intent(this, AddAmountIncomeActivity::class.java)
-        val amount = income_amount_field.text.toString()
-        intent.putExtra(getString(R.string.EXTRA_AMOUNT), amount)
-        startActivity(intent)
-    }
-
     private fun showCalendar() {
         val calendarDatePicker = CalendarDatePickerDialogFragment().setOnDateSetListener(this)
         calendarDatePicker.show(supportFragmentManager, FRAG_TAG_DATE_PICKER)
@@ -137,9 +248,29 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_bar_done -> finish()
+            R.id.action_bar_done -> saveIncome()
             android.R.id.home -> onBackPressed()
         }
         return true
+    }
+
+    private fun saveIncome() {
+        val dateCreated = calendar_result_text_income?.text.toString()
+        val amount = income_amount_field?.text.toString()
+        val note = income_note_field?.text.toString()
+        val notePhotoUri = selectedUri.toString()
+        val category = income_categories_field?.text.toString()
+
+        if (!amount.isEmpty()) {
+            val id: String? = dbAddIncomeRef?.push()?.key
+            val income = IncomeModel(id, auth.currentUser?.email, amount.toInt(), category,
+                dateCreated, note, notePhotoUri)
+            dbAddIncomeRef?.child(id)?.setValue(income)
+            Log.d("incomeeeeee", income.toString())
+            Toast.makeText(this, getString(R.string.income_added), Toast.LENGTH_SHORT).show()
+            finish()
+        } else {
+            income_amount_field.error = getString(R.string.prompt_amount_empty)
+        }
     }
 }
