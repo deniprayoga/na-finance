@@ -19,7 +19,6 @@ class AddAmountIncomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initLayout() {
         income_amount_field_add_amount?.isFocusable = false
-        initToolbar()
         initNumpad()
         initAmount()
     }
@@ -42,13 +41,6 @@ class AddAmountIncomeActivity : AppCompatActivity(), View.OnClickListener {
         nine_button.setOnClickListener(this)
         zero_button.setOnClickListener(this)
         clear_button.setOnClickListener(this)
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(toolbar_add_amount_layout)
-
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onClick(v: View?) {
