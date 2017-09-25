@@ -87,7 +87,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
                     .forEach { expenses.add(it) }
 
                 val expenseAdapter = ExpenseListAdapter(activity, expenses)
-                recycler_view_expense_list.adapter = expenseAdapter
+                recycler_view_expense_list?.adapter = expenseAdapter
             }
 
             override fun onCancelled(databaseError: DatabaseError?) {
