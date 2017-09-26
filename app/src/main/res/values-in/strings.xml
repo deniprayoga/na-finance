@@ -101,6 +101,9 @@
     <string name="ted_permission_denied">Jika Anda menolak izin, Anda tidak dapat menggunakan
         layanan ini\n\n.Harap aktifkan izin di [Pengaturan] > [Izin]</string>
     <string name="category_number">No. Kategori</string>
+    <string name="prompt_empty_field">Bagian ini tidak boleh kosong</string>
+    <string name="first_number_zero_error">Nomor pertama tidak boleh nol</string>
+    <string name="category_expense_added">Kategori pengeluaran berhasil ditambahkan</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>

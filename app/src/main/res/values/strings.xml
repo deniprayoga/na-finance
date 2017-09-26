@@ -108,6 +108,9 @@
     <string name="ted_permission_denied">If you reject permission, you can not use this
         service\n\nPlease turn on permissions at [Setting] > [Permission]</string>
     <string name="category_number">Category Number</string>
+    <string name="prompt_empty_field">This field cannot be empty</string>
+    <string name="first_number_zero_error">First number cannot be zero</string>
+    <string name="category_expense_added">Expense category successfully added</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
