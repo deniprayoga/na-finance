@@ -1,9 +1,10 @@
 package com.example.denip.nasyiatulaisyiyahfinance.category
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.text.TextUtils
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -11,19 +12,24 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_add_expense_category.*
 import kotlinx.android.synthetic.main.activity_add_expense_category.view.*
 import kotlinx.android.synthetic.main.activity_category_expense_setting.*
 
 class CategoryExpenseSettingActivity : AppCompatActivity() {
 
     companion object {
-        val categories = mutableListOf<CategoryModel>()
+        internal var TAGGA = "CategoryExpenseSettingActivity"
+        private val auth = FirebaseAuth.getInstance()
+        private var categories = ArrayList<CategoryModel>()
         private val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +37,23 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category_expense_setting)
 
         initLayout()
+        initAuth()
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                //finish()
+                launchLoginActivity()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun initLayout() {
@@ -39,16 +62,25 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
+        Log.d(TAGGA, "In the onStart() event")
         dbCategoryRef?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
 
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                categories.clear()
 
+                dataSnapshot!!.children
+                    .map { it.getValue(CategoryModel::class.java) }
+                    .forEach { categories.add(it) }
+
+                val categoryAdapter = CategoryListAdapter(this@CategoryExpenseSettingActivity, categories)
+                category_expense_list_setting_recycler_view?.adapter = categoryAdapter
             }
         })
+
+        category_expense_list_setting_recycler_view?.layoutManager = LinearLayoutManager(this)
     }
 
     private fun initToolbar() {
@@ -115,5 +147,30 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_category_setting, menu)
         return true
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("taggg", "In the onRestart() event")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("taggg", "In the onResume() event")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("taggg", "In the onPause() event")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("taggg", "In the onStop() event")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("taggg", "In the onDestroy() event")
     }
 }
