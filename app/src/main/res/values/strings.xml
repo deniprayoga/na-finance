@@ -107,6 +107,7 @@
     <string name="income_deleted">Income successfully deleted</string>
     <string name="ted_permission_denied">If you reject permission, you can not use this
         service\n\nPlease turn on permissions at [Setting] > [Permission]</string>
+    <string name="category_number">Category Number</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>

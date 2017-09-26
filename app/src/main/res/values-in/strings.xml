@@ -100,6 +100,7 @@
     <string name="income_deleted">Pemasukan berhasil dihapus</string>
     <string name="ted_permission_denied">Jika Anda menolak izin, Anda tidak dapat menggunakan
         layanan ini\n\n.Harap aktifkan izin di [Pengaturan] > [Izin]</string>
+    <string name="category_number">No. Kategori</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
