@@ -5,7 +5,7 @@ package com.example.denip.nasyiatulaisyiyahfinance.category
  */
 
 data class CategoryModel(val categoryId: String?,
-                         val categoryNumber: Int?,
+                         val categoryNumber: String?,
                          val categoryName: String?) {
-    constructor() : this("", 0, "")
+    constructor() : this("", "", "")
 }
