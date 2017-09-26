@@ -279,8 +279,15 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                 val expenseId = expense_detail_id_text_view.text.toString()
                 val note = expense_detail_note_field.text.toString()
 
-                updateExpense(addedByTreasure, amount.toInt(), category.toString(),
-                    dateUpdated, expenseId, note)
+                if (!amount.isEmpty() && !note.isEmpty()) {
+                    updateExpense(addedByTreasure, amount.toInt(), category.toString(),
+                        dateUpdated, expenseId, note)
+                } else {
+                    if (amount.isEmpty()) expense_detail_amount_field.error =
+                        getString(R.string.prompt_amount_empty)
+                    if (note.isEmpty()) expense_detail_note_field.error =
+                        getString(R.string.prompt_note_empty)
+                }
             }
         }
         return true
