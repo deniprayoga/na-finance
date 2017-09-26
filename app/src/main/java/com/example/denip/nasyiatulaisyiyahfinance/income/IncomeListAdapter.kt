@@ -79,7 +79,7 @@ class IncomeListAdapter(context: Context, incomes: ArrayList<IncomeModel>) : Rec
                     .setPositiveButton(context.getString(R.string.yes), { dialog, which ->
                         val dbDeleteExpenseRef = FirebaseDatabase
                             .getInstance()
-                            .getReference("expenses")
+                            .getReference("incomes")
                             .child(income.incomeId)
                         dbDeleteExpenseRef.removeValue()
                         showDeletedSuccessfully()
