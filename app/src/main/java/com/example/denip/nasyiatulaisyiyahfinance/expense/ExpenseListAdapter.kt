@@ -18,7 +18,8 @@ import java.util.*
  * Created by denip on 9/25/2017.
  */
 
-class ExpenseListAdapter(context: Context, expenses: ArrayList<ExpenseModel>) : RecyclerView.Adapter<ExpenseListAdapter.CustomViewHolder>() {
+class ExpenseListAdapter(context: Context, expenses: ArrayList<ExpenseModel>) :
+    RecyclerView.Adapter<ExpenseListAdapter.CustomViewHolder>() {
     companion object {
         private val auth = FirebaseAuth.getInstance()
 
