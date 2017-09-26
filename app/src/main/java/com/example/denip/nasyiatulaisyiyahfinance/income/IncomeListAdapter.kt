@@ -60,7 +60,7 @@ class IncomeListAdapter(context: Context, incomes: ArrayList<IncomeModel>) : Rec
                 val intent = Intent(v?.context, IncomeDetailActivity::class.java)
                 intent.putExtra(context.getString(R.string.INCOME_ID), income.incomeId)
                 intent.putExtra(context.getString(R.string.INCOME_NOTE), income.note)
-                intent.putExtra(context.getString(R.string.INCOME_AMOUNT), income.amount)
+                intent.putExtra(context.getString(R.string.INCOME_AMOUNT), income.amount.toString())
                 intent.putExtra(context.getString(R.string.INCOME_CATEGORY), income.category)
                 intent.putExtra(context.getString(R.string.INCOME_DATE), income.dateCreated)
                 intent.putExtra(context.getString(R.string.INCOME_NOTE_PHOTO_URI), income.notePhotoUri)
