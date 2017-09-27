@@ -1,4 +1,4 @@
-package com.example.denip.nasyiatulaisyiyahfinance.category
+package com.example.denip.nasyiatulaisyiyahfinance.expense.category
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
