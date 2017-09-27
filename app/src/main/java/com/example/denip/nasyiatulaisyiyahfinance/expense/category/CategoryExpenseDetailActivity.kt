@@ -3,6 +3,7 @@ package com.example.denip.nasyiatulaisyiyahfinance.expense.category
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
@@ -35,6 +36,21 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
         Log.d(HUNTER_TAG_LYFCYCL, "In the onCreate() event")
         Log.d("hunter_categoryNum", categoryNumber)
         Log.d("hunter_catFirstNumRcv", "" + categoryFirstNumber)
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(toolbar_category_expense_detail_layout)
+
+        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return true
     }
 
     override fun onStart() {
