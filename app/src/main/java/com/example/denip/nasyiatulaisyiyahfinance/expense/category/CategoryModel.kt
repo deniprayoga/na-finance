@@ -5,7 +5,10 @@ package com.example.denip.nasyiatulaisyiyahfinance.expense.category
  */
 
 data class CategoryModel(val categoryId: String?,
+                         val firstNumber: Int?,
+                         val secondNumber: Int?,
+                         val thirdNumber: Int?,
                          val categoryNumber: String?,
                          val categoryName: String?) {
-    constructor() : this("", "", "")
+    constructor() : this("", 0, 0, 0, "", "")
 }
