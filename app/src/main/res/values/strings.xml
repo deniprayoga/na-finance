@@ -95,6 +95,12 @@
     <string name="INCOME_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.incomenotephotouri</string>
     <string name="INCOME_DATE">com.example.denip.nasyiatulaisyiyahfinance.incomedate</string>
     <string name="INCOME_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
+    <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categoryid</string>
+    <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categorynumber</string>
+    <string name="CATEGORY_NAME_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categoryname</string>
+    <string name="CATEGORY_ID_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categoryid</string>
+    <string name="CATEGORY_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categorynumber</string>
+    <string name="CATEGORY_NAME_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categoryname</string>
     <string name="expense_detail_title">Expense Detail</string>
     <string name="income_detail_title">Income Detail</string>
     <string name="delete_expense_message">Are you sure want to delete this expense?</string>
