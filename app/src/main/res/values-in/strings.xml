@@ -92,6 +92,7 @@
     <string name="income_detail_title">Detail Pemasukan</string>
     <string name="delete_expense_message">Anda yakin ingin menghapus pengeluaran ini?</string>
     <string name="delete_income_message">Anda yakin ingin menghapus pemasukan ini?</string>
+    <string name="delete_category_message">Anda yakin ingin menghapus kategori ini?</string>
     <string name="expense_deleted">Pengeluaran berhasil dihapus</string>
     <string name="expense_updated">Pengeluaran berhasil diperbarui</string>
     <string name="expense_added">Pengeluaran berhasil ditambahkan</string>
@@ -103,7 +104,9 @@
     <string name="category_number">No. Kategori</string>
     <string name="prompt_empty_field">Bagian ini tidak boleh kosong</string>
     <string name="first_number_zero_error">Nomor pertama tidak boleh nol</string>
-    <string name="category_expense_added">Kategori pengeluaran berhasil ditambahkan</string>
+    <string name="category_added">Kategori berhasil ditambahkan</string>
+    <string name="category_deleted">Kategori berhasil dihapus</string>
+    <string name="category_updated">Kategori berhasil diperbarui</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>

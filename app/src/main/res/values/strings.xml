@@ -98,6 +98,9 @@
     <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categoryid</string>
     <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categorynumber</string>
     <string name="CATEGORY_NAME_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categoryname</string>
+    <string name="CATEGORY_FIRST_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.firstnumber</string>
+    <string name="CATEGORY_SECOND_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.secondnumber</string>
+    <string name="CATEGORY_THIRD_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.thirdnumber</string>
     <string name="CATEGORY_ID_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categoryid</string>
     <string name="CATEGORY_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categorynumber</string>
     <string name="CATEGORY_NAME_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categoryname</string>
@@ -105,6 +108,7 @@
     <string name="income_detail_title">Income Detail</string>
     <string name="delete_expense_message">Are you sure want to delete this expense?</string>
     <string name="delete_income_message">Are you sure want to delete this income?</string>
+    <string name="delete_category_message">Are your sure want to delete this category?</string>
     <string name="expense_deleted">Expense successfully deleted</string>
     <string name="expense_updated">Expense successfully updated</string>
     <string name="expense_added">Expense successfully added</string>
@@ -116,7 +120,9 @@
     <string name="category_number">Category Number</string>
     <string name="prompt_empty_field">This field cannot be empty</string>
     <string name="first_number_zero_error">First number cannot be zero</string>
-    <string name="category_expense_added">Expense category successfully added</string>
+    <string name="category_added">Category successfully added</string>
+    <string name="category_deleted">Category successfully deleted</string>
+    <string name="category_updated">Category successfully updated</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
