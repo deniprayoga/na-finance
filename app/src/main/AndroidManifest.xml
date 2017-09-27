@@ -56,11 +56,11 @@
             android:label="@string/add_income_title"
             android:theme="@style/AppTheme.NoActionBar.Income.AddAmount" />
         <activity
-            android:name=".category.CategoryExpenseSettingActivity"
+            android:name=".expense.category.CategoryExpenseSettingActivity"
             android:label="@string/expense_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".category.CategoryIncomeSettingActivity"
+            android:name=".income.category.CategoryIncomeSettingActivity"
             android:label="@string/income_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -75,6 +75,7 @@
             android:name=".income.IncomeDetailActivity"
             android:label="@string/income_detail_title"
             android:theme="@style/AppTheme.NoActionBar.Income" />
+        <activity android:name=".expense.category.CategoryExpenseDetailActivity"></activity>
     </application>
 
 </manifest>

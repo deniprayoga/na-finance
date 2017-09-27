@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.denip.nasyiatulaisyiyahfinance.category.CategoryExpenseList">
+    tools:context="com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseList">
 
 </android.support.constraint.ConstraintLayout>

@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import android.view.View
-import com.example.denip.nasyiatulaisyiyahfinance.category.CategoryExpenseSettingActivity
-import com.example.denip.nasyiatulaisyiyahfinance.category.CategoryIncomeSettingActivity
+import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseSettingActivity
+import com.example.denip.nasyiatulaisyiyahfinance.income.category.CategoryIncomeSettingActivity
 import com.example.denip.nasyiatulaisyiyahfinance.login.ChangePasswordActivity
 import com.example.denip.nasyiatulaisyiyahfinance.ExpandableListAdapter
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
