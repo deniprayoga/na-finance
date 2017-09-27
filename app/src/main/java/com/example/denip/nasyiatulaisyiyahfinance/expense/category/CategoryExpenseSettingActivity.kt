@@ -45,7 +45,7 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
-                //finish()
+                finish()
                 launchLoginActivity()
             }
         }
@@ -101,29 +101,31 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
     private fun showAddExpenseCategoryDialog() {
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val categoryInflater: LayoutInflater = layoutInflater
-        val view: View = categoryInflater.inflate(R.layout.activity_add_expense_category, null)
+        val view: View? = categoryInflater.inflate(R.layout.activity_add_expense_category, null)
 
-        dialogBuilder.setView(view)
-        dialogBuilder.setTitle(getString(R.string.add_expense_category))
+        dialogBuilder
+            .setView(view)
+            .setTitle(getString(R.string.add_expense_category))
+
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
 
-        view.button_add_category_expense?.setOnClickListener {
+        view?.button_add_category_expense?.setOnClickListener {
             when {
-                view.category_number_first?.text!!.isEmpty() ->
-                    view.category_number_first?.error = getString(R.string.prompt_empty_field)
-                view.category_number_first.text.toString().toInt() == 0 ->
-                    view.category_number_first?.error = getString(R.string.first_number_zero_error)
-                view.category_number_second.text.isEmpty() ->
-                    view.category_number_second?.error = getString(R.string.prompt_empty_field)
-                view.category_number_third.text.isEmpty() ->
-                    view.category_number_third?.error = getString(R.string.prompt_empty_field)
+                view.add_category_number_first?.text!!.isEmpty() ->
+                    view.add_category_number_first?.error = getString(R.string.prompt_empty_field)
+                view.add_category_number_first.text.toString().toInt() == 0 ->
+                    view.add_category_number_first?.error = getString(R.string.first_number_zero_error)
+                view.add_category_number_second.text.isEmpty() ->
+                    view.add_category_number_second?.error = getString(R.string.prompt_empty_field)
+                view.add_category_number_third.text.isEmpty() ->
+                    view.add_category_number_third?.error = getString(R.string.prompt_empty_field)
                 view.add_category_name_field.text.isEmpty() ->
                     view.add_category_name_field?.error = getString(R.string.prompt_empty_field)
                 else -> {
-                    val firstNumber = view.category_number_first?.text.toString().toInt()
-                    val secondNumber = view.category_number_second?.text.toString().toInt()
-                    val thirdNumber = view.category_number_third?.text.toString().toInt()
+                    val firstNumber = view.add_category_number_first?.text.toString()
+                    val secondNumber = view.add_category_number_second?.text.toString().toInt()
+                    val thirdNumber = view.add_category_number_third?.text.toString().toInt()
                     val categoryNumber = firstNumber.toString() + "-" + secondNumber.toString() +
                         "-" + thirdNumber.toString()
                     val categoryName = view.add_category_name_field?.text.toString()
@@ -135,9 +137,10 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                     Log.d("hunter_thirdNumber", thirdNumber.toString())
 
                     val categoryId = dbCategoryRef?.push()?.key
-                    val category = CategoryModel(categoryId, categoryNumber, categoryName)
+                    val category = CategoryModel(categoryId, firstNumber.toInt(), secondNumber,
+                        thirdNumber, categoryNumber, categoryName)
                     dbCategoryRef?.child(categoryId)?.setValue(category)
-                    Toast.makeText(this, getString(R.string.category_expense_added), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.category_added), Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
             }
