@@ -27,7 +27,7 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
     companion object {
         internal var TAGGA = "CategoryExpenseSettingActivity"
         private val auth = FirebaseAuth.getInstance()
-        private var categories = ArrayList<CategoryModel>()
+        private var categories = ArrayList<CategoryExpenseModel>()
         private val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
 
     }
@@ -72,10 +72,10 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                 categories.clear()
 
                 dataSnapshot!!.children
-                    .map { it.getValue(CategoryModel::class.java) }
+                    .map { it.getValue(CategoryExpenseModel::class.java) }
                     .forEach { categories.add(it) }
 
-                val categoryAdapter = CategoryListAdapter(this@CategoryExpenseSettingActivity, categories)
+                val categoryAdapter = CategoryExpenseListAdapter(this@CategoryExpenseSettingActivity, categories)
                 category_expense_list_setting_recycler_view?.adapter = categoryAdapter
             }
         })
@@ -137,7 +137,7 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                     Log.d("hunter_thirdNumber", thirdNumber.toString())
 
                     val categoryId = dbCategoryRef?.push()?.key
-                    val category = CategoryModel(categoryId, firstNumber.toInt(), secondNumber,
+                    val category = CategoryExpenseModel(categoryId, firstNumber.toInt(), secondNumber,
                         thirdNumber, categoryNumber, categoryName)
                     dbCategoryRef?.child(categoryId)?.setValue(category)
                     Toast.makeText(this, getString(R.string.category_added), Toast.LENGTH_SHORT).show()

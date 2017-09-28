@@ -18,15 +18,15 @@ import com.google.firebase.database.FirebaseDatabase
  * Created by denip on 9/26/2017.
  */
 
-class CategoryListAdapter(context: Context, categories: ArrayList<CategoryModel>) :
-    RecyclerView.Adapter<CategoryListAdapter.CustomViewHolder>() {
+class CategoryExpenseListAdapter(context: Context, categories: ArrayList<CategoryExpenseModel>) :
+    RecyclerView.Adapter<CategoryExpenseListAdapter.CustomViewHolder>() {
 
     companion object {
         private val auth = FirebaseAuth.getInstance()
     }
 
     private var context: Context = context
-    private var categories: ArrayList<CategoryModel> = arrayListOf()
+    private var categories: ArrayList<CategoryExpenseModel> = arrayListOf()
 
     init {
         this.categories = categories

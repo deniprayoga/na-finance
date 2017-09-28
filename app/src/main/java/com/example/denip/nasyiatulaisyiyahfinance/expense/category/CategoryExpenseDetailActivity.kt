@@ -99,7 +99,7 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
             .child(categoryId)
         val categoryNumberBind = firstNumber.toString() + "-" + secondNumber.toString() + "-" +
             thirdNumber.toString()
-        val category = CategoryModel(categoryId, firstNumber, secondNumber, thirdNumber,
+        val category = CategoryExpenseModel(categoryId, firstNumber, secondNumber, thirdNumber,
             categoryNumberBind, categoryName)
         dbUpdateCategoryRef.setValue(category)
         Toast.makeText(this, getString(R.string.category_updated), Toast.LENGTH_SHORT).show()
