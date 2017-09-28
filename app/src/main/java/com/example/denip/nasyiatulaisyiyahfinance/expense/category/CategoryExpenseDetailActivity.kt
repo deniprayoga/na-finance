@@ -3,6 +3,7 @@ package com.example.denip.nasyiatulaisyiyahfinance.expense.category
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 
@@ -46,9 +47,37 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_expense_detail, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> onBackPressed()
+            R.id.action_bar_save -> {
+                var firstNumber = category_detail_number_first?.text.toString()
+                var secondNumber = category_detail_number_second?.text.toString()
+                var thirdNumber = category_detail_number_third?.text.toString()
+                var categoryName = category_detail_name_field?.text.toString()
+                when {
+                    firstNumber == "" -> category_detail_number_first?.error = getString(R.string.prompt_empty_field)
+                    firstNumber == "0" -> category_detail_number_first?.error = getString(R.string.first_number_zero_error)
+                    secondNumber == "" -> category_detail_number_second?.error = getString(R.string.prompt_empty_field)
+                    thirdNumber == "" -> category_detail_number_third?.error = getString(R.string.prompt_empty_field)
+                    categoryName == "" -> category_detail_name_field?.error = getString(R.string.prompt_empty_field)
+                    else -> {
+                        val categoryId = category_detail_id?.text.toString()
+                        val categoryNumber = category_detail_number?.text.toString()
+                        firstNumber = category_detail_number_first?.text.toString()
+                        secondNumber = category_detail_number_second?.text.toString()
+                        thirdNumber = category_detail_number_third?.text.toString()
+                        categoryName = category_detail_name_field.text.toString()
+                        updateCategory(categoryId, firstNumber.toInt(), secondNumber.toInt(),
+                            thirdNumber.toInt(), categoryNumber, categoryName)
+                    }
+                }
+            }
         }
         return true
     }
@@ -56,30 +85,6 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d(HUNTER_TAG_LYFCYCL, "In the onStart() event")
-
-        button_update_category_detail_expense?.setOnClickListener {
-            when {
-                category_detail_number_first?.text!!.isEmpty() ->
-                    category_detail_number_first?.error = getString(R.string.prompt_empty_field)
-                category_detail_number_first.text.toString().toInt() == 0 ->
-                    category_detail_number_first?.error = getString(R.string.first_number_zero_error)
-                category_detail_number_second.text.isEmpty() ->
-                    category_detail_number_second?.error = getString(R.string.prompt_empty_field)
-                category_detail_number_third.text.isEmpty() ->
-                    category_detail_number_third?.error = getString(R.string.prompt_empty_field)
-                category_detail_name_field.text.isEmpty() ->
-                    category_detail_name_field?.error = getString(R.string.prompt_empty_field)
-                else -> {
-                    val categoryId = category_detail_id?.text.toString()
-                    val firstNumber = category_detail_number_first?.text.toString().toInt()
-                    val secondNumber = category_detail_number_second?.text.toString().toInt()
-                    val thirdNumber = category_detail_number_third?.text.toString().toInt()
-                    val categoryNumber = category_detail_number?.text.toString()
-                    val categoryName = category_detail_name_field.text.toString()
-                    updateCategory(categoryId, firstNumber, secondNumber, thirdNumber, categoryNumber, categoryName)
-                }
-            }
-        }
     }
 
     private fun updateCategory(categoryId: String?,
