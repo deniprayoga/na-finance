@@ -4,22 +4,26 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
-import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryModel
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_add_income_category.view.*
 import kotlinx.android.synthetic.main.activity_category_income_setting.*
 
 class CategoryIncomeSettingActivity : AppCompatActivity() {
 
     companion object {
+        private var categories = ArrayList<CategoryIncomeModel>()
         private val auth = FirebaseAuth.getInstance()
         private val dbCategoryRef = FirebaseDatabase.getInstance().getReference("categories/income")
     }
@@ -68,13 +72,13 @@ class CategoryIncomeSettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> onBackPressed()
-            R.id.action_bar_add_category -> showAddExpenseCategoryDialog()
+            R.id.action_bar_add_category -> showAddIncomeCategoryDialog()
 
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showAddExpenseCategoryDialog() {
+    private fun showAddIncomeCategoryDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
         val categoryInflater = layoutInflater
         val view = categoryInflater.inflate(R.layout.activity_add_income_category, null)
@@ -113,7 +117,7 @@ class CategoryIncomeSettingActivity : AppCompatActivity() {
                     Log.d("hunter_thirdNumber", thirdNumber.toString())
 
                     val categoryId = dbCategoryRef?.push()?.key
-                    val category = CategoryModel(categoryId, firstNumber.toInt(), secondNumber,
+                    val category = CategoryIncomeModel(categoryId, firstNumber.toInt(), secondNumber,
                         thirdNumber, categoryNumber, categoryName)
                     dbCategoryRef?.child(categoryId)?.setValue(category)
                     Toast.makeText(this, getString(R.string.category_added), Toast.LENGTH_SHORT).show()
@@ -127,6 +131,23 @@ class CategoryIncomeSettingActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d("taggg", "In the onStart() event")
+
+        dbCategoryRef?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                categories.clear()
+
+                dataSnapshot!!.children
+                    .map { it.getValue(CategoryIncomeModel::class.java) }
+                    .forEach { categories.add(it) }
+                val categoryAdapter = CategoryIncomeListAdapter(this@CategoryIncomeSettingActivity, categories)
+                category_income_list_setting_recycler_view?.adapter = categoryAdapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+        })
+        category_income_list_setting_recycler_view?.layoutManager = LinearLayoutManager(this)
     }
 
     override fun onRestart() {
