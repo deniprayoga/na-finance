@@ -30,6 +30,7 @@ class CategoryIncomeSettingActivity : AppCompatActivity() {
 
         initLayout()
         initAuth()
+        Log.d("taggg", "In the onCreate() event")
     }
 
     private fun initAuth() {
@@ -121,5 +122,35 @@ class CategoryIncomeSettingActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("taggg", "In the onStart() event")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("taggg", "In the onRestart() event")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("taggg", "In the onResume() event")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("taggg", "In the onPause() event")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("taggg", "In the onStop() event")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("taggg", "In the onDestroy() event")
     }
 }
