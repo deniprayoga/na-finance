@@ -79,6 +79,10 @@
             android:name=".expense.category.CategoryExpenseDetailActivity"
             android:label="@string/category_detail"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/category_detail"
+            android:name=".income.category.CategoryIncomeDetailActivity"/>
     </application>
 
 </manifest>
