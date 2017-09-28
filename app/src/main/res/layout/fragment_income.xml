@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_income_layout"
     tools:context="com.example.denip.nasyiatulaisyiyahfinance.main.MainActivity">
 
     <android.support.constraint.ConstraintLayout
