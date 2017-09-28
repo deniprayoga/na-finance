@@ -7,7 +7,8 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/colorCenterGradientBackgroundIncome">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,8 +29,9 @@
 
         <TextView
             android:id="@+id/income_list_row_view_note"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="12"
@@ -42,6 +44,7 @@
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/income_list_row_view_amount"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -57,28 +60,32 @@
 
         <TextView
             android:id="@+id/income_list_row_view_category"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:ems="15"
             android:text="@string/category_title"
             android:textColor="@color/bpblack"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/income_list_row_view_note" />
 
         <TextView
             android:id="@+id/income_list_row_view_added_by"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:ems="12"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:text="@string/income_added"
             android:textAlignment="textEnd"
             android:textSize="12sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/income_list_row_view_date"
             app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
