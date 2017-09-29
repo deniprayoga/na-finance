@@ -76,6 +76,8 @@
     <string name="prompt_amount_empty">Jumlah tidak boleh kosong</string>
     <string name="prompt_note_empty">Catatan tidak boleh kosong</string>
     <string name="prompt_category_empty">Kategori tidak boleh kosong</string>
+    <string name="prompt_profile_name_empty">Nama tidak boleh kosong</string>
+    <string name="prompt_profile_phone_number_empty">Nomor telepon tidak boleh kosong</string>
     <string name="add_category">Tambah Kategori</string>
     <string name="category_name">Nama Kategori</string>
     <string name="add">Tambahkan</string>
@@ -109,6 +111,7 @@
     <string name="category_added">Kategori berhasil ditambahkan</string>
     <string name="category_deleted">Kategori berhasil dihapus</string>
     <string name="category_updated">Kategori berhasil diperbarui</string>
+    <string name="profile_updated">Profil berhasil diperbarui</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
