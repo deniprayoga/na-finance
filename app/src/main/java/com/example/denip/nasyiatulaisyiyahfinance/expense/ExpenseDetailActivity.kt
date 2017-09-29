@@ -17,7 +17,10 @@ import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -269,27 +272,39 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> onBackPressed()
-            R.id.action_bar_save -> {
-                val addedByTreasure = auth.currentUser?.email
-                val amount = expense_detail_amount_field.text.toString()
-                val category = expense_detail_categories_field.text
-                val dateUpdated = calendar_result_text_expense_detail.text.toString()
-                val expenseId = expense_detail_id_text_view.text.toString()
-                val note = expense_detail_note_field.text.toString()
+        val dbRef = FirebaseDatabase.getInstance().getReference("users")
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError?) {
 
-                if (!amount.isEmpty() && !note.isEmpty()) {
-                    updateExpense(addedByTreasure, amount.toInt(), category.toString(),
-                        dateUpdated, expenseId, note)
-                } else {
-                    if (amount.isEmpty()) expense_detail_amount_field.error =
-                        getString(R.string.prompt_amount_empty)
-                    if (note.isEmpty()) expense_detail_note_field.error =
-                        getString(R.string.prompt_note_empty)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")?.value.toString()
+
+                when (item?.itemId) {
+                    android.R.id.home -> onBackPressed()
+                    R.id.action_bar_save -> {
+                        val amount = expense_detail_amount_field.text.toString()
+                        val category = expense_detail_categories_field.text
+                        val dateUpdated = calendar_result_text_expense_detail.text.toString()
+                        val expenseId = expense_detail_id_text_view.text.toString()
+                        val note = expense_detail_note_field.text.toString()
+
+                        if (!amount.isEmpty() && !note.isEmpty()) {
+                            updateExpense(fullName, amount.toInt(), category.toString(),
+                                dateUpdated, expenseId, note)
+                        } else {
+                            if (amount.isEmpty()) expense_detail_amount_field.error =
+                                getString(R.string.prompt_amount_empty)
+                            if (note.isEmpty()) expense_detail_note_field.error =
+                                getString(R.string.prompt_note_empty)
+                        }
+                    }
                 }
             }
-        }
+        })
+
+
         return true
     }
 
