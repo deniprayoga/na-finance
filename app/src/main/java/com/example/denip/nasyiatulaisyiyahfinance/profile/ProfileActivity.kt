@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -24,6 +25,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.layout_position_list.view.*
 import java.util.ArrayList
 
 class ProfileActivity : AppCompatActivity(), View.OnClickListener {
@@ -47,6 +49,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         initToolbar()
         profile_photo.setOnClickListener(this)
         location_profile_field.setOnClickListener(this)
+        user_position_profile_field.setOnClickListener(this)
     }
 
     private fun initToolbar() {
@@ -59,6 +62,28 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.profile_photo -> pickImage()
             R.id.location_profile_field -> showLocationDialog()
+            R.id.user_position_profile_field -> {
+
+                val dialogBuilder = AlertDialog.Builder(this)
+                val positionInflater = layoutInflater
+                val view = positionInflater.inflate(R.layout.layout_position_list, null)
+                dialogBuilder
+                    .setView(view)
+                    .setTitle(getString(R.string.user_position))
+                val dialog = dialogBuilder.create()
+                dialog.show()
+
+                val positions = arrayOf("Bendahara Umum", "Bendahara I", "Bendahara II",
+                    "Bendahara III")
+                val positionAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                    positions)
+                view?.list_view_position?.adapter = positionAdapter
+                view?.list_view_position?.setOnItemClickListener { parent, view_, position, id ->
+                    val itemValue = view.list_view_position?.getItemAtPosition(position)
+                    user_position_profile_field?.setText(itemValue.toString())
+                    dialog.dismiss()
+                }
+            }
         }
     }
 
@@ -141,10 +166,12 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                         val location = location_profile_field?.text.toString()
                         val userId = auth.currentUser?.uid
                         val userEmail = auth.currentUser?.email
+                        val position = user_position_profile_field?.text.toString()
                         fullName = profile_name_field?.text.toString()
                         phoneNumber = phone_number_profile_field?.text.toString()
 
-                        val profileData = UserModel(userId, fullName, phoneNumber, location, userEmail, null)
+                        val profileData = UserModel(userId, fullName, phoneNumber, location,
+                            userEmail, null, position)
                         updateProfile(profileData)
                     }
                 }
@@ -173,11 +200,17 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")?.value.toString()
                 val location = dataSnapshot?.child(auth.currentUser?.uid)?.child("location")?.value.toString()
                 val phoneNumber = dataSnapshot?.child(auth.currentUser?.uid)?.child("phoneNumber")?.value.toString()
+                val email = dataSnapshot?.child(auth.currentUser?.uid)?.child("email")?.value.toString()
+                val position = dataSnapshot?.child(auth.currentUser?.uid)?.child("position")?.value.toString()
                 profile_name_field.setText(fullName)
                 phone_number_profile_field.setText(phoneNumber)
                 location_profile_field.setText(location)
+                email_profile_field.setText(email)
+                user_position_profile_field.setText(position)
             }
         })
+
+
     }
 
     override fun onRestart() {
