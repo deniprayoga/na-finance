@@ -78,7 +78,6 @@
     <string name="prompt_category_empty">Category cannot be empty</string>
     <string name="prompt_profile_name_empty">Name cannot be empty</string>
     <string name="prompt_profile_phone_number_empty">Phone number cannot be empty</string>
-
     <string name="add_category">Add Category</string>
     <string name="category_name">Category Name</string>
     <string name="add">Add</string>
@@ -129,6 +128,8 @@
     <string name="category_deleted">Category successfully deleted</string>
     <string name="category_updated">Category successfully updated</string>
     <string name="profile_updated">Profile successfully updated</string>
+    <string name="password_updated">Password successfully updated</string>
+    <string name="password_failed_update">Failed to update password</string>
     <string name="location">Location</string>
     <string-array name="locations">
         <item>Jakarta</item>

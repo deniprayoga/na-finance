@@ -112,6 +112,9 @@
     <string name="category_deleted">Kategori berhasil dihapus</string>
     <string name="category_updated">Kategori berhasil diperbarui</string>
     <string name="profile_updated">Profil berhasil diperbarui</string>
+    <string name="password_updated">Kata sandi berhasil diperbarui</string>
+    <string name="password_failed_update">Gagal memperbarui kata sandi</string>
+    <string name="location">Lokasi</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
