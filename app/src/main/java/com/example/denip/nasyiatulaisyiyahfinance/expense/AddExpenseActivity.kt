@@ -20,7 +20,10 @@ import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -108,11 +111,28 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val category = expense_categories_field?.text.toString()
 
         if (!amount.isEmpty()) {
-            val id: String? = dbAddExpenseRef?.push()?.key
-            val expense = ExpenseModel(auth.currentUser?.email, amount.toInt(), category, dateCreated, id,
-                note, notePhotoUri)
-            dbAddExpenseRef?.child(id)?.setValue(expense)
-            Log.d("value", expense.toString())
+            val dbRef = FirebaseDatabase.getInstance().getReference("users")
+            dbRef.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
+                        ?.value.toString()
+                    val id: String? = dbAddExpenseRef?.push()?.key
+                    val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated, id,
+                        note, notePhotoUri)
+                    dbAddExpenseRef?.child(id)?.setValue(expense)
+                    Log.d("hunter_note", expense.note)
+                    Log.d("hunter_notePhotoUri", expense.notePhotoUri)
+                    Log.d("hunter_addedByTreasure", expense.addedByTreasure)
+                    Log.d("hunter_category", expense.category)
+                    Log.d("hunter_dateCreated", expense.dateCreated)
+                    Log.d("hunter_expenseId", expense.expenseId)
+                }
+            })
+
             Toast.makeText(this, getString(R.string.expense_added), Toast.LENGTH_SHORT).show()
             finish()
         } else {
