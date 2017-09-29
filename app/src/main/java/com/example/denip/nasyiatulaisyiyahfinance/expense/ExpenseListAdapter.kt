@@ -11,7 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 /**
@@ -57,19 +60,29 @@ class ExpenseListAdapter(context: Context, expenses: ArrayList<ExpenseModel>) :
 
         init {
             view.setOnClickListener { v ->
+                val dbRef = FirebaseDatabase.getInstance().getReference("users")
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
 
-                val expense = expenses[adapterPosition]
-                notifyDataSetChanged()
-                val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
-                intent.putExtra(context.getString(R.string.EXPENSE_ID), expense.expenseId)
-                intent.putExtra(context.getString(R.string.EXPENSE_NOTE), expense.note)
-                intent.putExtra(context.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
-                intent.putExtra(context.getString(R.string.EXPENSE_CATEGORY), expense.category)
-                intent.putExtra(context.getString(R.string.EXPENSE_DATE), expense.dateCreated)
-                intent.putExtra(context.getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
-                intent.putExtra(context.getString(R.string.EXPENSE_ADDED_BY_TREASURE), auth.currentUser?.email)
+                    }
 
-                v?.context?.startActivity(intent)
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")?.value.toString()
+
+                        val expense = expenses[adapterPosition]
+                        notifyDataSetChanged()
+                        val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
+                        intent.putExtra(context.getString(R.string.EXPENSE_ID), expense.expenseId)
+                        intent.putExtra(context.getString(R.string.EXPENSE_NOTE), expense.note)
+                        intent.putExtra(context.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
+                        intent.putExtra(context.getString(R.string.EXPENSE_CATEGORY), expense.category)
+                        intent.putExtra(context.getString(R.string.EXPENSE_DATE), expense.dateCreated)
+                        intent.putExtra(context.getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
+                        intent.putExtra(context.getString(R.string.EXPENSE_ADDED_BY_TREASURE), fullName)
+
+                        v?.context?.startActivity(intent)
+                    }
+                })
             }
 
             view.setOnLongClickListener { v ->
