@@ -63,15 +63,10 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
-                //finish()
-                launchLoginActivity()
+                auth.signOut()
             }
         }
         auth.addAuthStateListener(authListener)
-    }
-
-    private fun launchLoginActivity() {
-        startActivity(Intent(context, LoginActivity::class.java))
     }
 
     override fun onStart() {
