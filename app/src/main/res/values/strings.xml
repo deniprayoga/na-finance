@@ -131,8 +131,5 @@
     <string name="password_updated">Password successfully updated</string>
     <string name="password_failed_update">Failed to update password</string>
     <string name="location">Location</string>
-    <string-array name="locations">
-        <item>Jakarta</item>
-        <item>Yogyakarta</item>
-    </string-array>
+    <string name="user_position">Position</string>
 </resources>

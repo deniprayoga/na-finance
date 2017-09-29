@@ -115,6 +115,7 @@
     <string name="password_updated">Kata sandi berhasil diperbarui</string>
     <string name="password_failed_update">Gagal memperbarui kata sandi</string>
     <string name="location">Lokasi</string>
+    <string name="user_position">Posisi</string>
     <string-array name="locations">
         <item>Jakarta</item>
         <item>Yogyakarta</item>
