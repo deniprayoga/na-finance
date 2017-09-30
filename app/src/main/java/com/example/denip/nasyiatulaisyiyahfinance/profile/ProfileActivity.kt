@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -190,6 +191,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         Log.d("taggg", "In the onStart() event")
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         dbProfile.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
