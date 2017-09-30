@@ -141,11 +141,17 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
             .setMessage(R.string.confirmation_sign_out)
             .setPositiveButton(R.string.yes, { dialog, which ->
                 auth.signOut()
+                showLogoutProgress()
             })
             .setNegativeButton(R.string.no, { dialog, _ ->
                 dialog.cancel()
             })
             .show()
+    }
+
+    private fun showLogoutProgress() {
+        logout_progress_layout.visibility = View.VISIBLE
+        logout_progress.visibility = View.VISIBLE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
