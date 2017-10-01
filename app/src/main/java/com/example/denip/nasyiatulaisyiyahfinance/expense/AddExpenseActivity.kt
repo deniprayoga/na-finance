@@ -65,6 +65,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         calendar_button_expense.setOnClickListener(this)
         calendar_result_text_expense.setOnClickListener(this)
         pick_image_button_expense.setOnClickListener(this)
+        image_preview_expense.setOnClickListener(this)
+        layout_pick_image_expense.setOnClickListener(this)
         expense_amount_field.setOnClickListener(this)
         expense_categories_field.setOnClickListener(this)
         expense_note_field.setOnClickListener(this)
@@ -233,6 +235,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             R.id.calendar_result_text_expense -> showCalendar()
             R.id.expense_categories_field -> showCategoryDialog()
             R.id.expense_note_field -> showCursorOnNoteField()
+            R.id.image_preview_expense -> pickImage()
+            R.id.layout_pick_image_expense -> pickImage()
         }
     }
 
@@ -273,6 +277,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         }
 
                         image_preview_expense.layoutParams = LinearLayout.LayoutParams(800, 800)
+                        hint_pick_image?.visibility = View.GONE
                     }
 
                     .setSelectedUri(selectedUri)
