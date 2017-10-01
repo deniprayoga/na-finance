@@ -6,6 +6,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -18,6 +19,8 @@ import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseModel
+import com.example.denip.nasyiatulaisyiyahfinance.expense.category.PickCategoryExpenseAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -29,6 +32,7 @@ import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_add_expense.*
+import kotlinx.android.synthetic.main.pick_category_dialog.view.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import kotlin.collections.ArrayList
@@ -241,14 +245,39 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun showCategoryDialog() {
-        hideCursorOnNoteField()
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        val categoryInflater: LayoutInflater = layoutInflater
-        val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
-        dialogBuilder.setView(view)
-        dialogBuilder.setTitle(getString(R.string.select_category))
-        val dialog: AlertDialog = dialogBuilder.create()
-        dialog.show()
+        val dbCategoryRef = FirebaseDatabase.getInstance().getReference("categories/expense")
+        val categories = ArrayList<CategoryExpenseModel>()
+
+        dbCategoryRef?.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                hideCursorOnNoteField()
+                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this@AddExpenseActivity)
+                val categoryInflater: LayoutInflater = layoutInflater
+                val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
+
+                dialogBuilder.setView(view)
+                dialogBuilder.setTitle(getString(R.string.select_category))
+                val dialog: AlertDialog = dialogBuilder.create()
+                dialog.show()
+
+                categories.clear()
+
+                dataSnapshot!!.children
+                    .map { it.getValue(CategoryExpenseModel::class.java) }
+                    .forEach { categories.add(it) }
+
+                val categoryAdapter = PickCategoryExpenseAdapter(this@AddExpenseActivity, categories)
+                view.categoy_list_dialog_recycler_view?.adapter = categoryAdapter
+
+                view.categoy_list_dialog_recycler_view?.layoutManager = LinearLayoutManager(this@AddExpenseActivity)
+
+                Log.d("hunter_categories", "" + categories)
+            }
+        })
     }
 
     private fun showCursorOnNoteField() {
