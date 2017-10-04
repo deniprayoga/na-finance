@@ -87,7 +87,7 @@ class ExpenseListAdapter(context: Context, expenses: ArrayList<ExpenseModel>) :
 
             view.setOnLongClickListener { v ->
                 val expense = expenses[adapterPosition]
-                val dialogBuilder = AlertDialog.Builder(context)
+                val dialogBuilder = AlertDialog.Builder(view.context)
                 dialogBuilder
                     //.setTitle(getString(R.string.confirmation))
                     .setTitle(context.getString(R.string.confirmation))
