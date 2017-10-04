@@ -49,9 +49,9 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
                     .forEach { categories.add(it) }
 
                 val categoryAdapter = PickCategoryExpenseAdapter(this@PickCategoryExpenseActivity, categories)
-                pick_category_recycler_view?.adapter = categoryAdapter
+                pick_category_expense_recycler_view?.adapter = categoryAdapter
 
-                pick_category_recycler_view?.layoutManager = LinearLayoutManager(this@PickCategoryExpenseActivity)
+                pick_category_expense_recycler_view?.layoutManager = LinearLayoutManager(this@PickCategoryExpenseActivity)
 
             }
         })
