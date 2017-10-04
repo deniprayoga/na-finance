@@ -80,9 +80,13 @@
             android:label="@string/category_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".income.category.CategoryIncomeDetailActivity"
             android:label="@string/category_detail"
-            android:name=".income.category.CategoryIncomeDetailActivity"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".expense.category.PickCategoryExpenseActivity"
+            android:label="@string/pick_expense_category"
+            android:theme="@style/AppTheme.NoActionBar.Expense" />
     </application>
 
 </manifest>
