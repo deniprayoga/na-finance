@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.income.category.PickCategoryIncomeActivity
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -78,6 +80,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         income_amount_field.setOnClickListener(this)
         pick_image_button_income.setOnClickListener(this)
         income_note_field.setOnClickListener(this)
+        income_categories_field.setOnClickListener(this)
     }
 
     private fun showCurrentDate() {
@@ -99,7 +102,12 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             R.id.income_amount_field -> showAddAmountDialog()
             R.id.pick_image_button_income -> pickImage()
             R.id.income_note_field -> showCursorOnNoteField()
+            R.id.income_categories_field -> pickCategory()
         }
+    }
+
+    private fun pickCategory() {
+        startActivity(Intent(this@AddIncomeActivity, PickCategoryIncomeActivity::class.java))
     }
 
     private fun showAddAmountDialog() {
@@ -272,5 +280,15 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         } else {
             income_amount_field.error = getString(R.string.prompt_amount_empty)
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddIncomeActivity)
+        val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_INCOME), "")
+        val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_INCOME), "")
+
+        income_categories_field?.setText("$categoryNumber $categoryName")
     }
 }
