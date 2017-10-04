@@ -1,16 +1,13 @@
 package com.example.denip.nasyiatulaisyiyahfinance.expense.category
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.support.v4.content.ContextCompat.startActivity
+import android.preference.PreferenceManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 
 /**
@@ -56,15 +53,21 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
         val categoryThirdNumber = view.findViewById(R.id.pick_category_third_number) as TextView
 
         init {
-            Log.d(HUNTR, "In onCustomViewHolder()")
             view.setOnClickListener { v ->
                 val selectedCategory = categories[adapterPosition]
                 notifyDataSetChanged()
-                Log.d(HUNTR, selectedCategory.categoryName.toString())
 
-                Toast.makeText(context, "Category selected : ${selectedCategory.categoryNumber}" +
-                    " ${selectedCategory.categoryName}",
-                    Toast.LENGTH_SHORT).show()
+                val categoryName = selectedCategory.categoryName.toString()
+                val categoryNumber = selectedCategory.categoryNumber.toString()
+
+                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+                val editor = prefs.edit().apply {
+                    putString(context.getString(R.string.CATEGORY_NUMBER_EXPENSE), categoryNumber)
+                    putString(context.getString(R.string.CATEGORY_NAME_EXPENSE), categoryName)
+                    commit()
+                }
+
+                (context as PickCategoryExpenseActivity).finish()
 
                 Log.d(HUNTR, "" + selectedCategory.categoryNumber)
                 Log.d(HUNTR, "" + selectedCategory.categoryName)
