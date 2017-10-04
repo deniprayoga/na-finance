@@ -1,12 +1,13 @@
 package com.example.denip.nasyiatulaisyiyahfinance.expense
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -19,8 +20,7 @@ import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
-import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseModel
-import com.example.denip.nasyiatulaisyiyahfinance.expense.category.PickCategoryExpenseAdapter
+import com.example.denip.nasyiatulaisyiyahfinance.expense.category.PickCategoryExpenseActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -32,7 +32,6 @@ import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_add_expense.*
-import kotlinx.android.synthetic.main.pick_category_dialog.view.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import kotlin.collections.ArrayList
@@ -41,12 +40,13 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
 
     companion object {
-        private val TAGGG = "huisjkf_AddExpense"
+        private val HUNTR = "huntr_addxpns"
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
         private val dbAddExpenseRef = FirebaseDatabase.getInstance()?.getReference("expenses")
+        private val context: Context? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
         initLayout()
         initAuth()
-        Log.d(TAGGG, "In the onCreate() event")
+        Log.d(HUNTR, "In the onCreate() event")
     }
 
     private fun initLayout() {
@@ -74,6 +74,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         expense_amount_field.setOnClickListener(this)
         expense_categories_field.setOnClickListener(this)
         expense_note_field.setOnClickListener(this)
+        Log.d(HUNTR, "In initLayout()")
     }
 
     private fun initAuth() {
@@ -86,6 +87,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             }
         }
         auth.addAuthStateListener(authListener)
+        Log.d(HUNTR, "In initAuth()")
     }
 
     private fun initToolbar() {
@@ -93,13 +95,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        Log.d(HUNTR, "In initToolbar()")
     }
 
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        Log.d(HUNTR, "In onDateSet()")
         calendar_result_text_expense.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Log.d(HUNTR, "In onOptionItemSelected")
         when (item?.itemId) {
             R.id.action_bar_done -> {
                 saveExpense()
@@ -110,6 +115,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun saveExpense() {
+        Log.d(HUNTR, "In saveExpense()")
         val dateCreated = calendar_result_text_expense?.text.toString()
         val amount = expense_amount_field?.text.toString()
         val note = expense_note_field?.text.toString()
@@ -120,22 +126,23 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             val dbRef = FirebaseDatabase.getInstance().getReference("users")
             dbRef.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(databaseError: DatabaseError?) {
-
+                    Log.d(HUNTR, "In onCancelled()")
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    Log.d(HUNTR, "In the onDataChange()")
                     val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
                         ?.value.toString()
                     val id: String? = dbAddExpenseRef?.push()?.key
                     val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated, id,
                         note, notePhotoUri)
                     dbAddExpenseRef?.child(id)?.setValue(expense)
-                    Log.d("hunter_note", expense.note)
-                    Log.d("hunter_notePhotoUri", expense.notePhotoUri)
-                    Log.d("hunter_addedByTreasure", expense.addedByTreasure)
-                    Log.d("hunter_category", expense.category)
-                    Log.d("hunter_dateCreated", expense.dateCreated)
-                    Log.d("hunter_expenseId", expense.expenseId)
+                    Log.d(HUNTR, expense.note)
+                    Log.d(HUNTR, expense.notePhotoUri)
+                    Log.d(HUNTR, expense.addedByTreasure)
+                    Log.d(HUNTR, expense.category)
+                    Log.d(HUNTR, expense.dateCreated)
+                    Log.d(HUNTR, expense.expenseId)
                 }
             })
 
@@ -237,47 +244,17 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             R.id.pick_image_button_expense -> pickImage()
             R.id.expense_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_expense -> showCalendar()
-            R.id.expense_categories_field -> showCategoryDialog()
+            R.id.expense_categories_field -> pickCategory()
             R.id.expense_note_field -> showCursorOnNoteField()
             R.id.image_preview_expense -> pickImage()
             R.id.layout_pick_image_expense -> pickImage()
         }
     }
 
-    private fun showCategoryDialog() {
-        val dbCategoryRef = FirebaseDatabase.getInstance().getReference("categories/expense")
-        val categories = ArrayList<CategoryExpenseModel>()
-
-        dbCategoryRef?.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError?) {
-
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                hideCursorOnNoteField()
-                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this@AddExpenseActivity)
-                val categoryInflater: LayoutInflater = layoutInflater
-                val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
-
-                dialogBuilder.setView(view)
-                dialogBuilder.setTitle(getString(R.string.select_category))
-                val dialog: AlertDialog = dialogBuilder.create()
-                dialog.show()
-
-                categories.clear()
-
-                dataSnapshot!!.children
-                    .map { it.getValue(CategoryExpenseModel::class.java) }
-                    .forEach { categories.add(it) }
-
-                val categoryAdapter = PickCategoryExpenseAdapter(this@AddExpenseActivity, categories)
-                view.categoy_list_dialog_recycler_view?.adapter = categoryAdapter
-
-                view.categoy_list_dialog_recycler_view?.layoutManager = LinearLayoutManager(this@AddExpenseActivity)
-
-                Log.d("hunter_categories", "" + categories)
-            }
-        })
+    private fun pickCategory() {
+        val intent = Intent(this@AddExpenseActivity, PickCategoryExpenseActivity::class.java)
+        //intent.putExtra(getString(R.string.CATEGORY_NAME_EXPENSE), "selected_category")
+        startActivityForResult(intent, 1)
     }
 
     private fun showCursorOnNoteField() {
@@ -350,31 +327,37 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAGGG, "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddExpenseActivity)
+        val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_EXPENSE), "")
+        val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_EXPENSE), "")
+        Log.d(HUNTR + "data", "" + categoryName)
+        expense_categories_field?.setText("$categoryNumber $categoryName")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAGGG, "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAGGG, "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAGGG, "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAGGG, "In the onStart() event")
+        Log.d(HUNTR, "In the onStart() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAGGG, "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 }
