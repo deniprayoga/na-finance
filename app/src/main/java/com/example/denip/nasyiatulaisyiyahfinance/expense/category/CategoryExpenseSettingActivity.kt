@@ -80,7 +80,7 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
             }
         })
 
-        category_expense_list_setting_recycler_view?.layoutManager = LinearLayoutManager(this)
+        category_expense_list_setting_recycler_view?.layoutManager = LinearLayoutManager(this@CategoryExpenseSettingActivity)
     }
 
     private fun initToolbar() {
