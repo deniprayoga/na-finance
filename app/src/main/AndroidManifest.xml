@@ -87,6 +87,10 @@
             android:name=".expense.category.PickCategoryExpenseActivity"
             android:label="@string/pick_expense_category"
             android:theme="@style/AppTheme.NoActionBar.Expense" />
+        <activity
+            android:name=".income.category.PickCategoryIncomeActivity"
+            android:label="@string/pick_income_category"
+            android:theme="@style/AppTheme.NoActionBar.Income" />
     </application>
 
 </manifest>
