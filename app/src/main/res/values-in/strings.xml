@@ -8,6 +8,7 @@
     <string name="action_sign_in">Masuk atau Daftar</string>
     <string name="action_sign_in_short">Masuk</string>
     <string name="action_sign_out">Keluar</string>
+    <string name="action_signing_out">Keluar…</string>
     <string name="error_invalid_email">Alamat email tidak valid</string>
     <string name="error_invalid_password">Kata sandi terlalu pendek</string>
     <string name="error_incorrect_password">Kata sandi salah</string>
@@ -116,8 +117,6 @@
     <string name="password_failed_update">Gagal memperbarui kata sandi</string>
     <string name="location">Lokasi</string>
     <string name="user_position">Posisi</string>
-    <string-array name="locations">
-        <item>Jakarta</item>
-        <item>Yogyakarta</item>
-    </string-array>
+    <string name="image_optional">Gambar (opsional)</string>
+    <string name="pick_expense_category">Pilih kategori pengeluaran</string>
 </resources>

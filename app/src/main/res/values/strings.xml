@@ -8,6 +8,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_out">Sign out</string>
+    <string name="action_signing_out">Signing out…</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -132,4 +133,6 @@
     <string name="password_failed_update">Failed to update password</string>
     <string name="location">Location</string>
     <string name="user_position">Position</string>
+    <string name="image_optional">Image (optional)</string>
+    <string name="pick_expense_category">Pick expense category</string>
 </resources>
