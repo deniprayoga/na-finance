@@ -99,15 +99,18 @@
     <string name="INCOME_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.incomenotephotouri</string>
     <string name="INCOME_DATE">com.example.denip.nasyiatulaisyiyahfinance.incomedate</string>
     <string name="INCOME_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
-    <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categoryid</string>
-    <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categorynumber</string>
-    <string name="CATEGORY_NAME_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.categoryname</string>
-    <string name="CATEGORY_FIRST_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.firstnumber</string>
-    <string name="CATEGORY_SECOND_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.secondnumber</string>
-    <string name="CATEGORY_THIRD_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.thirdnumber</string>
-    <string name="CATEGORY_ID_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categoryid</string>
-    <string name="CATEGORY_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categorynumber</string>
-    <string name="CATEGORY_NAME_INCOME">com.example.denip.nasyiatulaisyiyahfinance.categoryname</string>
+    <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryid</string>
+    <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorynumber</string>
+    <string name="CATEGORY_NAME_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryname</string>
+    <string name="CATEGORY_FIRST_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensefirstnumber</string>
+    <string name="CATEGORY_SECOND_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensesecondnumber</string>
+    <string name="CATEGORY_THIRD_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensethirdnumber</string>
+    <string name="CATEGORY_ID_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategoryid</string>
+    <string name="CATEGORY_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategorynumber</string>
+    <string name="CATEGORY_NAME_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategoryname</string>
+    <string name="CATEGORY_FIRST_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomefirstnumber</string>
+    <string name="CATEGORY_SECOND_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomesecondnumber</string>
+    <string name="CATEGORY_THIRD_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomethirdnumber</string>
     <string name="expense_detail_title">Expense Detail</string>
     <string name="income_detail_title">Income Detail</string>
     <string name="category_detail">Category Detail</string>
@@ -135,4 +138,5 @@
     <string name="user_position">Position</string>
     <string name="image_optional">Image (optional)</string>
     <string name="pick_expense_category">Pick expense category</string>
+    <string name="pick_income_category">Pick income category</string>
 </resources>
