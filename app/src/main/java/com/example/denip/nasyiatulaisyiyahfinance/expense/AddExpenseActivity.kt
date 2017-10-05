@@ -122,34 +122,37 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val notePhotoUri = selectedUri.toString()
         val category = expense_categories_field?.text.toString()
 
-        if (!amount.isEmpty()) {
-            val dbRef = FirebaseDatabase.getInstance().getReference("users")
-            dbRef.addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(databaseError: DatabaseError?) {
-                    Log.d(HUNTR, "In onCancelled()")
-                }
+        when {
+            amount.isEmpty() -> expense_amount_field.error = getString(R.string.prompt_amount_empty)
+            note.isEmpty() -> expense_note_field.error = getString(R.string.prompt_note_empty)
+            category.isEmpty() -> expense_categories_field.error = getString(R.string.prompt_category_empty)
+            else -> {
+                val dbRef = FirebaseDatabase.getInstance().getReference("users")
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
+                        Log.d(HUNTR, "In onCancelled()")
+                    }
 
-                override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                    Log.d(HUNTR, "In the onDataChange()")
-                    val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
-                        ?.value.toString()
-                    val id: String? = dbAddExpenseRef?.push()?.key
-                    val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated, id,
-                        note, notePhotoUri)
-                    dbAddExpenseRef?.child(id)?.setValue(expense)
-                    Log.d(HUNTR, expense.note)
-                    Log.d(HUNTR, expense.notePhotoUri)
-                    Log.d(HUNTR, expense.addedByTreasure)
-                    Log.d(HUNTR, expense.category)
-                    Log.d(HUNTR, expense.dateCreated)
-                    Log.d(HUNTR, expense.expenseId)
-                }
-            })
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        Log.d(HUNTR, "In the onDataChange()")
+                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
+                            ?.value.toString()
+                        val id: String? = dbAddExpenseRef?.push()?.key
+                        val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated, id,
+                            note, notePhotoUri)
+                        dbAddExpenseRef?.child(id)?.setValue(expense)
+                        Log.d(HUNTR, expense.note)
+                        Log.d(HUNTR, expense.notePhotoUri)
+                        Log.d(HUNTR, expense.addedByTreasure)
+                        Log.d(HUNTR, expense.category)
+                        Log.d(HUNTR, expense.dateCreated)
+                        Log.d(HUNTR, expense.expenseId)
+                    }
+                })
 
-            Toast.makeText(this, getString(R.string.expense_added), Toast.LENGTH_SHORT).show()
-            finish()
-        } else {
-            expense_amount_field.error = getString(R.string.prompt_amount_empty)
+                Toast.makeText(this, getString(R.string.expense_added), Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 
@@ -333,6 +336,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_EXPENSE), "")
         val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_EXPENSE), "")
         Log.d(HUNTR + "data", "" + categoryName)
+        expense_categories_field?.error = null
         expense_categories_field?.setText("$categoryNumber $categoryName")
     }
 
