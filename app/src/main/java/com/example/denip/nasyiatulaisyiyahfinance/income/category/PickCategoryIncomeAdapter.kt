@@ -3,6 +3,7 @@ package com.example.denip.nasyiatulaisyiyahfinance.income.category
 import android.content.Context
 import android.preference.PreferenceManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class PickCategoryIncomeAdapter(private var context: Context, categories: ArrayL
     RecyclerView.Adapter<PickCategoryIncomeAdapter.CustomViewHolder>() {
 
     private var categories: ArrayList<CategoryIncomeModel> = arrayListOf()
+    private val HUNTR = "huntr_pckctgrincmadptr"
 
     init {
         this.categories = categories
@@ -25,6 +27,7 @@ class PickCategoryIncomeAdapter(private var context: Context, categories: ArrayL
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.pick_category_list_row_view,
             parent, false)
+        Log.d(HUNTR, "In onCreateViewHolder()")
         return CustomViewHolder(view)
     }
 
@@ -37,6 +40,7 @@ class PickCategoryIncomeAdapter(private var context: Context, categories: ArrayL
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()
         holder.categoryThirdNumber.text = category.thirdNumber.toString()
+        Log.d(HUNTR, "In onBindViewHolder()")
     }
 
     inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -55,13 +59,19 @@ class PickCategoryIncomeAdapter(private var context: Context, categories: ArrayL
                 val categoryNumber = selectedCategory.categoryNumber.toString()
 
                 val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                val editor = prefs.edit().apply {
+                prefs.edit().apply {
                     putString(context.getString(R.string.CATEGORY_NUMBER_INCOME), categoryNumber)
                     putString(context.getString(R.string.CATEGORY_NAME_INCOME), categoryName)
                     commit()
                 }
 
                 (context as PickCategoryIncomeActivity).finish()
+
+                Log.d(HUNTR, "" + selectedCategory.categoryNumber)
+                Log.d(HUNTR, "" + selectedCategory.categoryName)
+                Log.d(HUNTR, "" + selectedCategory.firstNumber)
+                Log.d(HUNTR, "" + selectedCategory.secondNumber)
+                Log.d(HUNTR, "" + selectedCategory.thirdNumber)
             }
         }
     }
