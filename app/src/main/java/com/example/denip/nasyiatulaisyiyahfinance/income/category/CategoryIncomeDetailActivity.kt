@@ -20,12 +20,12 @@ class CategoryIncomeDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category_income_detail)
 
         val intent = intent
-        val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_EXPENSE))
-        val categoryNumber = intent.getStringExtra(getString(R.string.CATEGORY_NUMBER_EXPENSE))
-        val categoryName = intent.getStringExtra(getString(R.string.CATEGORY_NAME_EXPENSE))
-        val categoryFirstNumber = intent.getStringExtra(getString(R.string.CATEGORY_FIRST_NUMBER_EXPENSE))
-        val categorySecondNumber = intent.getStringExtra(getString(R.string.CATEGORY_SECOND_NUMBER_EXPENSE))
-        val categoryThirdNumber = intent.getStringExtra(getString(R.string.CATEGORY_THIRD_NUMBER_EXPENSE))
+        val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_INCOME))
+        val categoryNumber = intent.getStringExtra(getString(R.string.CATEGORY_NUMBER_INCOME))
+        val categoryName = intent.getStringExtra(getString(R.string.CATEGORY_NAME_INCOME))
+        val categoryFirstNumber = intent.getStringExtra(getString(R.string.CATEGORY_FIRST_NUMBER_INCOME))
+        val categorySecondNumber = intent.getStringExtra(getString(R.string.CATEGORY_SECOND_NUMBER_INCOME))
+        val categoryThirdNumber = intent.getStringExtra(getString(R.string.CATEGORY_THIRD_NUMBER_INCOME))
 
         category_detail_name_field?.setText(categoryName)
         category_detail_number_first?.setText(categoryFirstNumber).toString()
@@ -35,7 +35,7 @@ class CategoryIncomeDetailActivity : AppCompatActivity() {
         category_detail_id?.text = categoryId
 
         Log.d(HUNTER_TAG_LYFCYCL, "In the onCreate() event")
-        Log.d("hunter_categoryNum", categoryNumber)
+        Log.d("hunter_categoryNum", "" + categoryNumber)
         Log.d("hunter_catFirstNumRcv", "" + categoryFirstNumber)
         initToolbar()
     }
