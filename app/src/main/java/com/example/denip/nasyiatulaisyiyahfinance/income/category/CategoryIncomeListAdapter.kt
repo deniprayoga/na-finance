@@ -56,12 +56,12 @@ class CategoryIncomeListAdapter(context: Context, categories: ArrayList<Category
                 val category = categories[adapterPosition]
                 notifyDataSetChanged()
                 val intent = Intent(v?.context, CategoryIncomeDetailActivity::class.java)
-                intent.putExtra(v?.context?.getString(R.string.CATEGORY_ID_EXPENSE), category.categoryId)
-                intent.putExtra(v?.context?.getString(R.string.CATEGORY_NUMBER_EXPENSE), category.categoryNumber)
-                intent.putExtra(v?.context?.getString(R.string.CATEGORY_NAME_EXPENSE), category.categoryName)
-                intent.putExtra(context?.getString(R.string.CATEGORY_FIRST_NUMBER_EXPENSE), category.firstNumber.toString())
-                intent.putExtra(v?.context?.getString(R.string.CATEGORY_SECOND_NUMBER_EXPENSE), category.secondNumber.toString())
-                intent.putExtra(v?.context?.getString(R.string.CATEGORY_THIRD_NUMBER_EXPENSE), category.thirdNumber.toString())
+                intent.putExtra(v?.context?.getString(R.string.CATEGORY_ID_INCOME), category.categoryId)
+                intent.putExtra(v?.context?.getString(R.string.CATEGORY_NUMBER_INCOME), category.categoryNumber)
+                intent.putExtra(v?.context?.getString(R.string.CATEGORY_NAME_INCOME), category.categoryName)
+                intent.putExtra(context?.getString(R.string.CATEGORY_FIRST_NUMBER_INCOME), category.firstNumber.toString())
+                intent.putExtra(v?.context?.getString(R.string.CATEGORY_SECOND_NUMBER_INCOME), category.secondNumber.toString())
+                intent.putExtra(v?.context?.getString(R.string.CATEGORY_THIRD_NUMBER_INCOME), category.thirdNumber.toString())
 
                 Log.d("hunter_categoryId", category.categoryId)
                 Log.d("hunter_categoryNumber", category.categoryNumber)
