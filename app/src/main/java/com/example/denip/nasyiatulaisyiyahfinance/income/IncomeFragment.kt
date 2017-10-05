@@ -71,7 +71,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
                     .map { it.getValue(IncomeModel::class.java) }
                     .forEach { incomes.add(it) }
 
-                val incomeAdapter = IncomeListAdapter(context, incomes)
+                val incomeAdapter = IncomeListAdapter(activity?.applicationContext, incomes)
                 recycler_view_income_list?.adapter = incomeAdapter
 
             }

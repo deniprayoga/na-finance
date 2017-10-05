@@ -81,7 +81,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
                     .map { it.getValue(ExpenseModel::class.java) }
                     .forEach { expenses.add(it) }
 
-                val expenseAdapter = ExpenseListAdapter(activity.applicationContext, expenses)
+                val expenseAdapter = ExpenseListAdapter(activity?.applicationContext, expenses)
                 recycler_view_expense_list?.adapter = expenseAdapter
             }
 

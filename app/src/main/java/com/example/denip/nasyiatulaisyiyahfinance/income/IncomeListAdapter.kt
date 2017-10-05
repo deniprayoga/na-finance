@@ -17,13 +17,13 @@ import com.google.firebase.database.FirebaseDatabase
  * Created by denip on 9/25/2017.
  */
 
-class IncomeListAdapter(context: Context, incomes: ArrayList<IncomeModel>) : RecyclerView.Adapter<IncomeListAdapter.CustomViewHolder>() {
+class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : RecyclerView.Adapter<IncomeListAdapter.CustomViewHolder>() {
 
     companion object {
         private val auth = FirebaseAuth.getInstance()
     }
 
-    private var context: Context = context
+    private var context: Context? = context
     private var incomes: ArrayList<IncomeModel> = arrayListOf()
 
     init {
@@ -58,25 +58,25 @@ class IncomeListAdapter(context: Context, incomes: ArrayList<IncomeModel>) : Rec
             view.setOnClickListener { v ->
                 val income = incomes[adapterPosition]
                 val intent = Intent(v?.context, IncomeDetailActivity::class.java)
-                intent.putExtra(context.getString(R.string.INCOME_ID), income.incomeId)
-                intent.putExtra(context.getString(R.string.INCOME_NOTE), income.note)
-                intent.putExtra(context.getString(R.string.INCOME_AMOUNT), income.amount.toString())
-                intent.putExtra(context.getString(R.string.INCOME_CATEGORY), income.category)
-                intent.putExtra(context.getString(R.string.INCOME_DATE), income.dateCreated)
-                intent.putExtra(context.getString(R.string.INCOME_NOTE_PHOTO_URI), income.notePhotoUri)
-                intent.putExtra(context.getString(R.string.INCOME_ADDED_BY_TREASURE), income.addedByTreasure)
+                intent.putExtra(context?.getString(R.string.INCOME_ID), income.incomeId)
+                intent.putExtra(context?.getString(R.string.INCOME_NOTE), income.note)
+                intent.putExtra(context?.getString(R.string.INCOME_AMOUNT), income.amount.toString())
+                intent.putExtra(context?.getString(R.string.INCOME_CATEGORY), income.category)
+                intent.putExtra(context?.getString(R.string.INCOME_DATE), income.dateCreated)
+                intent.putExtra(context?.getString(R.string.INCOME_NOTE_PHOTO_URI), income.notePhotoUri)
+                intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURE), income.addedByTreasure)
 
                 v?.context?.startActivity(intent)
             }
 
             view.setOnLongClickListener { v ->
                 val income = incomes[adapterPosition]
-                val dialogBuilder = AlertDialog.Builder(context)
+                val dialogBuilder = AlertDialog.Builder(context!!)
                 dialogBuilder
                     //.setTitle(getString(R.string.confirmation))
-                    .setTitle(context.getString(R.string.confirmation))
-                    .setMessage(context.getString(R.string.delete_income_message))
-                    .setPositiveButton(context.getString(R.string.yes), { dialog, which ->
+                    .setTitle(context?.getString(R.string.confirmation))
+                    .setMessage(context?.getString(R.string.delete_income_message))
+                    .setPositiveButton(context?.getString(R.string.yes), { dialog, which ->
                         val dbDeleteExpenseRef = FirebaseDatabase
                             .getInstance()
                             .getReference("incomes")
@@ -86,7 +86,7 @@ class IncomeListAdapter(context: Context, incomes: ArrayList<IncomeModel>) : Rec
                         dialog.dismiss()
                         notifyItemRemoved(adapterPosition)
                     })
-                    .setNegativeButton(context.getString(R.string.no), { dialog, which ->
+                    .setNegativeButton(context?.getString(R.string.no), { dialog, which ->
                         dialog.dismiss()
                     })
 
@@ -98,6 +98,6 @@ class IncomeListAdapter(context: Context, incomes: ArrayList<IncomeModel>) : Rec
     }
 
     private fun showDeletedSuccessfully() {
-        Toast.makeText(context, context.getString(R.string.expense_deleted), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context?.getString(R.string.expense_deleted), Toast.LENGTH_SHORT).show()
     }
 }
