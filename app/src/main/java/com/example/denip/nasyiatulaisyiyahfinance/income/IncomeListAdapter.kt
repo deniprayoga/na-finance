@@ -71,7 +71,7 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
 
             view.setOnLongClickListener { v ->
                 val income = incomes[adapterPosition]
-                val dialogBuilder = AlertDialog.Builder(context!!)
+                val dialogBuilder = AlertDialog.Builder(view.context)
                 dialogBuilder
                     //.setTitle(getString(R.string.confirmation))
                     .setTitle(context?.getString(R.string.confirmation))
