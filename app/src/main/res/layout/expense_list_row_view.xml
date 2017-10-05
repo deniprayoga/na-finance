@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:layout_marginEnd="8dp"
-    app:cardBackgroundColor="@color/colorCenterGradientBackgroundExpense"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/colorCenterGradientBackgroundExpense">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -53,9 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/calendar_date_picker_result_values"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expense_list_row_view_category" />
 
         <TextView
             android:id="@+id/expense_list_row_view_category"
@@ -78,13 +80,16 @@
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/expense_added"
             android:textAlignment="textEnd"
             android:textSize="12sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.888"
             app:layout_constraintLeft_toRightOf="@+id/expense_list_row_view_date"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expense_list_row_view_category" />
 
     </android.support.constraint.ConstraintLayout>
 
