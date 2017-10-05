@@ -17,8 +17,9 @@ import kotlinx.android.synthetic.main.activity_pick_category_income.*
 class PickCategoryIncomeActivity : AppCompatActivity() {
 
     companion object {
-        val dbCategoryRef = FirebaseDatabase.getInstance().getReference("categories/income")
+        val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/income")
         val categories = ArrayList<CategoryIncomeModel>()
+        private val HUNTR = "huntr_pckctgryincm"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +49,9 @@ class PickCategoryIncomeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("taggg", "In the onStart() event")
+        Log.d(HUNTR, "In the onStart() event")
 
-        dbCategoryRef.addValueEventListener(object : ValueEventListener {
+        dbCategoryRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 categories.clear()
 
@@ -71,26 +72,26 @@ class PickCategoryIncomeActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("taggg", "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("taggg", "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("taggg", "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("taggg", "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("taggg", "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 }
