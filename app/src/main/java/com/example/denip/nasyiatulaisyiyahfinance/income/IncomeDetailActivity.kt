@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
@@ -15,6 +16,7 @@ import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.income.category.PickCategoryIncomeActivity
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -30,7 +32,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     companion object {
         private val auth = FirebaseAuth.getInstance()
-        private val TAGGG = "huisjkf_IncomeDetail"
+        private val HUNTR = "huntr_IncomeDetail"
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
@@ -41,9 +43,23 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_income_detail)
         glideRequestManager = Glide.with(this)
 
+        val intent = intent
+        val incomeId = intent.getStringExtra(getString(R.string.INCOME_ID))
+        val note = intent.getStringExtra(getString(R.string.INCOME_NOTE))
+        val amount = intent?.getStringExtra(getString(R.string.INCOME_AMOUNT))
+        val category = intent.getStringExtra(getString(R.string.INCOME_CATEGORY))
+        val dateCreated = intent.getStringExtra(getString(R.string.INCOME_DATE))
+        //val addedByTreasure = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURE))
+
+        income_detail_id_text_view?.text = incomeId
+        income_detail_note_field?.setText(note)
+        income_detail_amount_field.setText(amount)
+        income_detail_categories_field?.setText(category)
+        calendar_result_text_income_detail?.text = dateCreated
+
         initLayout()
         initAuth()
-        Log.d(TAGGG, "In the onCreate() event")
+        Log.d(HUNTR, "In the onCreate() event")
     }
 
     private fun initAuth() {
@@ -134,20 +150,13 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
             R.id.pick_image_button_income_detail -> pickImage()
             R.id.income_detail_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_income_detail -> showCalendar()
-            R.id.income_detail_categories_field -> showCategoryDialog()
+            R.id.income_detail_categories_field -> pickCategory()
             R.id.income_detail_note_field -> showCursorOnNoteField()
         }
     }
 
-    private fun showCategoryDialog() {
-        hideCursorOnNoteField()
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        val categoryInflater: LayoutInflater = layoutInflater
-        val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
-        dialogBuilder.setView(view)
-        dialogBuilder.setTitle(getString(R.string.select_category))
-        val dialog: AlertDialog = dialogBuilder.create()
-        dialog.show()
+    private fun pickCategory() {
+        startActivity(Intent(this@IncomeDetailActivity, PickCategoryIncomeActivity::class.java))
     }
 
     private fun showAddAmountDialog() {
@@ -292,44 +301,37 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
     override fun onStart() {
         super.onStart()
 
-        val intent = intent
-        val incomeId = intent.getStringExtra(getString(R.string.INCOME_ID))
-        val note = intent.getStringExtra(getString(R.string.INCOME_NOTE))
-        val amount = intent?.getStringExtra(getString(R.string.INCOME_AMOUNT))
-        val category = intent.getStringExtra(getString(R.string.INCOME_CATEGORY))
-        val dateCreated = intent.getStringExtra(getString(R.string.INCOME_DATE))
-        val addedByTreasure = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURE))
-
-        income_detail_id_text_view?.text = incomeId
-        income_detail_note_field?.setText(note)
-        income_detail_amount_field.setText(amount)
-        income_detail_categories_field?.setText(category)
-        calendar_result_text_income_detail?.text = dateCreated
-        Log.d(TAGGG, "In the onStart() event")
+        Log.d(HUNTR, "In the onStart() event")
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAGGG, "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
+        val prefsIncome = PreferenceManager.getDefaultSharedPreferences(this@IncomeDetailActivity)
+        val categoryName = prefsIncome.getString(getString(R.string.CATEGORY_NAME_INCOME), "")
+        val categoryNumber = prefsIncome.getString(getString(R.string.CATEGORY_NUMBER_INCOME), "")
+        income_detail_categories_field?.setText("$categoryNumber $categoryName")
+        Log.d(HUNTR + "data", "" + categoryName)
+        Log.d(HUNTR + "text", "" + income_detail_categories_field?.text.toString())
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAGGG, "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAGGG, "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAGGG, "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAGGG, "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 }
