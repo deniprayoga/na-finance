@@ -61,7 +61,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
                 val categoryNumber = selectedCategory.categoryNumber.toString()
 
                 val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                val editor = prefs.edit().apply {
+                prefs.edit().apply {
                     putString(context.getString(R.string.CATEGORY_NUMBER_EXPENSE), categoryNumber)
                     putString(context.getString(R.string.CATEGORY_NAME_EXPENSE), categoryName)
                     commit()
