@@ -19,7 +19,10 @@ import com.example.denip.nasyiatulaisyiyahfinance.income.category.PickCategoryIn
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -274,13 +277,27 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             note.isEmpty() -> income_note_field.error = getString(R.string.prompt_note_empty)
             category.isEmpty() -> income_categories_field.error = getString(R.string.prompt_category_empty)
             else -> {
-                val id: String? = dbAddIncomeRef?.push()?.key
-                val income = IncomeModel(id, auth.currentUser?.email, amount.toInt(), category,
-                    dateCreated, note, notePhotoUri)
-                dbAddIncomeRef?.child(id)?.setValue(income)
-                Log.d("incomeeeeee", income.toString())
-                Toast.makeText(this, getString(R.string.income_added), Toast.LENGTH_SHORT).show()
-                finish()
+                val dbRef = FirebaseDatabase.getInstance().getReference("users")
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
+
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val id: String? = dbAddIncomeRef?.push()?.key
+                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
+                            ?.value.toString()
+                        val income = IncomeModel(id, fullName, amount.toInt(), category,
+                            dateCreated, note, notePhotoUri)
+                        dbAddIncomeRef?.child(id)?.setValue(income)
+                        Log.d("incomeeeeee", income.toString())
+                        Toast.makeText(this@AddIncomeActivity, getString(R.string.income_added),
+                            Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                })
+
+
             }
         }
     }
