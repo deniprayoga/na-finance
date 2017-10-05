@@ -269,16 +269,19 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val notePhotoUri = selectedUri.toString()
         val category = income_categories_field?.text.toString()
 
-        if (!amount.isEmpty()) {
-            val id: String? = dbAddIncomeRef?.push()?.key
-            val income = IncomeModel(id, auth.currentUser?.email, amount.toInt(), category,
-                dateCreated, note, notePhotoUri)
-            dbAddIncomeRef?.child(id)?.setValue(income)
-            Log.d("incomeeeeee", income.toString())
-            Toast.makeText(this, getString(R.string.income_added), Toast.LENGTH_SHORT).show()
-            finish()
-        } else {
-            income_amount_field.error = getString(R.string.prompt_amount_empty)
+        when {
+            amount.isEmpty() -> income_amount_field.error = getString(R.string.prompt_amount_empty)
+            note.isEmpty() -> income_note_field.error = getString(R.string.prompt_note_empty)
+            category.isEmpty() -> income_categories_field.error = getString(R.string.prompt_category_empty)
+            else -> {
+                val id: String? = dbAddIncomeRef?.push()?.key
+                val income = IncomeModel(id, auth.currentUser?.email, amount.toInt(), category,
+                    dateCreated, note, notePhotoUri)
+                dbAddIncomeRef?.child(id)?.setValue(income)
+                Log.d("incomeeeeee", income.toString())
+                Toast.makeText(this, getString(R.string.income_added), Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 
@@ -288,7 +291,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddIncomeActivity)
         val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_INCOME), "")
         val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_INCOME), "")
-
+        income_categories_field?.error = null
         income_categories_field?.setText("$categoryNumber $categoryName")
     }
 }
