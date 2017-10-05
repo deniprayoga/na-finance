@@ -20,7 +20,10 @@ import com.example.denip.nasyiatulaisyiyahfinance.income.category.PickCategoryIn
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -122,21 +125,31 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val incomeId = income_detail_id_text_view.text.toString()
         val note = income_detail_note_field.text.toString()
 
-        if (!amount.isEmpty() && !note.isEmpty()) {
-            val dbUpdateIncomeRef = FirebaseDatabase
-                .getInstance()
-                .getReference("incomes")
-                .child(incomeId)
-            val income = IncomeModel(incomeId, addedByTreasure, amount.toInt(),
-                category, dateUpdated, note, null)
-            dbUpdateIncomeRef.setValue(income)
-            Toast.makeText(applicationContext, getString(R.string.income_updated), Toast.LENGTH_SHORT).show()
-            finish()
-        } else {
-            if (amount.isEmpty()) income_detail_amount_field.error =
-                getString(R.string.prompt_amount_empty)
-            if (note.isEmpty()) income_detail_note_field.error =
-                getString(R.string.prompt_note_empty)
+        when {
+            amount.isEmpty() -> income_detail_amount_field.error = getString(R.string.prompt_amount_empty)
+            note.isEmpty() -> income_detail_note_field.error = getString(R.string.prompt_note_empty)
+            else -> {
+                val dbRef = FirebaseDatabase.getInstance().getReference("users")
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
+                            ?.value.toString()
+                        val dbUpdateIncomeRef = FirebaseDatabase
+                            .getInstance()
+                            .getReference("incomes")
+                            .child(incomeId)
+                        val income = IncomeModel(incomeId, fullName, amount.toInt(),
+                            category, dateUpdated, note, null)
+                        dbUpdateIncomeRef.setValue(income)
+                        Toast.makeText(applicationContext, getString(R.string.income_updated), Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError?) {
+
+                    }
+                })
+            }
         }
     }
 
