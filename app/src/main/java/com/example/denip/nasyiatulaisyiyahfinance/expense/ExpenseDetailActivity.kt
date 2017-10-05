@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.expense.category.PickCategoryExpenseActivity
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -32,7 +34,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     companion object {
         private val auth = FirebaseAuth.getInstance()
-        private val TAGGG = "huisjkf_ExpenseDetail"
+        private val HUNTR = "huntr_ExpenseDetail"
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
@@ -60,7 +62,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         initAuth()
 
         Log.d("amouuu", amount.toString())
-        Log.d(TAGGG, "In the onCreate() event")
+        Log.d(HUNTR, "In the onCreate() event")
     }
 
     private fun initLayout() {
@@ -107,7 +109,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             R.id.pick_image_button_expense_detail -> pickImage()
             R.id.expense_detail_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_expense_detail -> showCalendar()
-            R.id.expense_detail_categories_field -> showCategoryDialog()
+            R.id.expense_detail_categories_field -> pickCategory()
             R.id.expense_detail_note_field -> showCursorOnNoteField()
         }
     }
@@ -193,15 +195,8 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         hideCursorOnNoteField()
     }
 
-    private fun showCategoryDialog() {
-        hideCursorOnNoteField()
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        val categoryInflater: LayoutInflater = layoutInflater
-        val view: View = categoryInflater.inflate(R.layout.pick_category_dialog, null)
-        dialogBuilder.setView(view)
-        dialogBuilder.setTitle(getString(R.string.select_category))
-        val dialog: AlertDialog = dialogBuilder.create()
-        dialog.show()
+    private fun pickCategory() {
+        startActivity(Intent(this@ExpenseDetailActivity, PickCategoryExpenseActivity::class.java))
     }
 
     private fun pickImage() {
@@ -327,31 +322,37 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAGGG, "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this@ExpenseDetailActivity)
+        val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_EXPENSE), "")
+        val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_EXPENSE), "")
+        expense_detail_categories_field?.setText("$categoryNumber $categoryName")
+        Log.d(HUNTR + "data", "" + categoryName)
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAGGG, "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAGGG, "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAGGG, "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAGGG, "In the onStart() event")
+        Log.d(HUNTR, "In the onStart() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAGGG, "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 }
