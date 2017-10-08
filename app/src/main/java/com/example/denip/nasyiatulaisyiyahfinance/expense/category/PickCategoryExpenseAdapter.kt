@@ -9,6 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 /**
  * Created by denip on 10/1/2017.
@@ -17,8 +21,12 @@ import com.example.denip.nasyiatulaisyiyahfinance.R
 class PickCategoryExpenseAdapter(private var context: Context, categories: ArrayList<CategoryExpenseModel>) :
     RecyclerView.Adapter<PickCategoryExpenseAdapter.CustomViewHolder>() {
 
+    companion object {
+        private val dbRef = FirebaseDatabase.getInstance().reference
+    }
+
     private var categories: ArrayList<CategoryExpenseModel> = arrayListOf()
-    private val HUNTR = "huntr_pckctgrxpnsadptr"
+    private val HUNTR = "huntr_CategoryXpnsAdptr"
 
 
     init {
@@ -28,7 +36,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.pick_category_list_row_view,
             parent, false)
-        Log.d(HUNTR, "In onCreateView()")
+        //Log.d(HUNTR, "In onCreateView()")
         return CustomViewHolder(view)
     }
 
@@ -39,7 +47,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()
         holder.categoryThirdNumber.text = category.thirdNumber.toString()
-        Log.d(HUNTR, "In onBindViewHolder()")
+        //Log.d(HUNTR, "In onBindViewHolder()")
     }
 
     override fun getItemCount(): Int = categories.size
@@ -59,21 +67,40 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
 
                 val categoryName = selectedCategory.categoryName.toString()
                 val categoryNumber = selectedCategory.categoryNumber.toString()
+                val categoryId = selectedCategory.categoryId.toString()
+                Log.d(HUNTR, "category ID : " + categoryId)
 
-                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                prefs.edit().apply {
-                    putString(context.getString(R.string.CATEGORY_NUMBER_EXPENSE), categoryNumber)
-                    putString(context.getString(R.string.CATEGORY_NAME_EXPENSE), categoryName)
-                    commit()
-                }
+                val dbCurrentAmountSelectedCategory = dbRef.child("categories/expense")
+                dbCurrentAmountSelectedCategory.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val currentAmountSelectedCategory = dataSnapshot?.child(categoryId)
+                            ?.child("categoryAmount")?.value.toString()
+                        Log.d(HUNTR, "current amount selected category : " + currentAmountSelectedCategory)
+
+                        //prefs sent to AddExpenseActivity
+                        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+                        prefs.edit().apply {
+                            putString(context.getString(R.string.CATEGORY_NUMBER_EXPENSE), categoryNumber)
+                            putString(context.getString(R.string.CATEGORY_NAME_EXPENSE), categoryName)
+                            putString(context.getString(R.string.CATEGORY_ID_EXPENSE), categoryId)
+                            putString(context.getString(R.string.CATEGORY_CURRENT_AMOUNT_EXPENSE),
+                                currentAmountSelectedCategory)
+                            commit()
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError?) {
+
+                    }
+                })
 
                 (context as PickCategoryExpenseActivity).finish()
 
-                Log.d(HUNTR, "" + selectedCategory.categoryNumber)
-                Log.d(HUNTR, "" + selectedCategory.categoryName)
-                Log.d(HUNTR, "" + selectedCategory.firstNumber)
-                Log.d(HUNTR, "" + selectedCategory.secondNumber)
-                Log.d(HUNTR, "" + selectedCategory.thirdNumber)
+                Log.d(HUNTR, "category number : " + selectedCategory.categoryNumber)
+                Log.d(HUNTR, "category name : " + selectedCategory.categoryName)
+                Log.d(HUNTR, "category firs number : " + selectedCategory.firstNumber)
+                Log.d(HUNTR, "category second number : " + selectedCategory.secondNumber)
+                Log.d(HUNTR, "category third number : " + selectedCategory.thirdNumber)
             }
         }
     }
