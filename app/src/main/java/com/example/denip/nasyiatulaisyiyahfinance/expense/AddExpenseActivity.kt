@@ -40,12 +40,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
 
     companion object {
-        private val HUNTR = "huntr_addxpns"
+        private val HUNTR = "huntr_AddExpense"
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
-        private val dbAddExpenseRef = FirebaseDatabase.getInstance()?.getReference("expenses")
+        private val dbRef = FirebaseDatabase.getInstance().reference
         private val context: Context? = null
     }
 
@@ -127,26 +127,44 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             note.isEmpty() -> expense_note_field.error = getString(R.string.prompt_note_empty)
             category.isEmpty() -> expense_categories_field.error = getString(R.string.prompt_category_empty)
             else -> {
-                val dbRef = FirebaseDatabase.getInstance().getReference("users")
-                dbRef.addValueEventListener(object : ValueEventListener {
+
+                val expenseId: String? = dbRef?.push()?.key
+
+                //prefs get from PickCategoryExpenseAdapter class
+                val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddExpenseActivity)
+                val categoryId = prefs.getString(getString(R.string.CATEGORY_ID_EXPENSE), "")
+                val currentAmountSelectedCategory = prefs
+                    .getString(getString(R.string.CATEGORY_CURRENT_AMOUNT_EXPENSE), "")
+                Log.d(HUNTR, "current amount selected category prefs : " + currentAmountSelectedCategory)
+
+                val currentAmountAddWithNewAmount = currentAmountSelectedCategory.toInt() + amount.toInt()
+                Log.d(HUNTR, "current amount add with new amount : " + currentAmountAddWithNewAmount)
+                addAmountToCategory(categoryId, currentAmountAddWithNewAmount)
+
+                val dbCurrentUserFullnameRef = dbRef?.child("users")
+                Log.d(HUNTR, "path current user fullName : " + dbCurrentUserFullnameRef.toString())
+                dbCurrentUserFullnameRef?.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError?) {
                         Log.d(HUNTR, "In onCancelled()")
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        Log.d(HUNTR, "In the onDataChange()")
                         val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
                             ?.value.toString()
-                        val id: String? = dbAddExpenseRef?.push()?.key
-                        val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated, id,
-                            note, notePhotoUri)
-                        dbAddExpenseRef?.child(id)?.setValue(expense)
-                        Log.d(HUNTR, expense.note)
-                        Log.d(HUNTR, expense.notePhotoUri)
-                        Log.d(HUNTR, expense.addedByTreasure)
-                        Log.d(HUNTR, expense.category)
-                        Log.d(HUNTR, expense.dateCreated)
-                        Log.d(HUNTR, expense.expenseId)
+                        Log.d(HUNTR, "fullName : " + fullName)
+
+                        val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated,
+                            expenseId, note, notePhotoUri)
+
+                        dbRef?.child("expenses")?.child(expenseId)?.setValue(expense)
+
+                        Log.d(HUNTR, "expense amount :" + expense.amount)
+                        Log.d(HUNTR, "expense note : " + expense.note)
+                        Log.d(HUNTR, "expense note photo uri : " + expense.notePhotoUri)
+                        Log.d(HUNTR, "expense added by treasurer : " + expense.addedByTreasure)
+                        Log.d(HUNTR, "expense category : " + expense.category)
+                        Log.d(HUNTR, "expense date created : " + expense.dateCreated)
+                        Log.d(HUNTR, "expense id : " + expense.expenseId)
                     }
                 })
 
@@ -154,6 +172,13 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                 finish()
             }
         }
+    }
+
+
+    private fun addAmountToCategory(categoryId: String, amount: Int) {
+        val dbAddAmountToCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
+        dbAddAmountToCategoryRef?.child(categoryId)?.child("categoryAmount")
+            ?.setValue(amount)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -332,10 +357,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         super.onRestart()
         Log.d(HUNTR, "In the onRestart() event")
 
+        //prefs get from PickCategoryExpenseAdapter
         val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddExpenseActivity)
         val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_EXPENSE), "")
         val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_EXPENSE), "")
-        Log.d(HUNTR + "data", "" + categoryName)
+        Log.d(HUNTR, "selected category : " + categoryName)
         expense_categories_field?.error = null
         expense_categories_field?.setText("$categoryNumber $categoryName")
     }
