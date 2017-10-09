@@ -41,30 +41,39 @@ class ChangePasswordActivity : AppCompatActivity(), View.OnClickListener {
         val userEmail = user?.email.toString()
         val oldPassword = old_password_field.text.toString().trim()
         val newPassword = new_password_field.text.toString().trim()
-        val credential = EmailAuthProvider.getCredential(userEmail, oldPassword)
 
-        user?.reauthenticate(credential)?.addOnCompleteListener { task ->
-            when {
-                task.isSuccessful -> {
-                    user.updatePassword(newPassword).addOnCompleteListener { task_ ->
-                        when {
-                            task_.isSuccessful -> {
-                                Toast.makeText(this, getString(R.string.password_updated),
-                                    Toast.LENGTH_SHORT).show()
-                                auth.signOut()
+
+        when {
+            oldPassword.isEmpty() -> old_password_field.error = getString(R.string.prompt_empty_field)
+            newPassword.isEmpty() -> new_password_field.error = getString(R.string.prompt_empty_field)
+            else -> {
+                val credential = EmailAuthProvider.getCredential(userEmail, oldPassword)
+                user?.reauthenticate(credential)?.addOnCompleteListener { task ->
+
+                    when {
+                        task.isSuccessful -> {
+                            user.updatePassword(newPassword).addOnCompleteListener { task_ ->
+                                when {
+                                    task_.isSuccessful -> {
+                                        Toast.makeText(this, getString(R.string.password_updated),
+                                            Toast.LENGTH_SHORT).show()
+                                        auth.signOut()
+                                    }
+                                    else -> {
+                                        Toast.makeText(this, getString(R.string.password_failed_update),
+                                            Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             }
-                            else -> {
-                                Toast.makeText(this, getString(R.string.password_failed_update),
-                                    Toast.LENGTH_SHORT).show()
-                            }
+                        }
+                        else -> {
+                            Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
                         }
                     }
                 }
-                else -> {
-                    Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
-                }
             }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
