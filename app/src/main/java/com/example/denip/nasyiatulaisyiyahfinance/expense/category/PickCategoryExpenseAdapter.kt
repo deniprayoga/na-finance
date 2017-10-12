@@ -62,6 +62,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
 
         init {
             view.setOnClickListener { v ->
+                Log.d(HUNTR, "-----------------category selected------------------")
                 val selectedCategory = categories[adapterPosition]
                 notifyDataSetChanged()
 

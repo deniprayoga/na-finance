@@ -139,7 +139,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
                 val currentAmountAddWithNewAmount = currentAmountSelectedCategory.toInt() + amount.toInt()
                 Log.d(HUNTR, "current amount add with new amount : " + currentAmountAddWithNewAmount)
-                addAmountToCategory(categoryId, currentAmountAddWithNewAmount)
+                addAmountToCategory(categoryId, currentAmountAddWithNewAmount.toString())
 
                 val dbCurrentUserFullnameRef = dbRef?.child("users")
                 Log.d(HUNTR, "path current user fullName : " + dbCurrentUserFullnameRef.toString())
@@ -154,15 +154,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         Log.d(HUNTR, "fullName : " + fullName)
 
                         val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated,
-                            expenseId, note, notePhotoUri)
+                            expenseId, note, notePhotoUri, categoryId)
 
                         dbRef?.child("expenses")?.child(expenseId)?.setValue(expense)
 
-                        Log.d(HUNTR, "expense amount :" + expense.amount)
+                        Log.d(HUNTR, "expense amount : " + expense.amount)
                         Log.d(HUNTR, "expense note : " + expense.note)
                         Log.d(HUNTR, "expense note photo uri : " + expense.notePhotoUri)
                         Log.d(HUNTR, "expense added by treasurer : " + expense.addedByTreasure)
                         Log.d(HUNTR, "expense category : " + expense.category)
+                        Log.d(HUNTR, "expense category id : " + expense.categoryId)
                         Log.d(HUNTR, "expense date created : " + expense.dateCreated)
                         Log.d(HUNTR, "expense id : " + expense.expenseId)
                     }
@@ -175,7 +176,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
 
-    private fun addAmountToCategory(categoryId: String, amount: Int) {
+    private fun addAmountToCategory(categoryId: String, amount: String) {
         val dbAddAmountToCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
         dbAddAmountToCategoryRef?.child(categoryId)?.child("categoryAmount")
             ?.setValue(amount)
@@ -362,6 +363,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val categoryName = prefs.getString(getString(R.string.CATEGORY_NAME_EXPENSE), "")
         val categoryNumber = prefs.getString(getString(R.string.CATEGORY_NUMBER_EXPENSE), "")
         Log.d(HUNTR, "selected category : " + categoryName)
+        Log.d(HUNTR, "selected category number : " + categoryNumber)
         expense_categories_field?.error = null
         expense_categories_field?.setText("$categoryNumber $categoryName")
     }
