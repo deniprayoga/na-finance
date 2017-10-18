@@ -8,7 +8,7 @@
     <color name="colorCenterGradientBackgroundExpense">#FFFFFA79</color>
     <color name="colorCenterGradientBackgroundIncome">#FFDDFF76</color>
     <color name="colorActionBar">#059442</color>
-    <color name="colorActionBarDark">#5a025325</color>
+    <color name="colorActionBarDark">#025325</color>
     <color name="colorActionBarIncome">#ff99cc00</color>
     <color name="colorActionBarIncomeDark">#455c00</color>
     <color name="colorActionBarExpense">#FFFFBB00</color>
