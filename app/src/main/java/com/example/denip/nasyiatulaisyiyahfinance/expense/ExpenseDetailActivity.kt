@@ -19,10 +19,7 @@ import com.example.denip.nasyiatulaisyiyahfinance.expense.category.PickCategoryE
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
@@ -38,6 +35,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
+        private val dbRef = FirebaseDatabase.getInstance().reference
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,24 +43,34 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_expense_detail)
         glideRequestManager = Glide.with(this)
 
+        //get intent from ExpenseListAdapter
         val intent = intent
         val expenseId = intent.getStringExtra(getString(R.string.EXPENSE_ID))
         val note = intent.getStringExtra(getString(R.string.EXPENSE_NOTE))
         val amount = intent?.getStringExtra(getString(R.string.EXPENSE_AMOUNT))
         val category = intent.getStringExtra(getString(R.string.EXPENSE_CATEGORY))
         val dateCreated = intent.getStringExtra(getString(R.string.EXPENSE_DATE))
-        val addedByTreasure = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
+        val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_EXPENSE))
+        val fullName = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
 
         expense_detail_id_text_view?.text = expenseId
         expense_detail_note_field?.setText(note)
         expense_detail_amount_field.setText(amount)
         expense_detail_categories_field?.setText(category)
         calendar_result_text_expense_detail?.text = dateCreated
+        expense_detail_category_id_text_view?.text = categoryId
+
         initLayout()
         initAuth()
 
-        Log.d("amouuu", amount.toString())
         Log.d(HUNTR, "In the onCreate() event")
+        Log.d(HUNTR, "expense id : " + expenseId)
+        Log.d(HUNTR, "expense note : " + note)
+        Log.d(HUNTR, "expense amount : " + amount)
+        Log.d(HUNTR, "expense category : " + category)
+        Log.d(HUNTR, "expense calendar : " + dateCreated)
+        Log.d(HUNTR, "expense category id : " + categoryId)
+        Log.d(HUNTR, "fullName : " + fullName)
     }
 
     private fun initLayout() {
@@ -267,54 +275,57 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val dbRef = FirebaseDatabase.getInstance().getReference("users")
-        dbRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError?) {
+        when (item?.itemId) {
+            android.R.id.home -> onBackPressed()
+            R.id.action_bar_save -> {
+                Log.d(HUNTR, "----------------action bar saved clicked-------------------")
+                val amount = expense_detail_amount_field.text.toString()
+                val category = expense_detail_categories_field.text
+                val dateCreated = calendar_result_text_expense_detail.text.toString()
+                val expenseId = expense_detail_id_text_view.text.toString()
+                val note = expense_detail_note_field.text.toString()
+                val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_EXPENSE))
 
-            }
+                when {
+                    amount.isEmpty() -> expense_detail_amount_field.error = getString(R.string.prompt_amount_empty)
+                    note.isEmpty() -> expense_detail_note_field.error = getString(R.string.prompt_note_empty)
+                    else -> {
+                        val fullName = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")?.value.toString()
+                        val expense = ExpenseModel(fullName, amount.toInt(), category.toString(),
+                            dateCreated, expenseId, note, null, categoryId)
 
-                when (item?.itemId) {
-                    android.R.id.home -> onBackPressed()
-                    R.id.action_bar_save -> {
-                        val amount = expense_detail_amount_field.text.toString()
-                        val category = expense_detail_categories_field.text
-                        val dateUpdated = calendar_result_text_expense_detail.text.toString()
-                        val expenseId = expense_detail_id_text_view.text.toString()
-                        val note = expense_detail_note_field.text.toString()
+                        updateExpense(expense)
+                        //updateCategoryAmount(categoryId)
 
-                        if (!amount.isEmpty() && !note.isEmpty()) {
-                            updateExpense(fullName, amount.toInt(), category.toString(),
-                                dateUpdated, expenseId, note)
-                        } else {
-                            if (amount.isEmpty()) expense_detail_amount_field.error =
-                                getString(R.string.prompt_amount_empty)
-                            if (note.isEmpty()) expense_detail_note_field.error =
-                                getString(R.string.prompt_note_empty)
-                        }
+                        Log.d(HUNTR, "fullName : " + fullName)
+                        Log.d(HUNTR, "expense amount : " + amount)
+                        Log.d(HUNTR, "expense category : " + category.toString())
+                        Log.d(HUNTR, "expense date created : " + dateCreated)
+                        Log.d(HUNTR, "expense id : " + expenseId)
+                        Log.d(HUNTR, "expense note : " + note)
+                        Log.d(HUNTR, "expense category id : " + categoryId)
                     }
                 }
             }
-        })
-
-
+        }
         return true
     }
 
-    private fun updateExpense(addedByTreasure: String?,
-                              amount: Int?,
-                              category: String?,
-                              dateUpdated: String?,
-                              expenseId: String?,
-                              note: String?) {
+    private fun updateExpense(expense: ExpenseModel?) {
         val dbUpdateExpenseRef = FirebaseDatabase
             .getInstance()
             .getReference("expenses")
-            .child(expenseId)
-        val expense = ExpenseModel(addedByTreasure, amount, category,
-            dateUpdated, expenseId, note, null)
+            .child(expense?.expenseId)
+        val expense = ExpenseModel(
+            expense?.addedByTreasure,
+            expense?.amount,
+            expense?.category,
+            expense?.dateCreated,
+            expense?.expenseId,
+            expense?.note,
+            null,
+            expense?.categoryId)
         dbUpdateExpenseRef.setValue(expense)
         Toast.makeText(applicationContext, getString(R.string.expense_updated), Toast.LENGTH_SHORT).show()
         finish()
