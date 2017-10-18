@@ -8,36 +8,43 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseFragment
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseModel
 import com.example.denip.nasyiatulaisyiyahfinance.income.IncomeFragment
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseSettingActivity
+import com.example.denip.nasyiatulaisyiyahfinance.income.category.CategoryIncomeSettingActivity
+import com.example.denip.nasyiatulaisyiyahfinance.login.ChangePasswordActivity
+import com.example.denip.nasyiatulaisyiyahfinance.profile.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
 import me.relex.circleindicator.CircleIndicator
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
     IncomeFragment.OnFragmentInteractionListener {
 
     override fun onFragmentInteraction(uri: Uri) {
-        Log.d(TAGGG, "onFragmentInteraction")
+        Log.d(HUNTR, "onFragmentInteraction")
 
     }
 
     companion object {
-        private val TAGGG = "MainActivity"
+        private val HUNTR = "huntr_MainActivity"
         private var sectionsPagerAdapter: SectionsPagerAdapter? = null
         private var viewPager: ViewPager? = null
         private var indicator: CircleIndicator? = null
         private val auth: FirebaseAuth = FirebaseAuth.getInstance()
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
         private var expenses = mutableListOf<ExpenseModel>()
+        //private val storage = FirebaseStorage.getInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,30 +53,95 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         initViewPager()
         initAuth()
-        expenses = ArrayList()
-        Log.d("reference", databaseExpenseRef.toString())
+        //expenses = ArrayList<ExpenseModel>()
+        Log.d(HUNTR + "REF", databaseExpenseRef.toString())
 
-        Log.d("exxx", expenses.toString())
-        Log.d(TAGGG, "In the onCreate() event")
+        Log.d(HUNTR, expenses.toString())
+        Log.d(HUNTR, "In the onCreate() event")
     }
 
     override fun onStart() {
         super.onStart()
 
-        databaseExpenseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        Log.d(HUNTR, expenses.toString())
+        Log.d(HUNTR, "In the onStart() event")
+        initToolbar()
+    }
 
-            }
 
-            override fun onCancelled(databaseError: DatabaseError?) {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
 
-            }
-        })
-        Log.d("expensse", expenses.toString())
-        Log.d(TAGGG, "In the onStart() event")
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.setting_profile -> startActivity(Intent(this, ProfileActivity::class.java))
+            R.id.setting_change_password -> startActivity(Intent(this, ChangePasswordActivity::class.java))
+            R.id.setting_sign_out -> showDialogSignOut()
+            R.id.setting_category_expense -> startActivity(Intent(this, CategoryExpenseSettingActivity::class.java))
+            R.id.setting_category_income -> startActivity(Intent(this, CategoryIncomeSettingActivity::class.java))
+            R.id.setting_export_expense -> showDialogExportExpense()
+            R.id.setting_export_income -> showDialogExportIncome()
+        }
+        return true
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(toolbar_main_layout)
+    }
+
+    private fun showDialogExportExpense() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(R.string.confirmation)
+            .setMessage(R.string.confirmation_export_expense)
+            .setPositiveButton(R.string.yes, { dialog, _ ->
+                exportCsv()
+                Toast.makeText(this, "Make your export expense action.", Toast.LENGTH_SHORT).show()
+            })
+            .setNegativeButton(R.string.no, { dialog, _ ->
+                dialog.cancel()
+            })
+            .show()
+    }
+
+    private fun showDialogExportIncome() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(R.string.confirmation)
+            .setMessage(R.string.confirmation_export_expense)
+            .setPositiveButton(R.string.yes, { dialog, _ ->
+                exportCsv()
+                Toast.makeText(this, "Make your export expense action.", Toast.LENGTH_SHORT).show()
+            })
+            .setNegativeButton(R.string.no, { dialog, _ ->
+                dialog.cancel()
+            })
+            .show()
+    }
+
+    private fun exportCsv() {
+
+    }
+
+    private fun showDialogSignOut() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(R.string.confirmation)
+            .setMessage(R.string.confirmation_sign_out)
+            .setPositiveButton(R.string.yes, { dialog, which ->
+                auth.signOut()
+                //showLogoutProgress()
+            })
+            .setNegativeButton(R.string.no, { dialog, _ ->
+                dialog.cancel()
+            })
+            .show()
     }
 
     private fun initViewPager() {
+        Log.d(HUNTR, "In the initViewPager() event")
         sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         viewPager = findViewById(R.id.container) as ViewPager
@@ -78,6 +150,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         indicator!!.setViewPager(viewPager)
 
         viewPager!!.currentItem = 1
+        Log.d(HUNTR, "viewPager currentItem : " + viewPager!!.currentItem)
     }
 
     private fun initAuth() {
@@ -100,47 +173,63 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
+            Log.d(HUNTR, "In the getItem() event")
             when (position) {
                 0 -> return ExpenseFragment()
                 2 -> return IncomeFragment()
             }
+            Log.d(HUNTR, "position : " + position)
             return MainFragment.newInstance(position)
         }
 
         override fun getCount(): Int = 3
 
         override fun getPageTitle(position: Int): CharSequence? {
+            Log.d(HUNTR, "In the getPageTitle() event")
             when (position) {
                 0 -> return "SECTION 1"
                 1 -> return "SECTION 2"
                 2 -> return "SECTION 3"
             }
+            Log.d(HUNTR, "position : " + position)
             return null
         }
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAGGG, "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAGGG, "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAGGG, "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAGGG, "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAGGG, "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
+
+    override fun onAttachFragment(fragment: android.app.Fragment?) {
+        super.onAttachFragment(fragment)
+        Log.d(HUNTR, "In the onAttachFragment()")
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        Log.d(HUNTR, "In the onResumeFragment()")
+    }
+
+
 }
