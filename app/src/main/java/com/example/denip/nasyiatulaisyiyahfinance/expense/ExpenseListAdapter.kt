@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
     RecyclerView.Adapter<ExpenseListAdapter.CustomViewHolder>() {
     companion object {
         private val auth = FirebaseAuth.getInstance()
-
+        private val HUNTR = "huntr_ExpenseListAdptr"
     }
 
     private var context: Context? = context
@@ -39,9 +40,10 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         val expense = expenses[position]
         holder!!.note.text = expense.note
         holder.category.text = expense.category
-        holder.amount.text = expense.amount.toString()
+        holder.amount.text = "Rp. ${expense.amount.toString()}"
         holder.dateCreated.text = expense.dateCreated
         holder.addedBy.text = expense.addedByTreasure
+        holder.categoryId.text = expense.categoryId
     }
 
     override fun getItemCount(): Int = expenses.size
@@ -57,9 +59,11 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         val category = view.findViewById(R.id.expense_list_row_view_category) as TextView
         val dateCreated = view.findViewById(R.id.expense_list_row_view_date) as TextView
         val note = view.findViewById(R.id.expense_list_row_view_note) as TextView
+        val categoryId = view.findViewById(R.id.expense_list_row_view_category_id) as TextView
 
         init {
             view.setOnClickListener { v ->
+                Log.d(HUNTR, "-----------------in setOnClickListener()------------------")
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
                 dbRef.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError?) {
@@ -79,7 +83,15 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         intent.putExtra(context?.getString(R.string.EXPENSE_DATE), expense.dateCreated)
                         intent.putExtra(context?.getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
                         intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURE), fullName)
+                        intent.putExtra(context?.getString(R.string.CATEGORY_ID_EXPENSE), expense.categoryId)
 
+                        Log.d(HUNTR, "expense.expenseId : " + expense.expenseId)
+                        Log.d(HUNTR, "expense.note : " + expense.note)
+                        Log.d(HUNTR, "expense.amount : " + expense.amount)
+                        Log.d(HUNTR, "expense.category : " + expense.category)
+                        Log.d(HUNTR, "expense.dateCreated : " + expense.dateCreated)
+                        Log.d(HUNTR, "expense fullName : " + fullName)
+                        Log.d(HUNTR, "expense.categoryId : " + expense.categoryId)
                         v?.context?.startActivity(intent)
                     }
                 })
