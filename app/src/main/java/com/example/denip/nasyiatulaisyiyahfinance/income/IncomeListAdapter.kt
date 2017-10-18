@@ -34,7 +34,7 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
         val income = incomes[position]
         holder!!.note.text = income.note
         holder.category.text = income.category
-        holder.amount.text = income.amount.toString()
+        holder.amount.text = "Rp. ${income.amount.toString()}"
         holder.dateCreated.text = income.dateCreated
         holder.addedBy.text = income.addedByTreasure
 
