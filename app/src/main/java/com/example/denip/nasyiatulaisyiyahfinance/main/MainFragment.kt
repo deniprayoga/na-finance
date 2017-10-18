@@ -47,8 +47,6 @@ class MainFragment : Fragment(), View.OnClickListener {
         val fragmentExpenseView = inflater.inflate(R.layout.fragment_expense, container, false)
         val fragmentIncomeView = inflater.inflate(R.layout.fragment_income, container, false)
 
-        fragmentMainView.setting_button.setOnClickListener(this)
-
         when {
             arguments.getInt(ARG_SECTION_NUMBER) == 0 -> return fragmentExpenseView
             arguments.getInt(ARG_SECTION_NUMBER) == 1 -> return fragmentMainView
@@ -66,7 +64,7 @@ class MainFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.setting_button -> startActivity(Intent(context, SettingActivity::class.java))
+
         }
     }
 
