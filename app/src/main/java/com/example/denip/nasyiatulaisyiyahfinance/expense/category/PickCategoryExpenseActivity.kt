@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_pick_category_expense.*
 class PickCategoryExpenseActivity : AppCompatActivity() {
 
     companion object {
-        private val HUNTR = "huntr_pckctgryxpns"
+        private val HUNTR = "huntr_PickCategoryXpnse"
         val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
         val categories = ArrayList<CategoryExpenseModel>()
     }
@@ -26,6 +26,7 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pick_category_expense)
 
         initLayout()
+        Log.d(HUNTR, "In the onCreate() event")
     }
 
     private fun initLayout() {
