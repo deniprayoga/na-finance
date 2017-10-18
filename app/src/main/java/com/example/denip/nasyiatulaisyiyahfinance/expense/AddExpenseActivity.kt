@@ -133,13 +133,6 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                 //prefs get from PickCategoryExpenseAdapter class
                 val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddExpenseActivity)
                 val categoryId = prefs.getString(getString(R.string.CATEGORY_ID_EXPENSE), "")
-                val currentAmountSelectedCategory = prefs
-                    .getString(getString(R.string.CATEGORY_CURRENT_AMOUNT_EXPENSE), "")
-                Log.d(HUNTR, "current amount selected category prefs : " + currentAmountSelectedCategory)
-
-                val currentAmountAddWithNewAmount = currentAmountSelectedCategory.toInt() + amount.toInt()
-                Log.d(HUNTR, "current amount add with new amount : " + currentAmountAddWithNewAmount)
-                addAmountToCategory(categoryId, currentAmountAddWithNewAmount.toString())
 
                 val dbCurrentUserFullnameRef = dbRef?.child("users")
                 Log.d(HUNTR, "path current user fullName : " + dbCurrentUserFullnameRef.toString())
@@ -176,14 +169,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
 
-    private fun addAmountToCategory(categoryId: String, amount: String) {
-        val dbAddAmountToCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
-        dbAddAmountToCategoryRef?.child(categoryId)?.child("categoryAmount")
-            ?.setValue(amount)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_add_expense, menu)
         return true
     }
 
