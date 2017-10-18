@@ -57,7 +57,6 @@ class IncomeFragment : Fragment(), View.OnClickListener {
         val fragmentIncomeView = inflater!!.inflate(R.layout.fragment_income, container, false)
 
         fragmentIncomeView.add_income_button.setOnClickListener(this)
-        fragmentIncomeView.export_income_imageButton.setOnClickListener(this)
         return fragmentIncomeView
     }
 
@@ -87,20 +86,6 @@ class IncomeFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.add_income_button -> {
                 startActivity(Intent(context, AddIncomeActivity::class.java))
-            }
-            R.id.export_income_imageButton -> {
-                val dialogBuilder = AlertDialog.Builder(context)
-                dialogBuilder
-                    .setTitle(R.string.confirmation)
-                    .setMessage(R.string.confirmation_export_income)
-                    .setPositiveButton(R.string.yes, { dialog, _ ->
-                        Toast.makeText(context, "Make your export income action.", Toast.LENGTH_SHORT).show()
-                    })
-                    .setNegativeButton(R.string.no, { dialog, _ ->
-                        dialog.cancel()
-                    })
-
-                    .show()
             }
         }
     }
