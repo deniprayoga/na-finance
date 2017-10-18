@@ -47,6 +47,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()
         holder.categoryThirdNumber.text = category.thirdNumber.toString()
+        //holder.categoryAmount.text = category.categoryAmount.toString()
         //Log.d(HUNTR, "In onBindViewHolder()")
     }
 
@@ -59,6 +60,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
         val categoryFirstNumber = view.findViewById(R.id.pick_category_first_number) as TextView
         val categorySecondNumber = view.findViewById(R.id.pick_category_second_number) as TextView
         val categoryThirdNumber = view.findViewById(R.id.pick_category_third_number) as TextView
+        //val categoryAmount = view.findViewById(R.id.pick_category_amount) as TextView
 
         init {
             view.setOnClickListener { v ->
@@ -69,14 +71,15 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
                 val categoryName = selectedCategory.categoryName.toString()
                 val categoryNumber = selectedCategory.categoryNumber.toString()
                 val categoryId = selectedCategory.categoryId.toString()
+                //val categoryAmount = selectedCategory.categoryAmount.toString()
                 Log.d(HUNTR, "category ID : " + categoryId)
 
                 val dbCurrentAmountSelectedCategory = dbRef.child("categories/expense")
                 dbCurrentAmountSelectedCategory.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val currentAmountSelectedCategory = dataSnapshot?.child(categoryId)
+                        /*val currentAmountSelectedCategory = dataSnapshot?.child(categoryId)
                             ?.child("categoryAmount")?.value.toString()
-                        Log.d(HUNTR, "current amount selected category : " + currentAmountSelectedCategory)
+                        Log.d(HUNTR, "current amount selected category : " + currentAmountSelectedCategory)*/
 
                         //prefs sent to AddExpenseActivity
                         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -84,8 +87,9 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
                             putString(context.getString(R.string.CATEGORY_NUMBER_EXPENSE), categoryNumber)
                             putString(context.getString(R.string.CATEGORY_NAME_EXPENSE), categoryName)
                             putString(context.getString(R.string.CATEGORY_ID_EXPENSE), categoryId)
-                            putString(context.getString(R.string.CATEGORY_CURRENT_AMOUNT_EXPENSE),
+                            /*putString(context.getString(R.string.CATEGORY_CURRENT_AMOUNT_EXPENSE),
                                 currentAmountSelectedCategory)
+                            putString("categoryAmount", categoryAmount)*/
                             commit()
                         }
                     }
@@ -102,6 +106,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
                 Log.d(HUNTR, "category firs number : " + selectedCategory.firstNumber)
                 Log.d(HUNTR, "category second number : " + selectedCategory.secondNumber)
                 Log.d(HUNTR, "category third number : " + selectedCategory.thirdNumber)
+                //Log.d(HUNTR, "category amount : " + selectedCategory.categoryAmount)
             }
         }
     }
