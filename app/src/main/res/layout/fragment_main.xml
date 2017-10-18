@@ -6,14 +6,4 @@
     android:layout_height="match_parent"
     tools:context="com.example.denip.nasyiatulaisyiyahfinance.main.MainFragment">
 
-    <ImageButton
-        android:id="@+id/setting_button"
-        style="?attr/borderlessButtonStyle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:clickable="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings_black_24dp" />
-
 </android.support.constraint.ConstraintLayout>
