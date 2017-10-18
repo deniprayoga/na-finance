@@ -113,4 +113,11 @@
     <string name="image_optional">Gambar (opsional)</string>
     <string name="pick_expense_category">Pilih kategori pengeluaran</string>
     <string name="pick_income_category">Pilih kategori pemasukan</string>
+    <string name="expense_id_title">Pengeluaran_Id</string>
+    <string name="expense_date_created_title">Tanggal_Dibuat</string>
+    <string name="expense_created_by_title">Dibuat_Oleh</string>
+    <string name="expense_category_title">Kategori</string>
+    <string name="expense_amount_title">Jumlah</string>
+    <string name="expense_note_title">Catatan</string>
+    <string name="export_title">Ekspor ke CSV</string>
 </resources>

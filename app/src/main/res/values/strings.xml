@@ -101,12 +101,14 @@
     <string name="INCOME_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
     <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryid</string>
     <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorynumber</string>
+    <string name="CATEGORY_CURRENT_AMOUNT_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorycurrentamount</string>
     <string name="CATEGORY_NAME_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryname</string>
     <string name="CATEGORY_FIRST_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensefirstnumber</string>
     <string name="CATEGORY_SECOND_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensesecondnumber</string>
     <string name="CATEGORY_THIRD_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensethirdnumber</string>
     <string name="CATEGORY_ID_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategoryid</string>
     <string name="CATEGORY_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategorynumber</string>
+    <string name="CATEGORY_CURRENT_AMOUNT_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategorycurrentamount</string>
     <string name="CATEGORY_NAME_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategoryname</string>
     <string name="CATEGORY_FIRST_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomefirstnumber</string>
     <string name="CATEGORY_SECOND_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomesecondnumber</string>
@@ -139,4 +141,11 @@
     <string name="image_optional">Image (optional)</string>
     <string name="pick_expense_category">Pick expense category</string>
     <string name="pick_income_category">Pick income category</string>
+    <string name="expense_id_title">Expense_Id</string>
+    <string name="expense_date_created_title">Date_Created</string>
+    <string name="expense_created_by_title">Created_By</string>
+    <string name="expense_category_title">Category</string>
+    <string name="expense_amount_title">Amount</string>
+    <string name="expense_note_title">Note</string>
+    <string name="export_title">Export to CSV</string>
 </resources>
