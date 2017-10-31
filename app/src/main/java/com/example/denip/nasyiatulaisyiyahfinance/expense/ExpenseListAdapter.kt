@@ -42,7 +42,7 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         holder.category.text = expense.category
         holder.amount.text = "Rp. ${expense.amount.toString()}"
         holder.dateCreated.text = expense.dateCreated
-        holder.addedBy.text = expense.addedByTreasure
+        holder.addedBy.text = expense.addedByTreasure.toString().replace("_b", "")
         holder.categoryId.text = expense.categoryId
     }
 
