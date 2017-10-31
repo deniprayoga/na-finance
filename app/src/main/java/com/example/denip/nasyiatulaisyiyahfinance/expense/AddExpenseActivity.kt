@@ -146,7 +146,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                             ?.value.toString()
                         Log.d(HUNTR, "fullName : " + fullName)
 
-                        val expense = ExpenseModel(fullName, amount.toInt(), category, dateCreated,
+                        val expense = ExpenseModel("_b" + fullName, amount.toInt(), category, dateCreated,
                             expenseId, note, notePhotoUri, categoryId)
 
                         dbRef?.child("expenses")?.child(expenseId)?.setValue(expense)
