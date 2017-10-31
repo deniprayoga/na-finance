@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.os.Environment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.Menu
@@ -24,9 +25,21 @@ import com.example.denip.nasyiatulaisyiyahfinance.login.ChangePasswordActivity
 import com.example.denip.nasyiatulaisyiyahfinance.profile.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import me.relex.circleindicator.CircleIndicator
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.supercsv.cellprocessor.constraint.NotNull
+import org.supercsv.cellprocessor.ift.CellProcessor
+import org.supercsv.io.CsvMapWriter
+import org.supercsv.io.ICsvMapWriter
+import org.supercsv.prefs.CsvPreference
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
     IncomeFragment.OnFragmentInteractionListener {
@@ -43,7 +56,27 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         private var indicator: CircleIndicator? = null
         private val auth: FirebaseAuth = FirebaseAuth.getInstance()
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
-        private var expenses = mutableListOf<ExpenseModel>()
+        private val databaseIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
+        private lateinit var userFullNames : ArrayList<String>
+        //private var expenses = mutableListOf<ExpenseModel>()
+        private lateinit var data: HashMap<String, Any>
+        private lateinit var userFullNamesOne: String
+        private val CSV_HEADER = arrayOf<String>(
+            //"Date",
+            "Created_by"
+            //"Category",
+            //"Amount",
+            //"Note"
+        )
+        private lateinit var destinationFile: File
+        private var isAlreadyExist = false
+        private var toExport: String? = null
+        private val currentDate = DateTime
+            .now()
+            .withZone(DateTimeZone.getDefault())
+            .toLocalDateTime()
+            .toDate()
+        private var expenses: ArrayList<ExpenseModel> = arrayListOf()
         //private val storage = FirebaseStorage.getInstance()
     }
 
@@ -58,6 +91,8 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         Log.d(HUNTR, expenses.toString())
         Log.d(HUNTR, "In the onCreate() event")
+        data = HashMap<String, Any>()
+        userFullNames = ArrayList<String>()
     }
 
     override fun onStart() {
@@ -97,12 +132,22 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             .setTitle(R.string.confirmation)
             .setMessage(R.string.confirmation_export_expense)
             .setPositiveButton(R.string.yes, { dialog, _ ->
-                exportCsv()
-                Toast.makeText(this, "Make your export expense action.", Toast.LENGTH_SHORT).show()
+                toExport = "expense"
+                exportToCsv()
+                showDialogLocation()
+
             })
             .setNegativeButton(R.string.no, { dialog, _ ->
                 dialog.cancel()
             })
+            .show()
+    }
+
+    private fun showDialogLocation() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle("Location")
+            .setMessage("" + destinationFile.toString())
             .show()
     }
 
@@ -112,7 +157,8 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             .setTitle(R.string.confirmation)
             .setMessage(R.string.confirmation_export_expense)
             .setPositiveButton(R.string.yes, { dialog, _ ->
-                exportCsv()
+                toExport = "income"
+                exportToCsv()
                 Toast.makeText(this, "Make your export expense action.", Toast.LENGTH_SHORT).show()
             })
             .setNegativeButton(R.string.no, { dialog, _ ->
@@ -121,8 +167,130 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             .show()
     }
 
-    private fun exportCsv() {
+    private fun exportToCsv() {
+        addData()
+        sdCardHandler()
+        writeDataOnCSV()
+    }
 
+    private fun writeDataOnCSV() {
+        Log.d(HUNTR, "In writeDataOnCSV() event")
+        Log.d(HUNTR, "toExport = " + toExport)
+        var mapWriter: ICsvMapWriter? = null
+        when (toExport) {
+            "expense" -> {
+                try {
+                    mapWriter = CsvMapWriter(FileWriter(destinationFile, true),
+                        CsvPreference.STANDARD_PREFERENCE)
+
+                    val processors: Array<CellProcessor> = getProcessors()
+
+                    //write the header
+                    if (!isAlreadyExist) mapWriter.writeHeader(*CSV_HEADER)
+
+                    mapWriter.write(data, CSV_HEADER, processors)
+                    Log.d(HUNTR, "CSV_HEADER : " + CSV_HEADER[0])
+                    Log.d(HUNTR, "CSV_HEADER size : " + CSV_HEADER.size)
+                    Log.d(HUNTR, "processors size : " + processors.size)
+                    Log.d(HUNTR, "data in writeDataOnCSV() : " + data)
+                    Log.d(HUNTR, "data.values.size in writeDataOnCSV() : " + data.values.size)
+                    Log.d(HUNTR, "data.keys.size in writeDataOnCSV() : " + data.keys.size)
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } finally {
+                    if (mapWriter != null) {
+                        try {
+                            mapWriter.close()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
+            "income" -> {
+
+            }
+        }
+        Log.d(HUNTR, "-End of writeDataOnCSV()-")
+    }
+
+    private fun getProcessors(): Array<CellProcessor> {
+        val processors = arrayOf<CellProcessor>(
+            NotNull()/*, NotNull(), NotNull(), NotNull(), NotNull()*/
+        )
+        return processors
+    }
+
+    private fun sdCardHandler() {
+        when (toExport) {
+            "expense" -> {
+                val mainDirect = File("" + Environment.getExternalStorageDirectory()
+                    + "/Android/data/" + packageName)
+                Log.d(HUNTR, "mainDirect : " + mainDirect.toString())
+
+                if (!mainDirect.exists()) mainDirect.mkdirs()
+                Log.d(HUNTR, "mainDirect.exist : " + mainDirect.exists())
+
+                destinationFile = File("" + mainDirect + "/NA_Finance_Expense_" + currentDate.toString() + ".csv")
+
+                Log.d(HUNTR, "destinationFile : " + destinationFile.toString())
+                if (destinationFile.exists()) isAlreadyExist = true
+
+                Log.d(HUNTR, "destinationFile.exist : " + destinationFile.exists())
+            }
+            "income" -> {
+                val mainDirect = File("" + Environment.getExternalStorageDirectory()
+                    + "/Android/data/" + packageName)
+                if (!mainDirect.exists()) mainDirect.mkdir()
+
+                destinationFile = File("" + mainDirect + "/NA_Finance_Income_" + currentDate.toString() + ".csv")
+
+                if (destinationFile.exists()) isAlreadyExist = true
+            }
+        }
+        Log.d(HUNTR, "-End of sdCardHandler()-")
+    }
+
+    private fun addData() {
+        Log.d(HUNTR, "addData In the addData() event")
+        Log.d(HUNTR, "toExport = " + toExport)
+
+        when (toExport) {
+            "expense" -> {
+                Log.d(HUNTR, "data in addData() : " + data)
+                Log.d(HUNTR, "data.values.size in addData() : " + data.values.size)
+                Log.d(HUNTR, "data.keys.size in addData() : " + data.keys.size)
+
+
+
+                databaseExpenseRef.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
+
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        userFullNames.clear()
+
+                        dataSnapshot!!.children
+                            .map { it?.child("addedByTreasure")?.value.toString().replace("_b", "\n") }
+                            .forEach {
+                                userFullNames.add(it)
+                            }
+                    }
+                })
+
+                Log.d(HUNTR, "userFullNames type : " + userFullNames.toTypedArray())
+                Log.d(HUNTR, "userFullNames : " + userFullNames)
+                Log.d(HUNTR, "userFullNames size : " + userFullNames.size)
+
+                data.put(CSV_HEADER[0], userFullNames)
+            }
+            "income" -> {
+
+            }
+        }
+        Log.d(HUNTR, "-End of addData()-")
     }
 
     private fun showDialogSignOut() {
@@ -149,7 +317,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         viewPager!!.adapter = sectionsPagerAdapter
         indicator!!.setViewPager(viewPager)
 
-        viewPager!!.currentItem = 1
+        viewPager!!.currentItem = 0
         Log.d(HUNTR, "viewPager currentItem : " + viewPager!!.currentItem)
     }
 
@@ -176,13 +344,13 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             Log.d(HUNTR, "In the getItem() event")
             when (position) {
                 0 -> return ExpenseFragment()
-                2 -> return IncomeFragment()
+                1 -> return IncomeFragment()
             }
             Log.d(HUNTR, "position : " + position)
             return MainFragment.newInstance(position)
         }
 
-        override fun getCount(): Int = 3
+        override fun getCount(): Int = 2
 
         override fun getPageTitle(position: Int): CharSequence? {
             Log.d(HUNTR, "In the getPageTitle() event")
