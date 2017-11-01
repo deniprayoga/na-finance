@@ -38,12 +38,12 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val expense = expenses[position]
-        holder!!.note.text = expense.note
-        holder.category.text = expense.category
-        holder.amount.text = "Rp. ${expense.amount.toString()}"
-        holder.dateCreated.text = expense.dateCreated
-        holder.addedBy.text = expense.addedByTreasure.toString().replace("_b", "")
-        holder.categoryId.text = expense.categoryId
+        holder!!.note.text = expense.note.toString().replace("^", "")
+        holder.category.text = expense.category.toString().replace("^", "")
+        holder.amount.text = "Rp. ${expense.amount.toString().replace("^", "")}"
+        holder.dateCreated.text = expense.dateCreated.toString().replace("^", "")
+        holder.addedBy.text = expense.addedByTreasurer.toString().replace("^", "")
+        holder.categoryId.text = expense.categoryId.toString().replace("^", "")
     }
 
     override fun getItemCount(): Int = expenses.size
@@ -77,12 +77,12 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         notifyDataSetChanged()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
                         intent.putExtra(context?.getString(R.string.EXPENSE_ID), expense.expenseId)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_NOTE), expense.note)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
-                        intent.putExtra(context?.getString(R.string.EXPENSE_CATEGORY), expense.category)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_DATE), expense.dateCreated)
+                        intent.putExtra(context?.getString(R.string.EXPENSE_NOTE), expense.note.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.EXPENSE_CATEGORY), expense.category.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.EXPENSE_DATE), expense.dateCreated.toString().replace("^", ""))
                         intent.putExtra(context?.getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURE), fullName)
+                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURE), fullName.replace("^", ""))
                         intent.putExtra(context?.getString(R.string.CATEGORY_ID_EXPENSE), expense.categoryId)
 
                         Log.d(HUNTR, "expense.expenseId : " + expense.expenseId)
