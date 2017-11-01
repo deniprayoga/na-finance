@@ -45,6 +45,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
+        private val uid = auth.currentUser?.uid
         private val dbRef = FirebaseDatabase.getInstance().reference
         private val context: Context? = null
     }
@@ -142,12 +143,20 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
+                        val fullName = dataSnapshot?.child(uid)?.child("fullName")
                             ?.value.toString()
                         Log.d(HUNTR, "fullName : " + fullName)
 
-                        val expense = ExpenseModel("_b" + fullName, amount.toInt(), category, dateCreated,
-                            expenseId, note, notePhotoUri, categoryId)
+                        val expense = ExpenseModel(
+                            fullName + "^",
+                            uid,
+                            amount + "^",
+                            category + "^",
+                            dateCreated + "^",
+                            expenseId,
+                            note + "^",
+                            notePhotoUri,
+                            categoryId)
 
                         dbRef?.child("expenses")?.child(expenseId)?.setValue(expense)
 
@@ -337,7 +346,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun showCurrentDate() {
-        val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("dd-MM-yyyy")
+        val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("yyyy-MM-dd")
         calendar_result_text_expense.text = currentDate.toString()
     }
 
