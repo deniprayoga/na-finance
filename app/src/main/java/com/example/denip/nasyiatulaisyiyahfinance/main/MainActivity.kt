@@ -284,7 +284,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                         notes.clear()
 
                         dataSnapshot!!.children
-                            .map { it?.child("addedByTreasure")?.value.toString().replace("^", "\n") }
+                            .map { it?.child("addedByTreasurer")?.value.toString().replace("^", "\n") }
                             .forEach {
                                 userFullNames.add(it)
                             }
