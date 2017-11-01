@@ -57,16 +57,21 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         private val auth: FirebaseAuth = FirebaseAuth.getInstance()
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
         private val databaseIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
-        private lateinit var userFullNames : ArrayList<String>
+        private lateinit var userFullNames: ArrayList<String>
+        private lateinit var dateCreated: ArrayList<String>
+        private lateinit var categories: ArrayList<String>
+        private lateinit var amounts: ArrayList<String>
+        private lateinit var notes: ArrayList<String>
+        //private lateinit var expenses: ArrayList<ExpenseModel>
         //private var expenses = mutableListOf<ExpenseModel>()
         private lateinit var data: HashMap<String, Any>
         private lateinit var userFullNamesOne: String
         private val CSV_HEADER = arrayOf<String>(
-            //"Date",
-            "Created_by"
-            //"Category",
-            //"Amount",
-            //"Note"
+            "Date",
+            "Created_by",
+            "Category",
+            "Amount",
+            "Note"
         )
         private lateinit var destinationFile: File
         private var isAlreadyExist = false
@@ -93,6 +98,10 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         Log.d(HUNTR, "In the onCreate() event")
         data = HashMap<String, Any>()
         userFullNames = ArrayList<String>()
+        dateCreated = ArrayList<String>()
+        categories = ArrayList<String>()
+        amounts = ArrayList<String>()
+        notes = ArrayList<String>()
     }
 
     override fun onStart() {
@@ -217,7 +226,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     private fun getProcessors(): Array<CellProcessor> {
         val processors = arrayOf<CellProcessor>(
-            NotNull()/*, NotNull(), NotNull(), NotNull(), NotNull()*/
+            NotNull(), NotNull(), NotNull(), NotNull(), NotNull()
         )
         return processors
     }
@@ -262,8 +271,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 Log.d(HUNTR, "data.values.size in addData() : " + data.values.size)
                 Log.d(HUNTR, "data.keys.size in addData() : " + data.keys.size)
 
-
-
                 databaseExpenseRef.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError?) {
 
@@ -271,20 +278,51 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
                         userFullNames.clear()
+                        dateCreated.clear()
+                        categories.clear()
+                        amounts.clear()
+                        notes.clear()
 
                         dataSnapshot!!.children
-                            .map { it?.child("addedByTreasure")?.value.toString().replace("_b", "\n") }
+                            .map { it?.child("addedByTreasure")?.value.toString().replace("^", "\n") }
                             .forEach {
                                 userFullNames.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("dateCreated")?.value.toString().replace("^", "\n") }
+                            .forEach {
+                                dateCreated.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("category")?.value.toString().replace("^", "\n") }
+                            .forEach {
+                                categories.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("amount")?.value.toString().replace("^", "\n") }
+                            .forEach {
+                                amounts.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("note")?.value.toString().replace("^", "\n") }
+                            .forEach {
+                                notes.add(it)
                             }
                     }
                 })
 
-                Log.d(HUNTR, "userFullNames type : " + userFullNames.toTypedArray())
                 Log.d(HUNTR, "userFullNames : " + userFullNames)
                 Log.d(HUNTR, "userFullNames size : " + userFullNames.size)
 
-                data.put(CSV_HEADER[0], userFullNames)
+                data.put(CSV_HEADER[0], dateCreated)
+                data.put(CSV_HEADER[1], userFullNames)
+                data.put(CSV_HEADER[2], categories)
+                data.put(CSV_HEADER[3], amounts)
+                data.put(CSV_HEADER[4], notes)
             }
             "income" -> {
 
