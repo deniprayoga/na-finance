@@ -163,7 +163,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         Log.d(HUNTR, "expense amount : " + expense.amount)
                         Log.d(HUNTR, "expense note : " + expense.note)
                         Log.d(HUNTR, "expense note photo uri : " + expense.notePhotoUri)
-                        Log.d(HUNTR, "expense added by treasurer : " + expense.addedByTreasure)
+                        Log.d(HUNTR, "expense added by treasurer : " + expense.addedByTreasurer)
                         Log.d(HUNTR, "expense category : " + expense.category)
                         Log.d(HUNTR, "expense category id : " + expense.categoryId)
                         Log.d(HUNTR, "expense date created : " + expense.dateCreated)

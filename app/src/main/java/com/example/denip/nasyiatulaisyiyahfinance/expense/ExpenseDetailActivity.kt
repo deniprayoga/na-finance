@@ -327,7 +327,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             .getReference("expenses")
             .child(expense?.expenseId)
         val expense = ExpenseModel(
-            expense?.addedByTreasure,
+            expense?.addedByTreasurer,
             expense?.treasurerUid,
             expense?.amount,
             expense?.category,

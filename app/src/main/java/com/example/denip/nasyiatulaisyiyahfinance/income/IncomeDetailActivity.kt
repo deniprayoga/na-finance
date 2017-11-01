@@ -52,7 +52,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val amount = intent?.getStringExtra(getString(R.string.INCOME_AMOUNT))
         val category = intent.getStringExtra(getString(R.string.INCOME_CATEGORY))
         val dateCreated = intent.getStringExtra(getString(R.string.INCOME_DATE))
-        //val addedByTreasure = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURE))
+        //val addedByTreasurer = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURE))
 
         income_detail_id_text_view?.text = incomeId
         income_detail_note_field?.setText(note)
