@@ -328,7 +328,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             .child(expense?.expenseId)
         val expense = ExpenseModel(
             expense?.addedByTreasure,
-            expense?.uid,
+            expense?.treasurerUid,
             expense?.amount,
             expense?.category,
             expense?.dateCreated,
