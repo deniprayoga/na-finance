@@ -40,7 +40,7 @@
     <string name="note">Note (max 100 characters)</string>
     <string name="clear">clear</string>
     <string name="clear_short">C</string>
-    <string name="calendar_date_picker_result_values">%3$02d-%2$02d-%1$d</string>
+    <string name="calendar_date_picker_result_values">%1$d-%2$02d-%3$02d</string>
     <string name="setting_title">Setting</string>
     <string name="action_bar_done">Done</string>
     <string name="profile_title">Profile</string>
