@@ -36,6 +36,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         private lateinit var glideRequestManager: RequestManager
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
         private val dbRef = FirebaseDatabase.getInstance().reference
+        private val uid = auth.currentUser?.uid
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -292,8 +293,16 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                     else -> {
                         val fullName = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
 
-                        val expense = ExpenseModel(fullName, amount.toInt(), category.toString(),
-                            dateCreated, expenseId, note, null, categoryId)
+                        val expense = ExpenseModel(
+                            fullName + "^",
+                            uid,
+                            amount + "^",
+                            category.toString() + "^",
+                            dateCreated + "^",
+                            expenseId,
+                            note + "^",
+                            null,
+                            categoryId)
 
                         updateExpense(expense)
                         //updateCategoryAmount(categoryId)
@@ -319,6 +328,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             .child(expense?.expenseId)
         val expense = ExpenseModel(
             expense?.addedByTreasure,
+            expense?.uid,
             expense?.amount,
             expense?.category,
             expense?.dateCreated,
