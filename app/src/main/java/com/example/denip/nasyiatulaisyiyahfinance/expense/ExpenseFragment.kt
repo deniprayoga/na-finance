@@ -30,11 +30,12 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         private val auth = FirebaseAuth.getInstance()
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
-        private var expenses = ArrayList<ExpenseModel>()
+        private var expenses: ArrayList<ExpenseModel> = arrayListOf()
+        private val expense = expenses
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
         private var mParam1: String? = null
         private var mParam2: String? = null
-        internal var TAGGA = "ExpenseFragment"
+        internal var HUNTR = "ExpenseFragment"
         private var mListener: OnFragmentInteractionListener? = null
 
         fun newInstance(param1: String, param2: String): ExpenseFragment {
@@ -54,7 +55,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             mParam2 = arguments.getString(ARG_PARAM2)
         }
 
-        Log.d(TAGGA, "In the onCreate() event")
+        Log.d(HUNTR, "In the onCreate() event")
         initAuth()
     }
 
@@ -71,24 +72,34 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAGGA, "In the onStart() event")
+        Log.d(HUNTR, "In the onStart() event")
 
-        databaseExpenseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                expenses.clear()
+        //databaseExpenseRef.orderByKey().startAt("01-10-2017").endAt("31-10-2017")
+        /*orderByChild("dateCreated").startAt("01-10-2017").endAt("31-10-2017")*/
+        databaseExpenseRef
+            /*.orderByChild("dateCreated")
+            .startAt("2017-11-01")
+            .endAt("2017-11-13")*/
+            /*.orderByChild("category")
+            .equalTo("7-1-2 Perangko/Pengiriman (Dokumen/Paket)")*/
 
-                dataSnapshot!!.children
-                    .map { it.getValue(ExpenseModel::class.java) }
-                    .forEach { expenses.add(it) }
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    expenses.clear()
 
-                val expenseAdapter = ExpenseListAdapter(activity?.applicationContext, expenses)
-                recycler_view_expense_list?.adapter = expenseAdapter
-            }
+                    dataSnapshot!!.children
+                        .map { it.getValue(ExpenseModel::class.java) }
+                        .forEach { expenses.add(it) }
 
-            override fun onCancelled(databaseError: DatabaseError?) {
+                    val expenseAdapter = ExpenseListAdapter(activity?.applicationContext, expenses)
+                    recycler_view_expense_list?.adapter = expenseAdapter
+                }
 
-            }
-        })
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
 
         recycler_view_expense_list?.layoutManager = LinearLayoutManager(context)
 
@@ -122,78 +133,60 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAGGA, "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAGGA, "In the onActivityResult() event")
+        Log.d(HUNTR, "In the onActivityResult() event")
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAGGA, "In the onViewCreated() event")
+        Log.d(HUNTR, "In the onViewCreated() event")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d(TAGGA, "In the onActivityCreated() event")
+        Log.d(HUNTR, "In the onActivityCreated() event")
     }
 
     override fun onAttachFragment(childFragment: Fragment?) {
         super.onAttachFragment(childFragment)
-        Log.d(TAGGA, "In the onAttachFragment() event")
+        Log.d(HUNTR, "In the onAttachFragment() event")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d(TAGGA, "In the onDestroyView() event")
+        Log.d(HUNTR, "In the onDestroyView() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAGGA, "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAGGA, "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAGGA, "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val fragmentExpenseView = inflater!!.inflate(R.layout.fragment_expense, container, false)
         fragmentExpenseView.add_expense_button.setOnClickListener(this)
-        fragmentExpenseView.export_expense_imageButton?.setOnClickListener(this)
         return fragmentExpenseView
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.add_expense_button -> startActivity(Intent(context, AddExpenseActivity::class.java))
-            R.id.export_expense_imageButton -> {
-                showDialogExport()
-            }
         }
-    }
-
-    private fun showDialogExport() {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder
-            .setTitle(R.string.confirmation)
-            .setMessage(R.string.confirmation_export_expense)
-            .setPositiveButton(R.string.yes, { dialog, _ ->
-                Toast.makeText(context, "Make your export expense action.", Toast.LENGTH_SHORT).show()
-            })
-            .setNegativeButton(R.string.no, { dialog, _ ->
-                dialog.cancel()
-            })
-            .show()
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -204,6 +197,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        Log.d(HUNTR, "In the onAttach() event")
         if (context is OnFragmentInteractionListener) {
             mListener = context
         } else {
@@ -213,6 +207,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
     override fun onDetach() {
         super.onDetach()
+        Log.d(HUNTR, "In the onDetach() event")
         mListener = null
     }
 
