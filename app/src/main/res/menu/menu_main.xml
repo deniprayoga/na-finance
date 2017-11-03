@@ -4,65 +4,119 @@
     tools:context="com.example.denip.nasyiatulaisyiyahfinance.main.MainActivity">
 
     <item
-        android:id="@+id/setting_profile"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:title="@string/profile_title"
-        android:titleCondensed="Areas"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/setting_category"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:title="@string/category_title"
-        android:titleCondensed="Areas"
-        android:visible="true"
-        app:showAsAction="never">
+        android:id="@+id/menu_expense"
+        android:title="@string/expense">
         <menu>
             <item
-                android:id="@+id/setting_category_expense"
-                android:title="@string/expense" />
+                android:id="@+id/menu_expense_category"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/category_title"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
             <item
-                android:id="@+id/setting_category_income"
-                android:title="@string/income" />
+                android:id="@+id/menu_expense_export"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/export_title"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_expense_show"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/show"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_expense_sort_by"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/sort"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
         </menu>
     </item>
 
     <item
-        android:id="@+id/setting_export"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:title="@string/export_title"
-        android:titleCondensed="Areas"
-        android:visible="true"
-        app:showAsAction="never">
+        android:id="@+id/menu_income"
+        android:title="@string/income">
         <menu>
             <item
-                android:id="@+id/setting_export_expense"
-                android:title="@string/expense" />
+                android:id="@+id/menu_income_category"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/category_title"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
             <item
-                android:id="@+id/setting_export_income"
-                android:title="@string/income" />
+                android:id="@+id/menu_income_export"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/export_title"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_income_show"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/show"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_income_sort_by"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/sort"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
         </menu>
     </item>
 
     <item
-        android:id="@+id/setting_change_password"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:title="@string/change_password"
-        android:titleCondensed="Areas"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/setting_sign_out"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:title="@string/action_sign_out"
-        android:titleCondensed="Areas"
-        android:visible="true"
-        app:showAsAction="never" />
+        android:id="@+id/menu_more"
+        android:title="@string/more">
+        <menu>
+            <item
+                android:id="@+id/menu_more_profile"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/profile_title"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_more_change_password"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/change_password"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_more_about"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/about"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_more_sign_out"
+                android:enabled="true"
+                android:orderInCategory="100"
+                android:title="@string/action_sign_out"
+                android:titleCondensed="Areas"
+                android:visible="true"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 </menu>
