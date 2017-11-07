@@ -9,10 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.os.Environment
+import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseFragment
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseModel
@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
     companion object {
         private val HUNTR = "huntr_MainActivity"
         private var sectionsPagerAdapter: SectionsPagerAdapter? = null
-        private var viewPager: ViewPager? = null
-        private var indicator: CircleIndicator? = null
         private val auth: FirebaseAuth = FirebaseAuth.getInstance()
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
         private val databaseIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
@@ -120,15 +118,80 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.setting_profile -> startActivity(Intent(this, ProfileActivity::class.java))
-            R.id.setting_change_password -> startActivity(Intent(this, ChangePasswordActivity::class.java))
-            R.id.setting_sign_out -> showDialogSignOut()
-            R.id.setting_category_expense -> startActivity(Intent(this, CategoryExpenseSettingActivity::class.java))
-            R.id.setting_category_income -> startActivity(Intent(this, CategoryIncomeSettingActivity::class.java))
-            R.id.setting_export_expense -> showDialogExportExpense()
-            R.id.setting_export_income -> showDialogExportIncome()
+            R.id.menu_more_profile -> startActivity(Intent(this, ProfileActivity::class.java))
+            R.id.menu_more_change_password -> startActivity(Intent(this, ChangePasswordActivity::class.java))
+            R.id.menu_more_sign_out -> showDialogSignOut()
+            R.id.menu_expense_category -> startActivity(Intent(this, CategoryExpenseSettingActivity::class.java))
+            R.id.menu_income_category -> startActivity(Intent(this, CategoryIncomeSettingActivity::class.java))
+            R.id.menu_expense_export -> showDialogExportExpense()
+            R.id.menu_income_export -> showDialogExportIncome()
+            R.id.menu_expense_show -> showDialogShowExpense()
+            R.id.menu_expense_sort_by -> showDialogExpenseSortBy()
+            R.id.menu_income_show -> showDialogShowIncome()
+            R.id.menu_income_sort_by -> showDialogIncomeSortBy()
         }
         return true
+    }
+
+    private fun showDialogIncomeSortBy() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(getString(R.string.sort_income_by))
+            .setPositiveButton(getString(R.string.date), { dialog, which ->
+
+            })
+            .setNeutralButton(getString(R.string.category_title), { dialog, which ->
+
+            })
+            .show()
+    }
+
+    private fun showDialogShowIncome() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(getString(R.string.show_income))
+            .setPositiveButton(getString(R.string.show_only_me), { dialog, which ->
+
+            })
+            .setNeutralButton(getString(R.string.show_all), { dialog, which ->
+
+            })
+            .show()
+    }
+
+    private fun showDialogExpenseSortBy() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(getString(R.string.sort_expense_by))
+            .setPositiveButton(getString(R.string.date), { dialog, which ->
+
+            })
+            .setNeutralButton(getString(R.string.category_title), { dialog, which ->
+
+            })
+            .show()
+    }
+
+    private fun showDialogShowExpense() {
+        Log.d(HUNTR, "In the showDialogShowExpense()")
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder
+            .setTitle(getString(R.string.show_expense))
+            .setPositiveButton(getString(R.string.show_only_me), { dialog, which ->
+                Log.d(HUNTR, "Only me clicked!")
+                showExpenseOnlyMe()
+            })
+            .setNeutralButton(getString(R.string.show_all), { dialog, which ->
+                dialog.dismiss()
+                Log.d(HUNTR, "All clicked!")
+            })
+            .show()
+    }
+
+    private fun showExpenseOnlyMe() {
+        Log.d(HUNTR, "In the showExpenseOnlyMe()")
+        val expense = ExpenseFragment()
+        expense.showExpenseOnlyMe()
     }
 
     private fun initToolbar() {
@@ -164,7 +227,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
             .setTitle(R.string.confirmation)
-            .setMessage(R.string.confirmation_export_expense)
+            .setMessage(R.string.confirmation_export_income)
             .setPositiveButton(R.string.yes, { dialog, _ ->
                 toExport = "income"
                 exportToCsv()
@@ -302,7 +365,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                             }
 
                         dataSnapshot.children
-                            .map { it?.child("amount")?.value.toString().replace("^", "\n") }
+                            .map { it?.child("amount")?.value.toString().replace("^", "\nRp.") }
                             .forEach {
                                 amounts.add(it)
                             }
@@ -350,13 +413,13 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         Log.d(HUNTR, "In the initViewPager() event")
         sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
-        viewPager = findViewById(R.id.container) as ViewPager
-        indicator = findViewById(R.id.dotsIndicator) as CircleIndicator
-        viewPager!!.adapter = sectionsPagerAdapter
-        indicator!!.setViewPager(viewPager)
+        container!!.adapter = sectionsPagerAdapter
 
-        viewPager!!.currentItem = 0
-        Log.d(HUNTR, "viewPager currentItem : " + viewPager!!.currentItem)
+        container!!.currentItem = 0
+
+        tab_layout.setupWithViewPager(container)
+        toolbar_main_layout.title = getString(R.string.app_name_long)
+        Log.d(HUNTR, "viewPager currentItem : " + container!!.currentItem)
     }
 
     private fun initAuth() {
@@ -378,6 +441,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
+        private val tabTitles = arrayOf(getString(R.string.expense), getString(R.string.income))
         override fun getItem(position: Int): Fragment {
             Log.d(HUNTR, "In the getItem() event")
             when (position) {
@@ -393,12 +457,16 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         override fun getPageTitle(position: Int): CharSequence? {
             Log.d(HUNTR, "In the getPageTitle() event")
             when (position) {
-                0 -> return "SECTION 1"
-                1 -> return "SECTION 2"
-                2 -> return "SECTION 3"
+                0 -> return getString(R.string.expense)
+                1 -> return getString(R.string.income)
             }
             Log.d(HUNTR, "position : " + position)
             return null
+        }
+
+        override fun getItemPosition(`object`: Any?): Int {
+            Log.d(HUNTR, "In the getItemPosition()")
+            return PagerAdapter.POSITION_NONE
         }
     }
 
