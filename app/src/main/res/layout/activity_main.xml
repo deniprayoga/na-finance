@@ -33,7 +33,7 @@
             app:tabIndicatorColor="#ffffff"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#ffffff"
-            app:tabTextColor="#d3d3d3">
+            app:tabTextColor="#c8025325">
 
         </android.support.design.widget.TabLayout>
 
