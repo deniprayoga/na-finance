@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
@@ -25,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_category_expense_setting.*
 class CategoryExpenseSettingActivity : AppCompatActivity() {
 
     companion object {
-        internal var TAGGA = "CategoryExpenseSettingActivity"
+        internal var HUNTR = "huntr_CatExpSetAct"
         private val auth = FirebaseAuth.getInstance()
         private var categories = ArrayList<CategoryExpenseModel>()
         private val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
@@ -58,12 +55,15 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
 
     private fun initLayout() {
         initToolbar()
+        Log.d(HUNTR, "In the CategoryExpenseSettingActivity()")
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAGGA, "In the onStart() event")
-        dbCategoryRef?.addValueEventListener(object : ValueEventListener {
+        Log.d(HUNTR, "In the onStart() event")
+        dbCategoryRef!!
+            .orderByChild("categoryNumber")
+            .addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
 
             }
@@ -99,6 +99,7 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
     }
 
     private fun showAddExpenseCategoryDialog() {
+        Log.d(HUNTR, "showDialogExpenseCategoryDialog()")
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val categoryInflater: LayoutInflater = layoutInflater
         val view: View? = categoryInflater.inflate(R.layout.activity_add_expense_category, null)
@@ -130,12 +131,11 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                         "-" + thirdNumber.toString()
                     val categoryName = view.add_category_name_field?.text.toString()
 
-                    Log.d("hunter_ini", categoryNumber)
-                    Log.d("hunter_categoryName", categoryName)
-                    Log.d("hunter_firstNumber", firstNumber.toString())
-                    Log.d("hunter_secondNumber", secondNumber.toString())
-                    Log.d("hunter_thirdNumber", thirdNumber.toString())
-
+                    Log.d(HUNTR, categoryNumber)
+                    Log.d(HUNTR, categoryName)
+                    Log.d(HUNTR, firstNumber.toString())
+                    Log.d(HUNTR, secondNumber.toString())
+                    Log.d(HUNTR, thirdNumber.toString())
                     val categoryId = dbCategoryRef?.push()?.key
                     val category = CategoryExpenseModel(categoryId, firstNumber.toInt(), secondNumber,
                         thirdNumber, categoryNumber, categoryName)
@@ -149,31 +149,33 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_category_setting, menu)
+        Log.d(HUNTR, "In the onCreateOptionsMenu()")
         return true
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.d("taggg", "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("taggg", "In the onResume() event")
+
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("taggg", "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("taggg", "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("taggg", "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 }
