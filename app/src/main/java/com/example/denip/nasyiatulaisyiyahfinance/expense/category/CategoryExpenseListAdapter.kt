@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.category_list_row_view.view.*
 
 /**
  * Created by denip on 9/26/2017.
@@ -37,6 +38,7 @@ class CategoryExpenseListAdapter(context: Context, categories: ArrayList<Categor
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.category_list_row_view,
             parent, false)
+        view.category_list_row_view_category_name?.isSelected = true
         return CustomViewHolder(view)
     }
 
