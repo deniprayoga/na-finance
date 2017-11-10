@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.category_list_row_view.view.*
 
 /**
  * Created by denip on 9/28/2017.
@@ -30,12 +31,13 @@ class CategoryIncomeListAdapter(context: Context, categories: ArrayList<Category
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.category_list_row_view,
             parent, false)
+        view.category_list_row_view_category_name?.isSelected = true
         return CustomViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val category = categories[position]
-        holder!!.categoryNumber.text = category.categoryNumber
+        holder!!.categoryNumber.text = category.categoryNumber?.replace("-", " - ")
         holder.categoryName.text = category.categoryName
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()

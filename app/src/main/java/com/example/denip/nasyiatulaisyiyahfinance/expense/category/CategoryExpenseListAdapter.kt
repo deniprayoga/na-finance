@@ -44,7 +44,7 @@ class CategoryExpenseListAdapter(context: Context, categories: ArrayList<Categor
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val category = categories[position]
-        holder!!.categoryNumber.text = category.categoryNumber
+        holder!!.categoryNumber.text = category.categoryNumber?.replace("-", " - ")
         holder.categoryName.text = category.categoryName
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()
