@@ -132,7 +132,9 @@ class CategoryIncomeSettingActivity : AppCompatActivity() {
         super.onStart()
         Log.d("taggg", "In the onStart() event")
 
-        dbCategoryRef?.addValueEventListener(object : ValueEventListener {
+        dbCategoryRef!!
+            .orderByChild("categoryNumber")
+            .addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 categories.clear()
 
