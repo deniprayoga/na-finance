@@ -1,7 +1,5 @@
 package com.example.denip.nasyiatulaisyiyahfinance.profile
 
-import android.Manifest
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -11,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -22,20 +19,16 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
-import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_position_list.view.*
-import java.util.ArrayList
 
 class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private val dbProfile = FirebaseDatabase.getInstance().getReference("users")
         private val auth = FirebaseAuth.getInstance()
-        var selectedUri: Uri? = null
         lateinit var glideRequestManager: RequestManager
+        private val HUNTR = "huntr_profileAct"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +41,10 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initLayout() {
         initToolbar()
-        profile_photo.setOnClickListener(this)
         location_profile_field.setOnClickListener(this)
         user_position_profile_field.setOnClickListener(this)
+        phone_number_profile_field.movementMethod = null
+        phone_number_profile_field.isLongClickable = false
     }
 
     private fun initToolbar() {
@@ -61,7 +55,6 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.profile_photo -> pickImage()
             R.id.location_profile_field -> showLocationDialog()
             R.id.user_position_profile_field -> {
 
@@ -102,50 +95,6 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         dialog.show()
     }
 
-    private fun pickImage() {
-        val permissionListener: PermissionListener = object : PermissionListener {
-            override fun onPermissionGranted() {
-                val bottomSheetDialogFragment: TedBottomPicker = TedBottomPicker.Builder(this@ProfileActivity)
-                    .setOnImageSelectedListener { uri ->
-                        Log.d("ted", "uri:" + uri)
-                        Log.d("ted", "uri.path:" + uri.path)
-                        selectedUri = uri
-
-                        profile_photo.visibility = View.VISIBLE
-                        profile_photo.post {
-                            glideRequestManager
-                                .load(uri)
-                                .fitCenter()
-                                .into(profile_photo)
-                        }
-
-                        profile_photo.layoutParams = LinearLayout.LayoutParams(400, 400, 1F)
-                    }
-
-                    .setSelectedUri(selectedUri)
-                    .setPeekHeight(1200)
-                    .create()
-                bottomSheetDialogFragment.show(supportFragmentManager)
-            }
-
-            override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-                showPermissionDenied(deniedPermissions)
-            }
-        }
-
-        TedPermission(this@ProfileActivity)
-            .setPermissionListener(permissionListener)
-            .setDeniedMessage("If you reject permission,you can not use this service" +
-                "\n\nPlease turn on permissions at [Setting] > [Permission]")
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .check()
-    }
-
-    private fun showPermissionDenied(deniedPermissions: ArrayList<String>?) {
-        Toast.makeText(this@ProfileActivity, "Permission denied\n" +
-            deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_profile, menu)
         return true
@@ -163,16 +112,25 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                     fullName.isEmpty() -> profile_name_field?.error = getString(R.string.prompt_profile_name_empty)
                     phoneNumber.isEmpty() -> phone_number_profile_field?.error =
                         getString(R.string.prompt_profile_phone_number_empty)
+
                     else -> {
                         val location = location_profile_field?.text.toString()
                         val userId = auth.currentUser?.uid
                         val userEmail = auth.currentUser?.email
                         val position = user_position_profile_field?.text.toString()
                         fullName = profile_name_field?.text.toString()
+
+                        val initial = StringBuilder()
+                        for (s: String in fullName.split(" ")) {
+                            initial.append(s[0])
+                        }
+
+                        Log.d(HUNTR, "initials : " + initial.toString())
+
                         phoneNumber = phone_number_profile_field?.text.toString()
 
                         val profileData = UserModel(userId, fullName, phoneNumber, location,
-                            userEmail, null, position)
+                            userEmail, initial.toString(), position)
                         updateProfile(profileData)
                     }
                 }
@@ -204,11 +162,13 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 val phoneNumber = dataSnapshot?.child(auth.currentUser?.uid)?.child("phoneNumber")?.value.toString()
                 val email = dataSnapshot?.child(auth.currentUser?.uid)?.child("email")?.value.toString()
                 val position = dataSnapshot?.child(auth.currentUser?.uid)?.child("position")?.value.toString()
+                val initial = dataSnapshot?.child(auth.currentUser?.uid)?.child("initial")?.value.toString()
                 profile_name_field.setText(fullName)
                 phone_number_profile_field.setText(phoneNumber)
                 location_profile_field.setText(location)
                 email_profile_field.setText(email)
                 user_position_profile_field.setText(position)
+                initial_field.text = initial
             }
         })
 
