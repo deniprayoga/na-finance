@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_category_expense_detail.*
 
 class CategoryExpenseDetailActivity : AppCompatActivity() {
 
-    internal var HUNTER_TAG_LYFCYCL = "hunter_lifecycle"
+    private var HUNTR = "huntr_CatExpDetAct"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
         category_detail_number?.text = categoryNumber
         category_detail_id?.text = categoryId
 
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onCreate() event")
+        Log.d(HUNTR, "In the onCreate() event")
         Log.d("hunter_categoryNum", categoryNumber)
         Log.d("hunter_catFirstNumRcv", "" + categoryFirstNumber)
         initToolbar()
@@ -84,7 +84,7 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onStart() event")
+        Log.d(HUNTR, "In the onStart() event")
     }
 
     private fun updateCategory(categoryId: String?,
@@ -109,26 +109,26 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onRestart() event")
+        Log.d(HUNTR, "In the onRestart() event")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onResume() event")
+        Log.d(HUNTR, "In the onResume() event")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onPause() event")
+        Log.d(HUNTR, "In the onPause() event")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onStop() event")
+        Log.d(HUNTR, "In the onStop() event")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(HUNTER_TAG_LYFCYCL, "In the onDestroy() event")
+        Log.d(HUNTR, "In the onDestroy() event")
     }
 }
