@@ -9,7 +9,7 @@ data class UserModel(val userId: String?,
                      val phoneNumber: String?,
                      val location: String?,
                      val email: String?,
-                     val photoUri: String?,
+                     val initial: String?,
                      val position: String?) {
     constructor() : this("", "", "", "", "", "", "")
 }
