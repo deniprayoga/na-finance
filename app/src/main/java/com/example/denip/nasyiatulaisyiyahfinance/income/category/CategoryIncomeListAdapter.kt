@@ -31,7 +31,6 @@ class CategoryIncomeListAdapter(context: Context, categories: ArrayList<Category
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.category_list_row_view,
             parent, false)
-        view.category_list_row_view_category_name?.isSelected = true
         return CustomViewHolder(view)
     }
 
