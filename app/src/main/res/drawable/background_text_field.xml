@@ -5,7 +5,7 @@
         <shape>
             <size android:height="34dp"/>
             <corners android:radius="6dp" />
-            <solid android:color="@android:color/white" />
+            <solid android:color="@android:color/transparent" />
         </shape>
     </item>
     <item>
@@ -20,7 +20,7 @@
         <!-- 18 + 8 + 8 -->
 
         <shape>
-            <solid android:color="@android:color/white" />
+            <solid android:color="@android:color/transparent" />
             <corners
                 android:radius="6dp"
                 android:topRightRadius="6dp"
