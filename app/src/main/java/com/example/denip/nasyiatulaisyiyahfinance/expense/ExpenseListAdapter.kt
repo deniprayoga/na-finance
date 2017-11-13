@@ -40,10 +40,11 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         val expense = expenses[position]
         holder!!.note.text = expense.note.toString().replace("^", "")
         holder.category.text = expense.category.toString().replace("^", "")
-        holder.amount.text = "Rp. ${expense.amount.toString().replace("^", "")}"
+        holder.amount.text = "Rp ${expense.amount.toString().replace("^", "")}"
         holder.dateCreated.text = expense.dateCreated.toString().replace("^", "")
         holder.addedBy.text = expense.addedByTreasurer.toString().replace("^", "")
         holder.categoryId.text = expense.categoryId.toString().replace("^", "")
+        holder.addedByInitial.text = expense.addedByTreasurerInitial.toString()
     }
 
     override fun getItemCount(): Int = expenses.size
@@ -60,6 +61,7 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         val dateCreated = view.findViewById(R.id.expense_list_row_view_date) as TextView
         val note = view.findViewById(R.id.expense_list_row_view_note) as TextView
         val categoryId = view.findViewById(R.id.expense_list_row_view_category_id) as TextView
+        val addedByInitial = view.findViewById(R.id.initial_field) as TextView
 
         init {
             view.setOnClickListener { v ->
@@ -73,6 +75,7 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
                         val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")?.value.toString()
 
+                        val initial = dataSnapshot?.child(auth.currentUser?.uid)?.child("initial")?.value.toString()
                         val expense = expenses[adapterPosition]
                         notifyDataSetChanged()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
@@ -81,9 +84,11 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         intent.putExtra(context?.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString().replace("^", ""))
                         intent.putExtra(context?.getString(R.string.EXPENSE_CATEGORY), expense.category.toString().replace("^", ""))
                         intent.putExtra(context?.getString(R.string.EXPENSE_DATE), expense.dateCreated.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.EXPENSE_NOTE_PHOTO_URI), expense.notePhotoUri)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURE), fullName.replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER_INITIAL), expense.addedByTreasurerInitial)
+                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER), fullName.replace("^", ""))
                         intent.putExtra(context?.getString(R.string.CATEGORY_ID_EXPENSE), expense.categoryId)
+                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID), expense.addedByTreasurerUid.toString())
+                        //intent.putExtra(context?.getString(R.string.))
 
                         Log.d(HUNTR, "expense.expenseId : " + expense.expenseId)
                         Log.d(HUNTR, "expense.note : " + expense.note)
@@ -92,6 +97,8 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         Log.d(HUNTR, "expense.dateCreated : " + expense.dateCreated)
                         Log.d(HUNTR, "expense fullName : " + fullName)
                         Log.d(HUNTR, "expense.categoryId : " + expense.categoryId)
+                        Log.d(HUNTR, "expense.initial : " + expense.addedByTreasurerInitial)
+                        Log.d(HUNTR, "expense addeddByTreasurerUid : " + expense.addedByTreasurerUid)
                         v?.context?.startActivity(intent)
                     }
                 })
