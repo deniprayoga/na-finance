@@ -42,7 +42,7 @@ class PickCategoryExpenseAdapter(private var context: Context, categories: Array
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val category = categories[position]
-        holder!!.categoryNumber.text = category.categoryNumber
+        holder!!.categoryNumber.text = category.categoryNumber?.replace("-", " - ")
         holder.categoryName.text = category.categoryName.toString()
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()
