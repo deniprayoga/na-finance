@@ -32,15 +32,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.Expense.AddAmount" parent="Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorActionBarExpense</item>
-        <item name="colorPrimaryDark">@color/colorActionBarExpenseDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="homeAsUpIndicator">@drawable/ic_done_white_24dp</item>
-    </style>
-
     <style name="AppTheme.NoActionBar.Income.AddAmount" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
