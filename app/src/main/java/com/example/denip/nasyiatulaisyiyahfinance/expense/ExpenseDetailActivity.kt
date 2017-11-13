@@ -1,15 +1,12 @@
 package com.example.denip.nasyiatulaisyiyahfinance.expense
 
-import android.Manifest
 import android.content.Intent
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -20,9 +17,6 @@ import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
-import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_expense_detail.*
 
@@ -32,11 +26,10 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
     companion object {
         private val auth = FirebaseAuth.getInstance()
         private val HUNTR = "huntr_ExpenseDetail"
-        private var selectedUri: Uri? = null
         private lateinit var glideRequestManager: RequestManager
         private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
         private val dbRef = FirebaseDatabase.getInstance().reference
-        private val uid = auth.currentUser?.uid
+        private val currentUserUid = auth.currentUser?.uid
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +45,9 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         val category = intent.getStringExtra(getString(R.string.EXPENSE_CATEGORY))
         val dateCreated = intent.getStringExtra(getString(R.string.EXPENSE_DATE))
         val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_EXPENSE))
-        val fullName = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
+        val fullName = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER))
+        val addedByTreasurerInitial = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_INITIAL))
+        val addedByTreasurerUid = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID))
 
         expense_detail_id_text_view?.text = expenseId
         expense_detail_note_field?.setText(note)
@@ -72,6 +67,9 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         Log.d(HUNTR, "expense calendar : " + dateCreated)
         Log.d(HUNTR, "expense category id : " + categoryId)
         Log.d(HUNTR, "fullName : " + fullName)
+        Log.d(HUNTR, "expense addedByTreasurerInitial : " + addedByTreasurerInitial)
+        Log.d(HUNTR, "expense addedByTreasurerUid : " + addedByTreasurerUid)
+        Log.d(HUNTR, "current user Uid : " + currentUserUid)
     }
 
     private fun initLayout() {
@@ -81,9 +79,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         initToolbar()
         expense_detail_amount_field.isFocusable = false
         expense_detail_categories_field.isFocusable = false
-        calendar_button_expense_detail.setOnClickListener(this)
         calendar_result_text_expense_detail.setOnClickListener(this)
-        pick_image_button_expense_detail.setOnClickListener(this)
         expense_detail_amount_field.setOnClickListener(this)
         expense_detail_categories_field.setOnClickListener(this)
         expense_detail_note_field.setOnClickListener(this)
@@ -114,8 +110,6 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.calendar_button_expense_detail -> showCalendar()
-            R.id.pick_image_button_expense_detail -> pickImage()
             R.id.expense_detail_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_expense_detail -> showCalendar()
             R.id.expense_detail_categories_field -> pickCategory()
@@ -208,50 +202,6 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         startActivity(Intent(this@ExpenseDetailActivity, PickCategoryExpenseActivity::class.java))
     }
 
-    private fun pickImage() {
-        val permissionListener: PermissionListener = object : PermissionListener {
-            override fun onPermissionGranted() {
-                val bottomSheetDialogFragment: TedBottomPicker = TedBottomPicker.Builder(this@ExpenseDetailActivity)
-                    .setOnImageSelectedListener { uri ->
-                        Log.d("ted", "uri:" + uri)
-                        Log.d("ted", "uri.path:" + uri.path)
-                        selectedUri = uri
-
-                        image_preview_expense_detail.visibility = View.VISIBLE
-                        image_preview_expense_detail.post {
-                            glideRequestManager
-                                .load(uri)
-                                .fitCenter()
-                                .into(image_preview_expense_detail)
-                        }
-
-                        image_preview_expense_detail.layoutParams = LinearLayout.LayoutParams(800, 800)
-                    }
-
-                    .setSelectedUri(selectedUri)
-                    .setPeekHeight(1200)
-                    .create()
-                bottomSheetDialogFragment.show(supportFragmentManager)
-            }
-
-            override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-                showPermissionDenied(deniedPermissions)
-            }
-        }
-
-        TedPermission(this@ExpenseDetailActivity)
-            .setPermissionListener(permissionListener)
-            .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .check()
-        hideCursorOnNoteField()
-    }
-
-    private fun showPermissionDenied(deniedPermissions: ArrayList<String>?) {
-        Toast.makeText(this@ExpenseDetailActivity, "Permission denied\n" +
-            deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
-    }
-
     private fun showCalendar() {
         val calendarDatePicker = CalendarDatePickerDialogFragment().setOnDateSetListener(this)
         calendarDatePicker.show(supportFragmentManager, FRAG_TAG_DATE_PICKER)
@@ -272,7 +222,15 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_expense_detail, menu)
+        Log.d(HUNTR, "In the onCreateOptionMenu()")
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        Log.d(HUNTR, "In the onPrepareOptionMenu()")
+        val addedByTreasurerUid = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID))
+        menu?.findItem(R.id.action_bar_save)?.isEnabled = addedByTreasurerUid == currentUserUid
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -291,17 +249,20 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                     amount.isEmpty() -> expense_detail_amount_field.error = getString(R.string.prompt_amount_empty)
                     note.isEmpty() -> expense_detail_note_field.error = getString(R.string.prompt_note_empty)
                     else -> {
-                        val fullName = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURE))
+                        val fullName = intent
+                            .getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER))
+                        val addedByTreasurerInitial = intent
+                            .getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_INITIAL))
 
                         val expense = ExpenseModel(
                             fullName + "^",
-                            uid,
+                            currentUserUid,
                             amount + "^",
                             category.toString() + "^",
                             dateCreated + "^",
                             expenseId,
                             note + "^",
-                            null,
+                            addedByTreasurerInitial,
                             categoryId)
 
                         updateExpense(expense)
@@ -328,13 +289,13 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             .child(expense?.expenseId)
         val expense = ExpenseModel(
             expense?.addedByTreasurer,
-            expense?.treasurerUid,
+            expense?.addedByTreasurerUid,
             expense?.amount,
             expense?.category,
             expense?.dateCreated,
             expense?.expenseId,
             expense?.note,
-            null,
+            expense?.addedByTreasurerInitial,
             expense?.categoryId)
         dbUpdateExpenseRef.setValue(expense)
         Toast.makeText(applicationContext, getString(R.string.expense_updated), Toast.LENGTH_SHORT).show()
