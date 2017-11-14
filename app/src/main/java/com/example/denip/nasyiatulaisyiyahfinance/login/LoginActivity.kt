@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.main.MainActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val HUNTR = "huntr_LoginActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,39 +29,38 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initLayout() {
         forgot_password_text_view.setOnClickListener(this)
-        initSignInButton()
+        sign_in_button.setOnClickListener(this)
     }
 
-    private fun initSignInButton() {
-        sign_in_button.setOnClickListener {
-            val email = email_field.text.toString()
-            val password = password_field.text.toString()
+    private fun tryLogin() {
+        Log.d(HUNTR, "In the tryLogin()")
+        val email = email_field.text.toString()
+        val password = password_field.text.toString()
 
-            if (TextUtils.isEmpty(email)) {
-                showEmptyEmail()
-                return@setOnClickListener
+        when {
+            email.isEmpty() -> showEmptyEmail()
+            password.isEmpty() -> showEmptyPassword()
+            else -> {
+                login(email, password)
+                showLoginProgress()
             }
+        }
+    }
 
-            if (TextUtils.isEmpty(password)) {
-                showEmptyPassword()
-                return@setOnClickListener
-            }
-
-            showLoginProgress()
-
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                hideLoginProgress()
-                if (!task.isSuccessful) {
-                    if (password.length < 6) {
-                        passwordError()
-                    } else if (!email.contains(getString(R.string.contain_at_gmail))) {
-                        emailError()
-                    } else {
-                        showAuthFailed()
-                    }
+    private fun login(email: String, password: String) {
+        Log.d(HUNTR, "In the login()")
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            hideLoginProgress()
+            if (!task.isSuccessful) {
+                if (password.length < 6) {
+                    passwordError()
+                } else if (!email.contains(getString(R.string.contain_at_gmail))) {
+                    emailError()
                 } else {
-                    launchMainActivity()
+                    showAuthFailed()
                 }
+            } else {
+                launchMainActivity()
             }
         }
     }
@@ -66,6 +68,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.forgot_password_text_view -> launchForgotPasswordActivity()
+            R.id.sign_in_button -> tryLogin()
         }
     }
 
@@ -97,19 +100,27 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showEmptyEmail() {
-        email_field?.error = getString(R.string.prompt_enter_email)
+        val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+        email_field?.startAnimation(shake)
     }
 
     private fun showEmptyPassword() {
-        password_field?.error = getString(R.string.prompt_enter_password)
+        val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+        password_field?.startAnimation(shake)
     }
 
     private fun emailError() {
-        email_field.error = getString(R.string.error_invalid_email)
+        val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+        email_field.startAnimation(shake)
+        Toast
+            .makeText(this@LoginActivity, getString(R.string.error_invalid_email), Toast.LENGTH_LONG)
+            .show()
     }
 
     private fun passwordError() {
-        password_field.error = getString(R.string.minimum_password)
+        val shake = AnimationUtils.loadAnimation(this@LoginActivity, R.anim.shake)
+        password_field.startAnimation(shake)
+        Toast.makeText(this@LoginActivity, getString(R.string.minimum_password), Toast.LENGTH_LONG).show()
     }
 
     private fun showAuthFailed() {
