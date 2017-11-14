@@ -9,6 +9,7 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -227,9 +228,9 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val category = income_categories_field?.text.toString()
 
         when {
-            amount.isEmpty() -> income_amount_field.error = getString(R.string.prompt_amount_empty)
-            note.isEmpty() -> income_note_field.error = getString(R.string.prompt_note_empty)
-            category.isEmpty() -> income_categories_field.error = getString(R.string.prompt_category_empty)
+            amount.isEmpty() -> showWarningAnimation(income_amount_field)
+            note.isEmpty() -> showWarningAnimation(income_note_field)
+            category.isEmpty() -> showWarningAnimation(income_categories_field)
             else -> {
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
                 dbRef.addValueEventListener(object : ValueEventListener {
@@ -254,6 +255,11 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
 
             }
         }
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@AddIncomeActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
     override fun onRestart() {
