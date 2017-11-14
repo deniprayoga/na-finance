@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
@@ -53,7 +55,8 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showEmptyEmail() {
-        email_field_forgot_password?.error = getString(R.string.prompt_enter_email)
+        val shake = AnimationUtils.loadAnimation(this@ForgotPasswordActivity, R.anim.shake)
+        email_field_forgot_password?.startAnimation(shake)
     }
 
 
@@ -83,7 +86,11 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun emailError() {
-        email_field_forgot_password.error = getString(R.string.error_invalid_email)
+        val shake = AnimationUtils.loadAnimation(this@ForgotPasswordActivity, R.anim.shake)
+        email_field_forgot_password.startAnimation(shake)
+        Toast
+            .makeText(this@ForgotPasswordActivity, getString(R.string.error_invalid_email), Toast.LENGTH_LONG)
+            .show()
     }
 
     private fun showResetPasswordProgress() {
