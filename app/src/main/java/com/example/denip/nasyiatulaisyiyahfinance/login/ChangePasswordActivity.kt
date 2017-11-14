@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.EmailAuthProvider
@@ -44,8 +45,8 @@ class ChangePasswordActivity : AppCompatActivity(), View.OnClickListener {
 
 
         when {
-            oldPassword.isEmpty() -> old_password_field.error = getString(R.string.prompt_empty_field)
-            newPassword.isEmpty() -> new_password_field.error = getString(R.string.prompt_empty_field)
+            oldPassword.isEmpty() -> showWarningAnimation(old_password_field)
+            newPassword.isEmpty() -> showWarningAnimation(new_password_field)
             else -> {
                 val credential = EmailAuthProvider.getCredential(userEmail, oldPassword)
                 user?.reauthenticate(credential)?.addOnCompleteListener { task ->
@@ -74,6 +75,11 @@ class ChangePasswordActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@ChangePasswordActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
