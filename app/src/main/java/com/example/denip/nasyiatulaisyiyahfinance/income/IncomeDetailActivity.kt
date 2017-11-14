@@ -1,6 +1,5 @@
 package com.example.denip.nasyiatulaisyiyahfinance.income
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -9,7 +8,7 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -24,9 +23,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
-import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_add_amount_income.view.*
 import kotlinx.android.synthetic.main.activity_income_detail.*
 
@@ -88,9 +84,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         income_detail_amount_field.isFocusable = false
         income_detail_categories_field.isFocusable = false
         initToolbar()
-        calendar_button_income_detail.setOnClickListener(this)
         calendar_result_text_income_detail.setOnClickListener(this)
-        pick_image_button_income_detail.setOnClickListener(this)
         income_detail_amount_field.setOnClickListener(this)
         income_detail_categories_field.setOnClickListener(this)
         income_detail_note_field.setOnClickListener(this)
@@ -126,8 +120,8 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val note = income_detail_note_field.text.toString()
 
         when {
-            amount.isEmpty() -> income_detail_amount_field.error = getString(R.string.prompt_amount_empty)
-            note.isEmpty() -> income_detail_note_field.error = getString(R.string.prompt_note_empty)
+            amount.isEmpty() -> showWarningAnimation(income_detail_amount_field)
+            note.isEmpty() -> showWarningAnimation(income_detail_note_field)
             else -> {
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
                 dbRef.addValueEventListener(object : ValueEventListener {
@@ -153,14 +147,17 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@IncomeDetailActivity, R.anim.shake)
+        view.startAnimation(shake)
+    }
+
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         calendar_result_text_income_detail.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.calendar_button_income_detail -> showCalendar()
-            R.id.pick_image_button_income_detail -> pickImage()
             R.id.income_detail_amount_field -> showAddAmountDialog()
             R.id.calendar_result_text_income_detail -> showCalendar()
             R.id.income_detail_categories_field -> pickCategory()
@@ -251,50 +248,6 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
         hideCursorOnNoteField()
-    }
-
-    private fun pickImage() {
-        val permissionListener: PermissionListener = object : PermissionListener {
-            override fun onPermissionGranted() {
-                val bottomSheetDialogFragment: TedBottomPicker = TedBottomPicker.Builder(this@IncomeDetailActivity)
-                    .setOnImageSelectedListener { uri ->
-                        Log.d("ted", "uri:" + uri)
-                        Log.d("ted", "uri.path:" + uri.path)
-                        selectedUri = uri
-
-                        image_preview_income_detail.visibility = View.VISIBLE
-                        image_preview_income_detail.post {
-                            glideRequestManager
-                                .load(uri)
-                                .fitCenter()
-                                .into(image_preview_income_detail)
-                        }
-
-                        image_preview_income_detail.layoutParams = LinearLayout.LayoutParams(800, 800)
-                    }
-
-                    .setSelectedUri(selectedUri)
-                    .setPeekHeight(1200)
-                    .create()
-                bottomSheetDialogFragment.show(supportFragmentManager)
-            }
-
-            override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-                showPermissionDenied(deniedPermissions)
-            }
-        }
-
-        TedPermission(this@IncomeDetailActivity)
-            .setPermissionListener(permissionListener)
-            .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .check()
-        hideCursorOnNoteField()
-    }
-
-    private fun showPermissionDenied(deniedPermissions: ArrayList<String>?) {
-        Toast.makeText(this@IncomeDetailActivity, "Permission denied\n" +
-            deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
     }
 
     private fun showCalendar() {
