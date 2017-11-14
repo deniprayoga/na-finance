@@ -117,11 +117,7 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                 view.add_category_number_first?.text!!.isEmpty() ->
                     showWarningAnimation(view.add_category_number_first)
                 view.add_category_number_first.text.toString().toInt() == 0 ->
-                    Toast
-                        .makeText(this@CategoryExpenseSettingActivity,
-                            getString(R.string.first_number_zero_error),
-                            Toast.LENGTH_LONG)
-                        .show()
+                    showWarningFirstNumber()
                 view.add_category_number_second.text.isEmpty() ->
                     showWarningAnimation(view.add_category_number_second)
                 view.add_category_number_third.text.isEmpty() ->
@@ -150,6 +146,14 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showWarningFirstNumber() {
+        Toast
+            .makeText(this@CategoryExpenseSettingActivity,
+                getString(R.string.first_number_zero_error),
+                Toast.LENGTH_LONG)
+            .show()
     }
 
     private fun showWarningAnimation(view: View) {
