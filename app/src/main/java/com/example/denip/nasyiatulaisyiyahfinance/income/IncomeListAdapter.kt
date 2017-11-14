@@ -98,6 +98,6 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
     }
 
     private fun showDeletedSuccessfully() {
-        Toast.makeText(context, context?.getString(R.string.expense_deleted), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context?.getString(R.string.income_deleted), Toast.LENGTH_SHORT).show()
     }
 }
