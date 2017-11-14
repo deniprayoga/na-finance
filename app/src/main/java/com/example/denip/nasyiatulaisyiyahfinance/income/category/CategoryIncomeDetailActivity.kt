@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
@@ -61,11 +63,11 @@ class CategoryIncomeDetailActivity : AppCompatActivity() {
                 var thirdNumber = category_detail_number_third?.text.toString()
                 var categoryName = category_detail_name_field?.text.toString()
                 when {
-                    firstNumber == "" -> category_detail_number_first?.error = getString(R.string.prompt_empty_field)
-                    firstNumber == "0" -> category_detail_number_first?.error = getString(R.string.first_number_zero_error)
-                    secondNumber == "" -> category_detail_number_second?.error = getString(R.string.prompt_empty_field)
-                    thirdNumber == "" -> category_detail_number_third?.error = getString(R.string.prompt_empty_field)
-                    categoryName == "" -> category_detail_name_field?.error = getString(R.string.prompt_empty_field)
+                    firstNumber == "" -> showWarningAnimation(category_detail_number_first)
+                    firstNumber == "0" -> showWarningFirstNumber(category_detail_number_first)
+                    secondNumber == "" -> showWarningAnimation(category_detail_number_second)
+                    thirdNumber == "" -> showWarningAnimation(category_detail_number_third)
+                    categoryName == "" -> showWarningAnimation(category_detail_name_field)
                     else -> {
                         val categoryId = category_detail_id?.text.toString()
                         val categoryNumber = category_detail_number?.text.toString()
@@ -80,6 +82,20 @@ class CategoryIncomeDetailActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun showWarningFirstNumber(view: View) {
+        showWarningAnimation(view)
+        Toast
+            .makeText(this@CategoryIncomeDetailActivity,
+                getString(R.string.first_number_zero_error),
+                Toast.LENGTH_LONG)
+            .show()
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@CategoryIncomeDetailActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
     private fun updateCategory(categoryId: String?,
