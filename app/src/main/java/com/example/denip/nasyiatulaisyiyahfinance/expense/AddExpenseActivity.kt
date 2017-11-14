@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_add_expense.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import kotlin.collections.ArrayList
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -114,18 +113,9 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
         val category = expense_categories_field?.text.toString()
 
         when {
-            amount.isEmpty() -> {
-                val shake = AnimationUtils.loadAnimation(this@AddExpenseActivity, R.anim.shake)
-                expense_amount_field.startAnimation(shake)
-            }
-            note.isEmpty() -> {
-                val shake = AnimationUtils.loadAnimation(this@AddExpenseActivity, R.anim.shake)
-                expense_note_field.startAnimation(shake)
-            }
-            category.isEmpty() -> {
-                val shake = AnimationUtils.loadAnimation(this@AddExpenseActivity, R.anim.shake)
-                expense_categories_field.startAnimation(shake)
-            }
+            amount.isEmpty() -> showWarningAnimation(expense_amount_field)
+            note.isEmpty() -> showWarningAnimation(expense_note_field)
+            category.isEmpty() -> showWarningAnimation(expense_categories_field)
             else -> {
 
                 val expenseId: String? = dbRef?.push()?.key
@@ -179,6 +169,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                 finish()
             }
         }
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@AddExpenseActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
 
