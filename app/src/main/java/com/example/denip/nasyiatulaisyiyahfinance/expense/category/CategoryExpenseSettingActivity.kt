@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
@@ -64,21 +65,21 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
         dbCategoryRef!!
             .orderByChild("categoryNumber")
             .addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError?) {
+                override fun onCancelled(databaseError: DatabaseError?) {
 
-            }
+                }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                categories.clear()
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    categories.clear()
 
-                dataSnapshot!!.children
-                    .map { it.getValue(CategoryExpenseModel::class.java) }
-                    .forEach { categories.add(it) }
+                    dataSnapshot!!.children
+                        .map { it.getValue(CategoryExpenseModel::class.java) }
+                        .forEach { categories.add(it) }
 
-                val categoryAdapter = CategoryExpenseListAdapter(this@CategoryExpenseSettingActivity, categories)
-                category_expense_list_setting_recycler_view?.adapter = categoryAdapter
-            }
-        })
+                    val categoryAdapter = CategoryExpenseListAdapter(this@CategoryExpenseSettingActivity, categories)
+                    category_expense_list_setting_recycler_view?.adapter = categoryAdapter
+                }
+            })
 
         category_expense_list_setting_recycler_view?.layoutManager = LinearLayoutManager(this@CategoryExpenseSettingActivity)
     }
@@ -114,15 +115,19 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
         view?.button_add_category_expense?.setOnClickListener {
             when {
                 view.add_category_number_first?.text!!.isEmpty() ->
-                    view.add_category_number_first?.error = getString(R.string.prompt_empty_field)
+                    showWarningAnimation(view.add_category_number_first)
                 view.add_category_number_first.text.toString().toInt() == 0 ->
-                    view.add_category_number_first?.error = getString(R.string.first_number_zero_error)
+                    Toast
+                        .makeText(this@CategoryExpenseSettingActivity,
+                            getString(R.string.first_number_zero_error),
+                            Toast.LENGTH_LONG)
+                        .show()
                 view.add_category_number_second.text.isEmpty() ->
-                    view.add_category_number_second?.error = getString(R.string.prompt_empty_field)
+                    showWarningAnimation(view.add_category_number_second)
                 view.add_category_number_third.text.isEmpty() ->
-                    view.add_category_number_third?.error = getString(R.string.prompt_empty_field)
+                    showWarningAnimation(view.add_category_number_third)
                 view.add_category_name_field.text.isEmpty() ->
-                    view.add_category_name_field?.error = getString(R.string.prompt_empty_field)
+                    showWarningAnimation(view.add_category_name_field)
                 else -> {
                     val firstNumber = view.add_category_number_first?.text.toString()
                     val secondNumber = view.add_category_number_second?.text.toString().toInt()
@@ -145,6 +150,11 @@ class CategoryExpenseSettingActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@CategoryExpenseSettingActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
