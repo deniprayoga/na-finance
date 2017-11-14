@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -248,8 +249,9 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                 val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_EXPENSE))
 
                 when {
-                    amount.isEmpty() -> expense_detail_amount_field.error = getString(R.string.prompt_amount_empty)
-                    note.isEmpty() -> expense_detail_note_field.error = getString(R.string.prompt_note_empty)
+                    amount.isEmpty() -> showWarningAnimation(expense_detail_amount_field)
+                    note.isEmpty() -> showWarningAnimation(expense_detail_note_field)
+
                     else -> {
                         val fullName = intent
                             .getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER))
@@ -268,7 +270,6 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                             categoryId)
 
                         updateExpense(expense)
-                        //updateCategoryAmount(categoryId)
 
                         Log.d(HUNTR, "fullName : " + fullName)
                         Log.d(HUNTR, "expense amount : " + amount)
@@ -282,6 +283,11 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             }
         }
         return true
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@ExpenseDetailActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
     private fun updateExpense(expense: ExpenseModel?) {
