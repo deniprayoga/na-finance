@@ -31,7 +31,6 @@
         android:id="@+id/add_expense_scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -126,9 +125,8 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
                 android:background="@color/calendar_selected_date_text"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/expense_note_field"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toRightOf="@+id/view4"
                 app:layout_constraintTop_toBottomOf="@+id/expense_note_field" />
 
             <ImageView
@@ -158,11 +156,12 @@
 
             <View
                 android:id="@+id/view7"
-                android:layout_width="368dp"
+                android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/calendar_selected_date_text"
                 app:layout_constraintLeft_toLeftOf="@+id/view6"
+                app:layout_constraintRight_toRightOf="@+id/view6"
                 app:layout_constraintTop_toBottomOf="@+id/calendar_result_text_expense" />
 
             <ImageView
