@@ -123,6 +123,8 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         val addAmountInflater: LayoutInflater = layoutInflater
         val view: View = addAmountInflater.inflate(R.layout.activity_add_amount_expense, null)
         view.expense_amount_field_add_amount.text = amount
+        view.expense_amount_field_add_amount.movementMethod = null
+        view.expense_amount_field_add_amount.isLongClickable = false
 
         view.one_button?.setOnClickListener {
             val currentAmount = view.expense_amount_field_add_amount?.text.toString()
