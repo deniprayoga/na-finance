@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -109,9 +110,8 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 var phoneNumber = phone_number_profile_field?.text.toString()
 
                 when {
-                    fullName.isEmpty() -> profile_name_field?.error = getString(R.string.prompt_profile_name_empty)
-                    phoneNumber.isEmpty() -> phone_number_profile_field?.error =
-                        getString(R.string.prompt_profile_phone_number_empty)
+                    fullName.isEmpty() -> showWarningAnimation(profile_name_field)
+                    phoneNumber.isEmpty() -> showWarningAnimation(phone_number_profile_field)
 
                     else -> {
                         val location = location_profile_field?.text.toString()
@@ -138,6 +138,11 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showWarningAnimation(view: View) {
+        val shake = AnimationUtils.loadAnimation(this@ProfileActivity, R.anim.shake)
+        view.startAnimation(shake)
     }
 
     private fun updateProfile(profileData: UserModel?) {
