@@ -116,6 +116,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
                 android:maxLength="100"
+                android:textColor="@color/bpblack"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/expense_detail_amount_field"
                 app:layout_constraintRight_toRightOf="parent"
@@ -153,6 +154,7 @@
                 android:background="@drawable/background_text_field"
                 android:text="@string/calendar_result"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/bpblack"
                 app:layout_constraintLeft_toLeftOf="@+id/expense_detail_note_field"
                 app:layout_constraintRight_toRightOf="@+id/expense_detail_note_field"
                 app:layout_constraintTop_toBottomOf="@+id/view6" />
@@ -192,6 +194,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="none"
                 android:scrollbars="vertical"
+                android:textColor="@color/bpblack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/calendar_result_text_expense_detail"
