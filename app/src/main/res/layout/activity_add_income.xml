@@ -52,6 +52,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Rp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorIconIncome"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +68,7 @@
                 android:inputType="none"
                 android:maxLength="9"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#9CCC65"
+                android:textColor="@color/colorIconIncome"
                 app:layout_constraintBottom_toBottomOf="@+id/income_amount_image_view"
                 app:layout_constraintLeft_toRightOf="@+id/income_amount_image_view"
                 app:layout_constraintTop_toTopOf="@+id/income_amount_image_view" />
@@ -94,6 +95,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ic_description_black_24dp"
+                android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/income_note_field"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/income_amount_image_view"
@@ -136,6 +138,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ic_today_black_24dp"
+                android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/calendar_result_text_income"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/income_note_image_view"
@@ -169,7 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_label_black_24dp"
+                android:background="@drawable/ic_label_black_24dp"
+                android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/income_categories_field"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/calendar_image_view"

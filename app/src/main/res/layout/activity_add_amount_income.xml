@@ -27,6 +27,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Rp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorIconIncome"
                 app:layout_constraintBottom_toTopOf="@+id/numpad_container"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +47,7 @@
                 android:longClickable="false"
                 android:maxLength="9"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#9CCC65"
+                android:textColor="@color/colorIconIncome"
                 app:layout_constraintBottom_toBottomOf="@+id/income_amount_image_view"
                 app:layout_constraintLeft_toRightOf="@+id/income_amount_image_view"
                 app:layout_constraintRight_toRightOf="parent"

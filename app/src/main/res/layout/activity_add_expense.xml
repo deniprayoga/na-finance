@@ -52,6 +52,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Rp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorIconExpense"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +68,7 @@
                 android:inputType="none"
                 android:maxLength="9"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="#FF7043"
+                android:textColor="@color/colorIconExpense"
                 app:layout_constraintBottom_toBottomOf="@+id/expense_amount_image_view"
                 app:layout_constraintLeft_toRightOf="@+id/expense_amount_image_view"
                 app:layout_constraintTop_toTopOf="@+id/expense_amount_image_view" />
@@ -94,6 +95,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ic_description_black_24dp"
+                android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/expense_note_field"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/expense_amount_image_view"
@@ -136,6 +138,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ic_today_black_24dp"
+                android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/calendar_result_text_expense"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/expense_note_image_view"
@@ -169,7 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_label_black_24dp"
+                android:background="@drawable/ic_label_black_24dp"
+                android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/expense_categories_field"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/calendar_image_view"

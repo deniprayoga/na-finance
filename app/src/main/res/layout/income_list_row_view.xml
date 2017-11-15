@@ -41,7 +41,7 @@
         android:ems="6"
         android:text="@string/amount"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#9CCC65"
+        android:textColor="@color/colorIconIncome"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/income_list_row_view_note" />
 
