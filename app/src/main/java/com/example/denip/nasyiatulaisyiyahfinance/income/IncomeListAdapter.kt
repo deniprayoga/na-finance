@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 /**
  * Created by denip on 9/25/2017.
@@ -21,6 +25,9 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
 
     companion object {
         private val auth = FirebaseAuth.getInstance()
+        private val HUNTR = "huntr_IncomeListAdptr"
+        private val dbRefUsers = FirebaseDatabase.getInstance().getReference("users")
+        private val currentUserUid = auth.currentUser?.uid
     }
 
     private var context: Context? = context
@@ -32,11 +39,13 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val income = incomes[position]
-        holder!!.note.text = income.note
-        holder.category.text = income.category
-        holder.amount.text = "Rp. ${income.amount.toString()}"
-        holder.dateCreated.text = income.dateCreated
-        holder.addedBy.text = income.addedByTreasure
+        holder!!.note.text = income.note.toString().replace("^", "")
+        holder.category.text = income.category.toString().replace("^", "")
+        holder.amount.text = "Rp ${income.amount.toString().replace("^", "")}"
+        holder.dateCreated.text = income.dateCreated.toString().replace("^", "")
+        holder.addedBy.text = income.addedByTreasurer.toString().replace("^", "")
+        holder.categoryId.text = income.categoryId.toString().replace("^", "")
+        holder.addedByInitial.text = income.addedByTreasurerInitial.toString().replace("^", "")
 
     }
 
@@ -53,20 +62,48 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
         val category = view.findViewById(R.id.income_list_row_view_category) as TextView
         val dateCreated = view.findViewById(R.id.income_list_row_view_date) as TextView
         val note = view.findViewById(R.id.income_list_row_view_note) as TextView
+        val categoryId = view.findViewById(R.id.income_list_row_view_category_id) as TextView
+        val addedByInitial = view.findViewById(R.id.initial_field) as TextView
 
         init {
             view.setOnClickListener { v ->
-                val income = incomes[adapterPosition]
-                val intent = Intent(v?.context, IncomeDetailActivity::class.java)
-                intent.putExtra(context?.getString(R.string.INCOME_ID), income.incomeId)
-                intent.putExtra(context?.getString(R.string.INCOME_NOTE), income.note)
-                intent.putExtra(context?.getString(R.string.INCOME_AMOUNT), income.amount.toString())
-                intent.putExtra(context?.getString(R.string.INCOME_CATEGORY), income.category)
-                intent.putExtra(context?.getString(R.string.INCOME_DATE), income.dateCreated)
-                intent.putExtra(context?.getString(R.string.INCOME_NOTE_PHOTO_URI), income.notePhotoUri)
-                intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURE), income.addedByTreasure)
+                Log.d(HUNTR, "-----------------in setOnClickListener()------------------")
+                dbRefUsers.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
 
-                v?.context?.startActivity(intent)
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val fullName = dataSnapshot!!.child(currentUserUid).child("fullName")?.value.toString()
+
+                        val income = incomes[adapterPosition]
+                        notifyDataSetChanged()
+                        val intent = Intent(v?.context, IncomeDetailActivity::class.java)
+                        intent.putExtra(context?.getString(R.string.INCOME_ID), income.incomeId)
+                        intent.putExtra(context?.getString(R.string.INCOME_NOTE), income.note.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.INCOME_AMOUNT), income.amount.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.INCOME_CATEGORY), income.category.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.INCOME_DATE), income.dateCreated.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.INCOME_NOTE_PHOTO_URI), income.addedByTreasurerInitial)
+                        intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER), fullName.replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.CATEGORY_ID_INCOME), income.categoryId)
+                        intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER), income.addedByTreasurer)
+                        intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER_UID), income.addedByTreasurerUid.toString())
+
+                        Log.d(HUNTR, "income.expenseId : " + income.incomeId)
+                        Log.d(HUNTR, "income.note : " + income.note)
+                        Log.d(HUNTR, "income.amount : " + income.amount)
+                        Log.d(HUNTR, "income.category : " + income.category)
+                        Log.d(HUNTR, "income.dateCreated : " + income.dateCreated)
+                        Log.d(HUNTR, "income fullName : " + fullName)
+                        Log.d(HUNTR, "income.categoryId : " + income.categoryId)
+                        Log.d(HUNTR, "income.initial : " + income.addedByTreasurerInitial)
+                        Log.d(HUNTR, "income addeddByTreasurerUid : " + income.addedByTreasurerUid)
+
+                        v?.context?.startActivity(intent)
+                        notifyDataSetChanged()
+                    }
+                })
             }
 
             view.setOnLongClickListener { v ->
