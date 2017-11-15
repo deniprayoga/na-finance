@@ -1,30 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" >
+    <item android:state_pressed="true">
         <shape>
-            <gradient android:startColor="@color/colorButtonIncome"
-                android:endColor="@color/colorButtonIncome" />
-            <corners
-                android:radius="6dp" />
-            <padding
-                android:left="10dp"
-                android:top="10dp"
-                android:right="10dp"
-                android:bottom="10dp" />
+            <gradient android:endColor="@color/colorActionBarDark" android:startColor="@color/colorActionBarDark" />
+            <corners android:radius="6dp" />
+            <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <gradient
-                android:startColor="@color/colorCenterGradientBackgroundIncome"
-                android:endColor="@color/colorCenterGradientBackgroundIncome" />
-            <corners
-                android:radius="6dp" />
-            <padding
-                android:left="10dp"
-                android:top="10dp"
-                android:right="10dp"
-                android:bottom="10dp" />
+            <gradient android:endColor="@color/colorActionBar" android:startColor="@color/colorActionBar" />
+            <corners android:radius="6dp" />
+            <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
         </shape>
     </item>
 </selector>

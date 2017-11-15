@@ -1,36 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" >
+    <item android:state_pressed="true">
         <shape>
-            <gradient android:startColor="@color/colorBackgroundNumpadClearPressed"
-                android:endColor="@color/colorBackgroundNumpadClearPressed" />
-            <corners
-                android:radius="0dp" />
-            <stroke
-                android:width="1dp"
-                android:color="@color/colorBorderButton"/>
-            <padding
-                android:left="5dp"
-                android:top="5dp"
-                android:right="5dp"
-                android:bottom="5dp" />
+            <gradient android:endColor="#FF7043" android:startColor="#FF7043" />
+            <corners android:radius="0dp" />
+            <stroke android:width="1dp" android:color="@color/colorBorderButton" />
+            <padding android:bottom="5dp" android:left="5dp" android:right="5dp" android:top="5dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <gradient
-                android:startColor="@color/colorBackgroundNumpad"
-                android:endColor="@color/colorBackgroundNumpad" />
-            <stroke
-                android:width="1dp"
-                android:color="@color/colorBorderButton"/>
-            <corners
-                android:radius="0dp" />
-            <padding
-                android:left="5dp"
-                android:top="5dp"
-                android:right="5dp"
-                android:bottom="5dp" />
+            <gradient android:endColor="@color/colorBackgroundNumpad" android:startColor="@color/colorBackgroundNumpad" />
+            <stroke android:width="1dp" android:color="@color/colorBorderButton" />
+            <corners android:radius="0dp" />
+            <padding android:bottom="5dp" android:left="5dp" android:right="5dp" android:top="5dp" />
         </shape>
     </item>
 </selector>

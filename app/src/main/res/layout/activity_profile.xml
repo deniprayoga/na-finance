@@ -63,7 +63,8 @@
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/ic_face_black_24dp"
+                android:background="@drawable/ic_face_black_24dp"
+                android:backgroundTint="@color/colorIcon1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/initial_field" />
 
@@ -103,7 +104,8 @@
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/ic_email_black_24dp"
+                android:background="@drawable/ic_email_black_24dp"
+                android:backgroundTint="@color/colorIcon2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_full_name" />
 
@@ -141,7 +143,8 @@
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/ic_person_black_24dp"
+                android:background="@drawable/ic_person_black_24dp"
+                android:backgroundTint="@color/colorIcon3"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_email" />
 
@@ -182,7 +185,8 @@
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/ic_contact_phone_black_24dp"
+                android:background="@drawable/ic_contact_phone_black_24dp"
+                android:backgroundTint="@color/colorIcon4"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_position" />
 
@@ -225,7 +229,8 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/background_spinner_location"
+                android:background="@drawable/ic_place_black_24dp"
+                android:backgroundTint="@color/colorIcon5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_phone_number" />
