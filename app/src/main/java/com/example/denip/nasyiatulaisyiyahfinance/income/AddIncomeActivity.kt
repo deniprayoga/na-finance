@@ -78,6 +78,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         income_amount_field.setOnClickListener(this)
         income_note_field.setOnClickListener(this)
         income_categories_field.setOnClickListener(this)
+        calendar_result_text_income.setOnClickListener(this)
     }
 
     private fun showCurrentDate() {
