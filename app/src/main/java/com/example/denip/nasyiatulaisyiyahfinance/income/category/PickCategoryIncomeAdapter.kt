@@ -35,7 +35,7 @@ class PickCategoryIncomeAdapter(private var context: Context, categories: ArrayL
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val category = categories[position]
-        holder!!.categoryNumber.text = category.categoryNumber
+        holder!!.categoryNumber.text = category.categoryNumber?.replace("-", " - ")
         holder.categoryName.text = category.categoryName.toString()
         holder.categoryFirstNumber.text = category.firstNumber.toString()
         holder.categorySecondNumber.text = category.secondNumber.toString()
@@ -57,11 +57,13 @@ class PickCategoryIncomeAdapter(private var context: Context, categories: ArrayL
 
                 val categoryName = selectedCategory.categoryName.toString()
                 val categoryNumber = selectedCategory.categoryNumber.toString()
+                val categoryId = selectedCategory.categoryId.toString()
 
                 val prefs = PreferenceManager.getDefaultSharedPreferences(context)
                 prefs.edit().apply {
                     putString(context.getString(R.string.CATEGORY_NUMBER_INCOME), categoryNumber)
                     putString(context.getString(R.string.CATEGORY_NAME_INCOME), categoryName)
+                    putString(context.getString(R.string.CATEGORY_ID_INCOME), categoryId)
                     commit()
                 }
 
