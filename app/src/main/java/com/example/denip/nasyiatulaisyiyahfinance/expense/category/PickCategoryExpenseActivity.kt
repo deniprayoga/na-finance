@@ -36,7 +36,7 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d(HUNTR, "In the onStart() event")
-        dbCategoryRef?.addValueEventListener(object : ValueEventListener {
+        dbCategoryRef!!.orderByChild("categoryNumber").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
 
             }
