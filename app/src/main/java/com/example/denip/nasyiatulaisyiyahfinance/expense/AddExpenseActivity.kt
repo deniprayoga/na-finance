@@ -265,7 +265,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.expense_amount_field -> showAddAmountDialog()
-            R.id.calendar_result_text_income -> showCalendar()
+            R.id.calendar_result_text_expense -> showCalendar()
             R.id.expense_categories_field -> pickCategory()
             R.id.expense_note_field -> showCursorOnNoteField()
         }
