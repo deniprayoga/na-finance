@@ -232,7 +232,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         Log.d(HUNTR, "In the onPrepareOptionMenu()")
         val addedByTreasurerUid = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID))
-        menu?.findItem(R.id.action_bar_save)?.isEnabled = addedByTreasurerUid == currentUserUid
+        menu?.findItem(R.id.action_bar_save)?.isVisible = addedByTreasurerUid == currentUserUid
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -338,6 +338,11 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onStart() {
         super.onStart()
+        val addedByTreasurerUid = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID))
+        expense_detail_amount_field.isEnabled = addedByTreasurerUid == currentUserUid
+        expense_detail_note_field.isEnabled = addedByTreasurerUid == currentUserUid
+        calendar_result_text_expense_detail.isEnabled = addedByTreasurerUid == currentUserUid
+        expense_detail_categories_field.isEnabled = addedByTreasurerUid == currentUserUid
         Log.d(HUNTR, "In the onStart() event")
     }
 
