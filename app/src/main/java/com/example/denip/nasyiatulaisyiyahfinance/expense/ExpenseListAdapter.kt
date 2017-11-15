@@ -27,6 +27,8 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
     companion object {
         private val auth = FirebaseAuth.getInstance()
         private val HUNTR = "huntr_ExpenseListAdptr"
+        private val dbRefUsers = FirebaseDatabase.getInstance().getReference("users")
+        private val currentUserUid = auth.currentUser?.uid
     }
 
     private var context: Context? = context
@@ -66,16 +68,15 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         init {
             view.setOnClickListener { v ->
                 Log.d(HUNTR, "-----------------in setOnClickListener()------------------")
-                val dbRef = FirebaseDatabase.getInstance().getReference("users")
-                dbRef.addValueEventListener(object : ValueEventListener {
+                dbRefUsers.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError?) {
 
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")?.value.toString()
+                        val fullName = dataSnapshot?.child(currentUserUid)?.child("fullName")?.value.toString()
 
-                        val initial = dataSnapshot?.child(auth.currentUser?.uid)?.child("initial")?.value.toString()
+                        //val initial = dataSnapshot?.child(currentUserUid)?.child("initial")?.value.toString()
                         val expense = expenses[adapterPosition]
                         notifyDataSetChanged()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
