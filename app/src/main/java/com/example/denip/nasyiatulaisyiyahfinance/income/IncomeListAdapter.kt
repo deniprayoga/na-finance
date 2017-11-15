@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
@@ -16,6 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.income_list_row_view.view.*
 
 /**
  * Created by denip on 9/25/2017.
@@ -107,31 +109,57 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
             }
 
             view.setOnLongClickListener { v ->
-                val income = incomes[adapterPosition]
-                val dialogBuilder = AlertDialog.Builder(view.context)
-                dialogBuilder
-                    //.setTitle(getString(R.string.confirmation))
-                    .setTitle(context?.getString(R.string.confirmation))
-                    .setMessage(context?.getString(R.string.delete_income_message))
-                    .setPositiveButton(context?.getString(R.string.yes), { dialog, which ->
-                        val dbDeleteExpenseRef = FirebaseDatabase
-                            .getInstance()
-                            .getReference("incomes")
-                            .child(income.incomeId)
-                        dbDeleteExpenseRef.removeValue()
-                        showDeletedSuccessfully()
-                        dialog.dismiss()
-                        notifyItemRemoved(adapterPosition)
-                    })
-                    .setNegativeButton(context?.getString(R.string.no), { dialog, which ->
-                        dialog.dismiss()
-                    })
+                dbRefUsers.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
 
-                val dialog = dialogBuilder.create()
-                dialog.show()
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val income = incomes[adapterPosition]
+
+                        when (currentUserUid) {
+                            income.addedByTreasurerUid -> showDeleteDialog(view, adapterPosition)
+                            else -> showShakeAnim(view)
+                        }
+                    }
+                })
                 true
             }
         }
+    }
+
+    private fun showShakeAnim(view: View) {
+        val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
+        view.income_list_row_view_added_by.startAnimation(shake)
+        view.income_list_row_view_amount.startAnimation(shake)
+        view.initial_field.startAnimation(shake)
+        view.income_list_row_view_note.startAnimation(shake)
+        view.income_list_row_view_date.startAnimation(shake)
+    }
+
+    private fun showDeleteDialog(view: View, adapterPosition: Int) {
+        val income = incomes[adapterPosition]
+        val dialogBuilder = AlertDialog.Builder(view.context)
+        dialogBuilder
+            //.setTitle(getString(R.string.confirmation))
+            .setTitle(context?.getString(R.string.confirmation))
+            .setMessage(context?.getString(R.string.delete_income_message))
+            .setPositiveButton(context?.getString(R.string.yes), { dialog, which ->
+                val dbDeleteExpenseRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("incomes")
+                    .child(income.incomeId)
+                dbDeleteExpenseRef.removeValue()
+                showDeletedSuccessfully()
+                dialog.dismiss()
+                notifyItemRemoved(adapterPosition)
+            })
+            .setNegativeButton(context?.getString(R.string.no), { dialog, which ->
+                dialog.dismiss()
+            })
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
     private fun showDeletedSuccessfully() {

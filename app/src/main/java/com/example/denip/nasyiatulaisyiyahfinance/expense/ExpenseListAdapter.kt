@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
@@ -16,7 +17,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.expense_list_row_view.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by denip on 9/25/2017.
@@ -100,36 +103,63 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         Log.d(HUNTR, "expense.categoryId : " + expense.categoryId)
                         Log.d(HUNTR, "expense.initial : " + expense.addedByTreasurerInitial)
                         Log.d(HUNTR, "expense addeddByTreasurerUid : " + expense.addedByTreasurerUid)
+                        Log.d(HUNTR, "current user uid : " + currentUserUid)
                         v?.context?.startActivity(intent)
                     }
                 })
             }
 
             view.setOnLongClickListener { v ->
-                val expense = expenses[adapterPosition]
-                val dialogBuilder = AlertDialog.Builder(view.context)
-                dialogBuilder
-                    //.setTitle(getString(R.string.confirmation))
-                    .setTitle(context?.getString(R.string.confirmation))
-                    .setMessage(context?.getString(R.string.delete_expense_message))
-                    .setPositiveButton(context?.getString(R.string.yes), { dialog, which ->
-                        val dbDeleteExpenseRef = FirebaseDatabase
-                            .getInstance()
-                            .getReference("expenses")
-                            .child(expense.expenseId)
-                        dbDeleteExpenseRef.removeValue()
-                        showDeletedSuccessfully()
-                        notifyItemRemoved(adapterPosition)
-                    })
-                    .setNegativeButton(context?.getString(R.string.no), { dialog, which ->
-                        dialog.dismiss()
-                    })
+                dbRefUsers.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
 
-                val dialog = dialogBuilder.create()
-                dialog.show()
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val expense = expenses[adapterPosition]
+
+                        when (currentUserUid) {
+                            expense.addedByTreasurerUid -> showDeleteDialog(view, adapterPosition)
+                            else -> showShakeAnim(view)
+                        }
+                    }
+                })
                 true
             }
         }
+    }
+
+    private fun showShakeAnim(view: View) {
+        val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
+        view.expense_list_row_view_added_by.startAnimation(shake)
+        view.expense_list_row_view_amount.startAnimation(shake)
+        view.initial_field.startAnimation(shake)
+        view.expense_list_row_view_note.startAnimation(shake)
+        view.expense_list_row_view_date.startAnimation(shake)
+    }
+
+    private fun showDeleteDialog(view: View, adapterPosition: Int) {
+        val expense = expenses[adapterPosition]
+        val dialogBuilder = AlertDialog.Builder(view.context)
+        dialogBuilder
+            //.setTitle(getString(R.string.confirmation))
+            .setTitle(context?.getString(R.string.confirmation))
+            .setMessage(context?.getString(R.string.delete_expense_message))
+            .setPositiveButton(context?.getString(R.string.yes), { dialog, which ->
+                val dbDeleteExpenseRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("expenses")
+                    .child(expense.expenseId)
+                dbDeleteExpenseRef.removeValue()
+                showDeletedSuccessfully()
+                notifyItemRemoved(adapterPosition)
+            })
+            .setNegativeButton(context?.getString(R.string.no), { dialog, which ->
+                dialog.dismiss()
+            })
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
     private fun showDeletedSuccessfully() {
