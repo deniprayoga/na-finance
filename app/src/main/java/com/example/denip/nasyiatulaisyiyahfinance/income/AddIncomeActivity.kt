@@ -1,6 +1,5 @@
 package com.example.denip.nasyiatulaisyiyahfinance.income
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -10,7 +9,6 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -24,14 +22,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
-import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.android.synthetic.main.activity_add_amount_income.view.*
 import kotlinx.android.synthetic.main.activity_add_income.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import java.util.ArrayList
 
 class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDatePickerDialogFragment.OnDateSetListener {
 
@@ -40,6 +34,8 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         var selectedUri: Uri? = null
         lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
+        private val uid = auth.currentUser?.uid
+        private val HUNTR = "huntr_AddIncomeAct"
         private val dbAddIncomeRef = FirebaseDatabase.getInstance()?.getReference("incomes")
     }
 
@@ -85,7 +81,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
     }
 
     private fun showCurrentDate() {
-        val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("dd-MM-yyyy")
+        val currentDate = DateTime.now().withZone(DateTimeZone.getDefault()).toString("yyyy-MM-dd")
         calendar_result_text_income.text = currentDate.toString()
     }
 
@@ -224,7 +220,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val dateCreated = calendar_result_text_income?.text.toString()
         val amount = income_amount_field?.text.toString()
         val note = income_note_field?.text.toString()
-        val notePhotoUri = selectedUri.toString()
+        //val notePhotoUri = selectedUri.toString()
         val category = income_categories_field?.text.toString()
 
         when {
@@ -233,19 +229,42 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             category.isEmpty() -> showWarningAnimation(income_categories_field)
             else -> {
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
+
+                val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddIncomeActivity)
+                val categoryId = prefs.getString(getString(R.string.CATEGORY_ID_INCOME), "")
                 dbRef.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError?) {
 
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val id: String? = dbAddIncomeRef?.push()?.key
-                        val fullName = dataSnapshot?.child(auth.currentUser?.uid)?.child("fullName")
+                        val incomeId: String? = dbAddIncomeRef?.push()?.key
+                        val fullName = dataSnapshot?.child(uid)?.child("fullName")
                             ?.value.toString()
-                        val income = IncomeModel(id, fullName, amount.toInt(), category,
-                            dateCreated, note, notePhotoUri)
-                        dbAddIncomeRef?.child(id)?.setValue(income)
-                        Log.d("incomeeeeee", income.toString())
+                        val initial = dataSnapshot?.child(uid)?.child("initial")?.value.toString()
+
+                        val income = IncomeModel(
+                            incomeId,
+                            fullName + "^",
+                            amount + "^",
+                            category + "^",
+                            dateCreated + "^",
+                            note + "^",
+                            initial,
+                            uid,
+                            categoryId)
+                        dbAddIncomeRef?.child(incomeId)?.setValue(income)
+
+                        Log.d(HUNTR, "income amount : " + income.amount)
+                        Log.d(HUNTR, "income note : " + income.note)
+                        Log.d(HUNTR, "income added by treasurer uid : " + income.addedByTreasurerUid)
+                        Log.d(HUNTR, "income added by treasurer initial : " + income.addedByTreasurerInitial)
+                        Log.d(HUNTR, "income added by treasurer : " + income.addedByTreasurer)
+                        Log.d(HUNTR, "income category : " + income.category)
+                        Log.d(HUNTR, "income category id : " + income.categoryId)
+                        Log.d(HUNTR, "income date created : " + income.dateCreated)
+                        Log.d(HUNTR, "income id : " + income.incomeId)
+
                         Toast.makeText(this@AddIncomeActivity, getString(R.string.income_added),
                             Toast.LENGTH_SHORT).show()
                         finish()
