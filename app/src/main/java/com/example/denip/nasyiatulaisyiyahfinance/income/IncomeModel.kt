@@ -4,12 +4,14 @@ package com.example.denip.nasyiatulaisyiyahfinance.income
  * Created by denip on 9/18/2017.
  */
 
-data class IncomeModel(val incomeId: String?,
-                       val addedByTreasure: String?,
-                       val amount: Int?,
-                       val category: String?,
-                       val dateCreated: String?,
-                       val note: String?,
-                       val notePhotoUri: String?) {
-    constructor() : this("", "", 0, "", "", "", "")
+class IncomeModel(val incomeId: String?,
+                  val addedByTreasurer: String?,
+                  val amount: String?,
+                  val category: String?,
+                  val dateCreated: String?,
+                  val note: String?,
+                  val addedByTreasurerInitial: String?,
+                  val addedByTreasurerUid: String?,
+                  val categoryId: String?) {
+    constructor() : this("", "", "", "", "", "", "", "", "")
 }
