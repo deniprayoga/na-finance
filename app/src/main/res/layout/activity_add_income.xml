@@ -67,7 +67,7 @@
                 android:inputType="none"
                 android:maxLength="9"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/bpblack"
+                android:textColor="#9CCC65"
                 app:layout_constraintBottom_toBottomOf="@+id/income_amount_image_view"
                 app:layout_constraintLeft_toRightOf="@+id/income_amount_image_view"
                 app:layout_constraintTop_toTopOf="@+id/income_amount_image_view" />

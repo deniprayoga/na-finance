@@ -46,9 +46,8 @@
                 android:inputType="none"
                 android:longClickable="false"
                 android:maxLength="9"
-
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/bpblack"
+                android:textColor="#FF7043"
                 app:layout_constraintBottom_toBottomOf="@+id/expense_amount_image_view"
                 app:layout_constraintLeft_toRightOf="@+id/expense_amount_image_view"
                 app:layout_constraintRight_toRightOf="parent"
