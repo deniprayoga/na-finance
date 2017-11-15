@@ -120,22 +120,14 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
 
                         when (currentUserUid) {
                             expense.addedByTreasurerUid -> showDeleteDialog(view, adapterPosition)
-                            else -> showShakeAnim(view)
+                            else -> {
+                            }
                         }
                     }
                 })
                 true
             }
         }
-    }
-
-    private fun showShakeAnim(view: View) {
-        val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
-        view.expense_list_row_view_added_by.startAnimation(shake)
-        view.expense_list_row_view_amount.startAnimation(shake)
-        view.initial_field.startAnimation(shake)
-        view.expense_list_row_view_note.startAnimation(shake)
-        view.expense_list_row_view_date.startAnimation(shake)
     }
 
     private fun showDeleteDialog(view: View, adapterPosition: Int) {

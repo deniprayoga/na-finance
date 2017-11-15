@@ -119,22 +119,14 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
 
                         when (currentUserUid) {
                             income.addedByTreasurerUid -> showDeleteDialog(view, adapterPosition)
-                            else -> showShakeAnim(view)
+                            else -> {
+                            }
                         }
                     }
                 })
                 true
             }
         }
-    }
-
-    private fun showShakeAnim(view: View) {
-        val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
-        view.income_list_row_view_added_by.startAnimation(shake)
-        view.income_list_row_view_amount.startAnimation(shake)
-        view.initial_field.startAnimation(shake)
-        view.income_list_row_view_note.startAnimation(shake)
-        view.income_list_row_view_date.startAnimation(shake)
     }
 
     private fun showDeleteDialog(view: View, adapterPosition: Int) {
