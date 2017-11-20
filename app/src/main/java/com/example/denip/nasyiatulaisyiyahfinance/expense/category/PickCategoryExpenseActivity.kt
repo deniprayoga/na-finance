@@ -42,7 +42,6 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                hideCursorOnNoteField()
                 categories.clear()
 
                 dataSnapshot!!.children
@@ -56,10 +55,6 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
 
             }
         })
-    }
-
-    private fun hideCursorOnNoteField() {
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
