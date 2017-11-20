@@ -40,13 +40,23 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val expense = expenses[position]
-        holder!!.note.text = expense.note.toString().replace("^", "")
-        holder.category.text = expense.category.toString().replace("^", "")
-        holder.amount.text = "Rp ${expense.amount.toString().replace("^", "")}"
-        holder.dateCreated.text = expense.dateCreated.toString().replace("^", "")
-        holder.addedBy.text = expense.addedByTreasurer.toString().replace("^", "")
-        holder.categoryId.text = expense.categoryId.toString().replace("^", "")
-        holder.addedByInitial.text = expense.addedByTreasurerInitial.toString()
+        dbRefUsers.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                holder!!.note.text = expense.note.toString().replace("^", "")
+                holder.category.text = expense.category.toString().replace("^", "")
+                holder.amount.text = "Rp ${expense.amount.toString().replace("^", "")}"
+                holder.dateCreated.text = expense.dateCreated.toString().replace("^", "")
+                holder.addedBy.text = dataSnapshot?.child(expense.addedByTreasurerUid)
+                    ?.child("fullName")?.value.toString().replace("^", "")
+                holder.categoryId.text = expense.categoryId.toString().replace("^", "")
+                holder.addedByInitial.text = dataSnapshot?.child(expense.addedByTreasurerUid)
+                    ?.child("initial")?.value.toString()
+            }
+        })
     }
 
     override fun getItemCount(): Int = expenses.size
@@ -77,7 +87,6 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         val fullName = dataSnapshot?.child(currentUserUid)?.child("fullName")?.value.toString()
 
                         val expense = expenses[adapterPosition]
-                        notifyDataSetChanged()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
                         intent.putExtra(context?.getString(R.string.EXPENSE_ID), expense.expenseId)
                         intent.putExtra(context?.getString(R.string.EXPENSE_NOTE), expense.note.toString().replace("^", ""))
@@ -141,6 +150,7 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                 dbDeleteExpenseRef.removeValue()
                 showDeletedSuccessfully()
                 notifyItemRemoved(adapterPosition)
+                notifyDataSetChanged()
             })
             .setNegativeButton(context?.getString(R.string.no), { dialog, which ->
                 dialog.dismiss()
