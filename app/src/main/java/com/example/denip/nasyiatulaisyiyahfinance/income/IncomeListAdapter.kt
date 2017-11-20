@@ -41,14 +41,25 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
 
     override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
         val income = incomes[position]
-        holder!!.note.text = income.note.toString().replace("^", "")
-        holder.category.text = income.category.toString().replace("^", "")
-        holder.amount.text = "Rp ${income.amount.toString().replace("^", "")}"
-        holder.dateCreated.text = income.dateCreated.toString().replace("^", "")
-        holder.addedBy.text = income.addedByTreasurer.toString().replace("^", "")
-        holder.categoryId.text = income.categoryId.toString().replace("^", "")
-        holder.addedByInitial.text = income.addedByTreasurerInitial.toString().replace("^", "")
+        dbRefUsers.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError?) {
 
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                holder!!.note.text = income.note.toString().replace("^", "")
+                holder.category.text = income.category.toString().replace("^", "")
+                holder.amount.text = "Rp ${income.amount.toString().replace("^", "")}"
+                holder.dateCreated.text = income.dateCreated.toString().replace("^", "")
+                holder.addedBy.text = dataSnapshot?.child(income.addedByTreasurerUid)
+                    ?.child("fullName")?.value.toString().replace("^", "")
+                holder.categoryId.text = income.categoryId.toString().replace("^", "")
+                holder.addedByInitial.text = dataSnapshot?.child(income.addedByTreasurerUid)
+                    ?.child("initial")?.value.toString().replace("^", "")
+
+
+            }
+        })
     }
 
     override fun getItemCount(): Int = incomes.size
