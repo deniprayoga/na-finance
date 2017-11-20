@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
@@ -17,8 +16,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.expense_list_row_view.view.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -79,7 +76,6 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
                         val fullName = dataSnapshot?.child(currentUserUid)?.child("fullName")?.value.toString()
 
-                        //val initial = dataSnapshot?.child(currentUserUid)?.child("initial")?.value.toString()
                         val expense = expenses[adapterPosition]
                         notifyDataSetChanged()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
