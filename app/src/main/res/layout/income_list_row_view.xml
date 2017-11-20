@@ -3,22 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
     android:background="@color/bpWhite"
     android:foreground="?attr/selectableItemBackground">
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:id="@+id/initial_field"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/background_initials_list_row"
         android:gravity="center"
         android:hint="DP"
-        android:textColor="@color/bpblack"
+        android:maxLines="2"
+        android:maxWidth="40dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:minTextSize="16sp" />
 
     <TextView
         android:id="@+id/income_list_row_view_category_id"
@@ -42,6 +46,7 @@
         android:text="@string/amount"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/colorIconIncome"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/income_list_row_view_note" />
 
@@ -81,11 +86,10 @@
         android:id="@+id/income_list_row_view_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:text="@string/calendar_date_picker_result_values"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintLeft_toRightOf="@+id/initial_field"
+        app:layout_constraintLeft_toLeftOf="@+id/income_list_row_view_added_by"
         app:layout_constraintTop_toBottomOf="@+id/income_list_row_view_added_by" />
 
     <TextView
@@ -105,13 +109,14 @@
         android:id="@+id/income_list_row_view_added_by"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
         android:text="@string/income_added"
-        android:textAlignment="textEnd"
         android:textAppearance="@style/TextAppearance.AppCompat.Menu"
         android:textColor="@color/bpblack"
         app:layout_constraintLeft_toRightOf="@+id/initial_field"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/initial_field" />
 
 
