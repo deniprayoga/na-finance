@@ -5,13 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,13 +23,15 @@ import kotlinx.android.synthetic.main.fragment_income.view.*
 class IncomeFragment : Fragment(), View.OnClickListener {
 
     companion object {
-
+        private val auth = FirebaseAuth.getInstance()
+        private val HUNTR = "huntr_IncomeFragment"
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
         private var mParam1: String? = null
         private var mParam2: String? = null
         private val dbIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
         private val incomes = ArrayList<IncomeModel>()
+        private lateinit var incomeAdapter: IncomeListAdapter
 
         fun newInstance(param1: String, param2: String): IncomeFragment {
             val fragment = IncomeFragment()
@@ -70,7 +72,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
                     .map { it.getValue(IncomeModel::class.java) }
                     .forEach { incomes.add(it) }
 
-                val incomeAdapter = IncomeListAdapter(activity?.applicationContext, incomes)
+                incomeAdapter = IncomeListAdapter(activity?.applicationContext, incomes)
                 recycler_view_income_list?.adapter = incomeAdapter
 
             }
@@ -80,6 +82,46 @@ class IncomeFragment : Fragment(), View.OnClickListener {
             }
         })
         recycler_view_income_list?.layoutManager = LinearLayoutManager(context)
+    }
+
+    fun showIncomeAll() {
+        dbIncomeRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                incomes.clear()
+
+                dataSnapshot!!.children
+                    .map { it.getValue(IncomeModel::class.java) }
+                    .forEach { incomes.add(it) }
+
+                incomeAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+        })
+    }
+
+    fun showIncomeOnlyMe() {
+        dbIncomeRef
+            .orderByChild("addedByTreasurerUid")
+            .equalTo(auth.currentUser?.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    incomes.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(IncomeModel::class.java) }
+                        .forEach { incomes.add(it) }
+
+                    incomeAdapter.notifyDataSetChanged()
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+            })
     }
 
     override fun onClick(v: View?) {
@@ -107,6 +149,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
 
     override fun onDetach() {
         super.onDetach()
+        Log.d(HUNTR, "In the onDetach() event")
         mListener = null
     }
 
@@ -115,26 +158,32 @@ class IncomeFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onPause() {
+        Log.d(HUNTR, "In the onPause() event")
         super.onPause()
     }
 
     override fun onResume() {
+        Log.d(HUNTR, "In the onResume() event")
         super.onResume()
     }
 
     override fun onAttachFragment(childFragment: Fragment?) {
+        Log.d(HUNTR, "In the onAttachFragment() event")
         super.onAttachFragment(childFragment)
     }
 
     override fun onDestroyView() {
+        Log.d(HUNTR, "In the onDestroyView() event")
         super.onDestroyView()
     }
 
     override fun onStop() {
+        Log.d(HUNTR, "In the onStop() event")
         super.onStop()
     }
 
     override fun onDestroy() {
+        Log.d(HUNTR, "In the onDestroy() event")
         super.onDestroy()
     }
 }

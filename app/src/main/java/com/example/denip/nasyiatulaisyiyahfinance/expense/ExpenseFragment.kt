@@ -5,15 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
-import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -31,12 +27,12 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
         private var expenses: ArrayList<ExpenseModel> = arrayListOf()
-        private val expense = expenses
         private val databaseExpenseRef = FirebaseDatabase.getInstance().getReference("expenses")
         private var mParam1: String? = null
         private var mParam2: String? = null
-        internal var HUNTR = "ExpenseFragment"
+        internal var HUNTR = "huntr_ExpenseFragment"
         private var mListener: OnFragmentInteractionListener? = null
+        private lateinit var expenseAdapter: ExpenseListAdapter
 
         fun newInstance(param1: String, param2: String): ExpenseFragment {
             val fragment = ExpenseFragment()
@@ -91,7 +87,7 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
                         .map { it.getValue(ExpenseModel::class.java) }
                         .forEach { expenses.add(it) }
 
-                    val expenseAdapter = ExpenseListAdapter(activity?.applicationContext, expenses)
+                    expenseAdapter = ExpenseListAdapter(activity?.applicationContext, expenses)
                     recycler_view_expense_list?.adapter = expenseAdapter
                 }
 
@@ -105,26 +101,53 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun showDeleteDialog(expenseId: String?): Boolean {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder
-            .setTitle(getString(R.string.confirmation))
-            .setMessage(getString(R.string.delete_expense_message))
-            .setPositiveButton(getString(R.string.yes), { dialog, which ->
-                val dbDeleteExpenseRef = FirebaseDatabase
-                    .getInstance()
-                    .getReference("expenses")
-                    .child(expenseId)
-                dbDeleteExpenseRef.removeValue()
-                showDeletedSuccessfully()
-            })
-            .setNegativeButton(getString(R.string.no), { dialog, which ->
-                dialog.dismiss()
-            })
+    fun showExpenseOnlyMe() {
+        Log.d(HUNTR, "In the showExpenseOnlyMe() Expense")
 
-        val dialog = dialogBuilder.create()
-        dialog.show()
-        return true
+        databaseExpenseRef
+            .orderByChild("addedByTreasurerUid")
+            .equalTo(auth.currentUser?.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    expenses.clear()
+
+                    Log.d(HUNTR, "In the onDataChange() Fragment")
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(ExpenseModel::class.java) }
+                        .forEach { expenses.add(it!!) }
+
+                    expenseAdapter.notifyDataSetChanged()
+                    Log.d(HUNTR, "expense only me itemCount : " + expenseAdapter.itemCount)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
+    }
+
+    fun showExpenseAll() {
+        databaseExpenseRef
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    expenses.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(ExpenseModel::class.java) }
+                        .forEach { expenses.add(it) }
+
+                    expenseAdapter.notifyDataSetChanged()
+
+                    Log.d(HUNTR, "expense all itemCount : " + expenseAdapter.itemCount)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
     }
 
     private fun showDeletedSuccessfully() {
