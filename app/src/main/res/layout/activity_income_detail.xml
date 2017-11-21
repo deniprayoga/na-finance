@@ -149,13 +149,19 @@
                 app:layout_constraintRight_toRightOf="@+id/income_detail_note_image_view"
                 app:layout_constraintTop_toTopOf="@+id/calendar_result_text_income_detail" />
 
-            <TextView
+            <EditText
                 android:id="@+id/calendar_result_text_income_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_text_field"
-                android:text="@string/calendar_result"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:hint="@string/calendar_result"
+                android:imeOptions="actionDone"
+                android:inputType="none"
+                android:scrollbars="vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/bpblack"
                 app:layout_constraintLeft_toLeftOf="@+id/income_detail_note_field"
@@ -166,12 +172,13 @@
                 android:id="@+id/view7"
                 android:layout_width="368dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@color/calendar_selected_date_text"
                 app:layout_constraintLeft_toLeftOf="@+id/view6"
                 app:layout_constraintTop_toBottomOf="@+id/calendar_result_text_income_detail" />
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -188,7 +195,6 @@
                 android:id="@+id/income_detail_categories_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_text_field"
                 android:cursorVisible="false"
@@ -199,11 +205,54 @@
                 android:inputType="none"
                 android:scrollbars="vertical"
                 android:textColor="@color/bpblack"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="@+id/calendar_result_text_income_detail"
                 app:layout_constraintRight_toRightOf="@+id/calendar_result_text_income_detail"
                 app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/calendar_selected_date_text"
+                app:layout_constraintLeft_toLeftOf="@+id/view6"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/income_detail_categories_field" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_person_black_24dp"
+                android:backgroundTint="@color/colorIcon"
+                app:layout_constraintBottom_toBottomOf="@+id/income_detail_added_by_treasurer_name"
+                app:layout_constraintLeft_toLeftOf="@+id/imageView"
+                app:layout_constraintRight_toRightOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/income_detail_added_by_treasurer_name" />
+
+            <EditText
+                android:id="@+id/income_detail_added_by_treasurer_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_text_field"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:enabled="false"
+                android:focusableInTouchMode="true"
+                android:hint="@string/full_name"
+                android:imeOptions="actionDone"
+                android:inputType="none"
+                android:scrollbars="vertical"
+                android:textColor="@color/bpblack"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/income_detail_categories_field"
+                app:layout_constraintRight_toRightOf="@+id/income_detail_categories_field"
+                app:layout_constraintTop_toBottomOf="@+id/view8" />
 
         </android.support.constraint.ConstraintLayout>
 
