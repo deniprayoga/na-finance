@@ -273,7 +273,6 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun pickCategory() {
         val intent = Intent(this@AddExpenseActivity, PickCategoryExpenseActivity::class.java)
-        //intent.putExtra(getString(R.string.CATEGORY_NAME_EXPENSE), "selected_category")
         startActivityForResult(intent, 1)
     }
 
