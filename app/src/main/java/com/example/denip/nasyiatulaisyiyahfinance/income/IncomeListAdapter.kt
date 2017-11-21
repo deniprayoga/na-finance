@@ -87,10 +87,9 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val fullName = dataSnapshot!!.child(currentUserUid).child("fullName")?.value.toString()
 
                         val income = incomes[adapterPosition]
-                        notifyDataSetChanged()
+                        val fullName = dataSnapshot?.child(income.addedByTreasurerUid)?.child("fullName")?.value.toString()
                         val intent = Intent(v?.context, IncomeDetailActivity::class.java)
                         intent.putExtra(context?.getString(R.string.INCOME_ID), income.incomeId)
                         intent.putExtra(context?.getString(R.string.INCOME_NOTE), income.note.toString().replace("^", ""))
@@ -100,7 +99,6 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
                         intent.putExtra(context?.getString(R.string.INCOME_NOTE_PHOTO_URI), income.addedByTreasurerInitial)
                         intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER), fullName.replace("^", ""))
                         intent.putExtra(context?.getString(R.string.CATEGORY_ID_INCOME), income.categoryId)
-                        intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER), income.addedByTreasurer)
                         intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER_UID), income.addedByTreasurerUid.toString())
 
                         Log.d(HUNTR, "income.expenseId : " + income.incomeId)
@@ -114,7 +112,6 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
                         Log.d(HUNTR, "income addeddByTreasurerUid : " + income.addedByTreasurerUid)
 
                         v?.context?.startActivity(intent)
-                        notifyDataSetChanged()
                     }
                 })
             }
