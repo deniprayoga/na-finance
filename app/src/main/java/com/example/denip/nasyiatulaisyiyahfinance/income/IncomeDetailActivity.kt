@@ -49,7 +49,6 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val amount = intent?.getStringExtra(getString(R.string.INCOME_AMOUNT))
         val category = intent.getStringExtra(getString(R.string.INCOME_CATEGORY))
         val dateCreated = intent.getStringExtra(getString(R.string.INCOME_DATE))
-        //val addedByTreasurer = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURE))
         val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_INCOME))
         val fullName = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURER))
         val addedByTreasurerInitial = intent.getStringExtra(getString(R.string.INCOME_ADDED_BY_TREASURER_INITIAL))
@@ -59,8 +58,9 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         income_detail_note_field?.setText(note)
         income_detail_amount_field.setText(amount)
         income_detail_categories_field?.setText(category)
-        calendar_result_text_income_detail?.text = dateCreated
+        calendar_result_text_income_detail?.setText(dateCreated)
         income_detail_category_id_text_view?.text = categoryId
+        income_detail_added_by_treasurer_name?.setText(fullName)
 
         Log.d(HUNTR, "In the onCreate() event")
         Log.d(HUNTR, "income id : " + incomeId)
@@ -102,6 +102,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         income_detail_categories_field.isFocusable = false
         initToolbar()
         calendar_result_text_income_detail.setOnClickListener(this)
+        calendar_result_text_income_detail.isFocusable = false
         income_detail_amount_field.setOnClickListener(this)
         income_detail_categories_field.setOnClickListener(this)
         income_detail_note_field.setOnClickListener(this)
@@ -182,7 +183,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        calendar_result_text_income_detail.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth)
+        calendar_result_text_income_detail.setText(getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth))
     }
 
     override fun onClick(v: View?) {
@@ -306,6 +307,9 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         income_detail_note_field.isEnabled = addedByTreasurerUid == currentUserUid
         calendar_result_text_income_detail.isEnabled = addedByTreasurerUid == currentUserUid
         income_detail_categories_field.isEnabled = addedByTreasurerUid == currentUserUid
+        when (addedByTreasurerUid) {
+            currentUserUid -> income_detail_added_by_treasurer_name.setText(getString(R.string.me))
+        }
         Log.d(HUNTR, "In the onStart() event")
     }
 

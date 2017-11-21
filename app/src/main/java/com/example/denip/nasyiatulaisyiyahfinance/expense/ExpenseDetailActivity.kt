@@ -54,8 +54,9 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         expense_detail_note_field?.setText(note)
         expense_detail_amount_field.setText(amount)
         expense_detail_categories_field?.setText(category)
-        calendar_result_text_expense_detail?.text = dateCreated
+        calendar_result_text_expense_detail?.setText(dateCreated)
         expense_detail_category_id_text_view?.text = categoryId
+        expense_detail_added_by_treasurer_name?.setText(fullName)
 
         initLayout()
         initAuth()
@@ -81,6 +82,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         expense_detail_amount_field.isFocusable = false
         expense_detail_categories_field.isFocusable = false
         calendar_result_text_expense_detail.setOnClickListener(this)
+        calendar_result_text_expense_detail.isFocusable = false
         expense_detail_amount_field.setOnClickListener(this)
         expense_detail_categories_field.setOnClickListener(this)
         expense_detail_note_field.setOnClickListener(this)
@@ -212,7 +214,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        calendar_result_text_expense_detail.text = getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth)
+        calendar_result_text_expense_detail.setText(getString(R.string.calendar_date_picker_result_values, year, monthOfYear + 1, dayOfMonth))
     }
 
     private fun showCursorOnNoteField() {
@@ -343,6 +345,9 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         expense_detail_note_field.isEnabled = addedByTreasurerUid == currentUserUid
         calendar_result_text_expense_detail.isEnabled = addedByTreasurerUid == currentUserUid
         expense_detail_categories_field.isEnabled = addedByTreasurerUid == currentUserUid
+        when (addedByTreasurerUid) {
+            currentUserUid -> expense_detail_added_by_treasurer_name.setText(getString(R.string.me))
+        }
         Log.d(HUNTR, "In the onStart() event")
     }
 
