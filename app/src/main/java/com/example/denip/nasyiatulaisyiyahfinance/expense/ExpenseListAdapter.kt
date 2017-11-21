@@ -84,9 +84,9 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val fullName = dataSnapshot?.child(currentUserUid)?.child("fullName")?.value.toString()
 
                         val expense = expenses[adapterPosition]
+                        val fullName = dataSnapshot?.child(expense.addedByTreasurerUid)?.child("fullName")?.value.toString()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
                         intent.putExtra(context?.getString(R.string.EXPENSE_ID), expense.expenseId)
                         intent.putExtra(context?.getString(R.string.EXPENSE_NOTE), expense.note.toString().replace("^", ""))
