@@ -131,7 +131,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun updateIncome() {
         //val addedByTreasure = auth.currentUser?.email
-        val amount = income_detail_amount_field.text.toString()
+        val amount = income_detail_amount_field.text.toString().toInt()
         val category = income_detail_categories_field.text.toString()
         val dateCreated = calendar_result_text_income_detail.text.toString()
         val incomeId = income_detail_id_text_view.text.toString()
@@ -139,7 +139,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_INCOME))
 
         when {
-            amount.isEmpty() -> showWarningAnimation(income_detail_amount_field)
+            amount.toString().isEmpty() -> showWarningAnimation(income_detail_amount_field)
             note.isEmpty() -> showWarningAnimation(income_detail_note_field)
             else -> {
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
@@ -157,7 +157,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
                         val income = IncomeModel(
                             incomeId,
                             fullName + "^",
-                            amount + "^",
+                            amount,
                             category + "^",
                             dateCreated + "^",
                             note + "^",

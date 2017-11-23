@@ -247,7 +247,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
                         val income = IncomeModel(
                             incomeId,
                             fullName + "^",
-                            amount + "^",
+                            amount.toInt(),
                             category + "^",
                             dateCreated + "^",
                             note + "^",
