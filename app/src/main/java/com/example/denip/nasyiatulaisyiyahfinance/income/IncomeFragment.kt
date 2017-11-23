@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_income.*
 import kotlinx.android.synthetic.main.fragment_income.view.*
+import java.util.*
 
 
 class IncomeFragment : Fragment(), View.OnClickListener {
@@ -29,7 +30,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
         private val ARG_PARAM2 = "param2"
         private var mParam1: String? = null
         private var mParam2: String? = null
-        private val dbIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
+        private val databaseIncomeRef = FirebaseDatabase.getInstance().getReference("incomes")
         private val incomes = ArrayList<IncomeModel>()
         private lateinit var incomeAdapter: IncomeListAdapter
 
@@ -64,7 +65,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        dbIncomeRef.addValueEventListener(object : ValueEventListener {
+        databaseIncomeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 incomes.clear()
 
@@ -85,7 +86,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun showIncomeAll() {
-        dbIncomeRef.addValueEventListener(object : ValueEventListener {
+        databaseIncomeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 incomes.clear()
 
@@ -103,7 +104,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun showIncomeOnlyMe() {
-        dbIncomeRef
+        databaseIncomeRef
             .orderByChild("addedByTreasurerUid")
             .equalTo(auth.currentUser?.uid)
             .addValueEventListener(object : ValueEventListener {
@@ -116,6 +117,78 @@ class IncomeFragment : Fragment(), View.OnClickListener {
 
                     incomeAdapter.notifyDataSetChanged()
 
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+            })
+    }
+
+    fun sortIncomeByDate(fromDate: String, toDate: String) {
+        Log.d(HUNTR, "in the sortExpenseByDate() event")
+        //databaseExpenseRef.orderByKey().startAt("01-10-2017").endAt("31-10-2017")
+        /*orderByChild("dateCreated").startAt("01-10-2017").endAt("31-10-2017")*/
+        Log.d(HUNTR, "fromDate : $fromDate toDate : $toDate")
+        databaseIncomeRef
+            .orderByChild("dateCreated")
+            .startAt(fromDate)
+            .endAt(toDate)
+
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    incomes.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(IncomeModel::class.java) }
+                        .forEach { incomes.add(it) }
+
+                    incomeAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
+    }
+
+    fun sortIncomeAmountLowestToHighest() {
+        Log.d(HUNTR, "In the sortIncomeAmountLowestToHighest() event")
+        databaseIncomeRef
+            .orderByChild("amount")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    incomes.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(IncomeModel::class.java) }
+                        .forEach { incomes.add(it) }
+
+                    incomeAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
+    }
+
+    fun sortIncomeAmountHighestToLowest() {
+        Log.d(HUNTR, "In the sortIncomeAmountLowestToHighest() event")
+        databaseIncomeRef
+            .orderByChild("amount")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    incomes.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(IncomeModel::class.java) }
+                        .forEach { incomes.add(it) }
+
+                    Collections.reverse(incomes)
+                    incomeAdapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError?) {

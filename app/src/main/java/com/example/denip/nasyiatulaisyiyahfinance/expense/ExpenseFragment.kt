@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,7 +17,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_expense.*
 import kotlinx.android.synthetic.main.fragment_expense.view.*
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ExpenseFragment : Fragment(), View.OnClickListener {
 
@@ -150,8 +150,77 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
             })
     }
 
-    private fun showDeletedSuccessfully() {
-        Toast.makeText(context, getString(R.string.expense_deleted), Toast.LENGTH_SHORT).show()
+    fun sortExpenseByDate(fromDate: String, toDate: String) {
+        Log.d(HUNTR, "in the sortExpenseByDate() event")
+        //databaseExpenseRef.orderByKey().startAt("01-10-2017").endAt("31-10-2017")
+        /*orderByChild("dateCreated").startAt("01-10-2017").endAt("31-10-2017")*/
+        Log.d(HUNTR, "fromDate : $fromDate toDate : $toDate")
+        databaseExpenseRef
+            .orderByChild("dateCreated")
+            .startAt(fromDate)
+            .endAt(toDate)
+
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    expenses.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(ExpenseModel::class.java) }
+                        .forEach { expenses.add(it) }
+
+                    expenseAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
+    }
+
+    fun sortExpenseAmountLowestToHighest() {
+        Log.d(HUNTR, "In the sortIncomeAmountLowestToHighest() event")
+        databaseExpenseRef
+            .orderByChild("amount")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    expenses.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(ExpenseModel::class.java) }
+                        .forEach { expenses.add(it) }
+
+                    expenseAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
+    }
+
+    fun sortExpenseAmountHighestToLowest() {
+        Log.d(HUNTR, "In the sortIncomeAmountLowestToHighest() event")
+        databaseExpenseRef
+            .orderByChild("amount")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    expenses.clear()
+
+                    dataSnapshot!!.children
+                        .map { it.getValue(ExpenseModel::class.java) }
+                        .forEach { expenses.add(it) }
+
+                    Collections.reverse(expenses)
+                    expenseAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError?) {
+
+                }
+
+            })
     }
 
     override fun onResume() {

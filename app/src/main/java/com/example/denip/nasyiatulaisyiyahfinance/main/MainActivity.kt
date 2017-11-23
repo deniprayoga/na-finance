@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.view.PagerAdapter
@@ -14,11 +13,13 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseFragment
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseModel
 import com.example.denip.nasyiatulaisyiyahfinance.income.IncomeFragment
 import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.about.AboutActivity
 import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseSettingActivity
 import com.example.denip.nasyiatulaisyiyahfinance.income.category.CategoryIncomeSettingActivity
 import com.example.denip.nasyiatulaisyiyahfinance.login.ChangePasswordActivity
@@ -27,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
-import me.relex.circleindicator.CircleIndicator
+import kotlinx.android.synthetic.main.sort_by_date_layout.view.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.supercsv.cellprocessor.constraint.NotNull
@@ -42,7 +43,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
-    IncomeFragment.OnFragmentInteractionListener {
+    IncomeFragment.OnFragmentInteractionListener, CalendarDatePickerDialogFragment.OnDateSetListener {
 
     override fun onFragmentInteraction(uri: Uri) {
         Log.d(HUNTR, "onFragmentInteraction")
@@ -60,10 +61,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         private lateinit var categories: ArrayList<String>
         private lateinit var amounts: ArrayList<String>
         private lateinit var notes: ArrayList<String>
-        //private lateinit var expenses: ArrayList<ExpenseModel>
-        //private var expenses = mutableListOf<ExpenseModel>()
         private lateinit var data: HashMap<String, Any>
-        private lateinit var userFullNamesOne: String
         private val CSV_HEADER = arrayOf<String>(
             "Date",
             "Created_by",
@@ -80,7 +78,13 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             .toLocalDateTime()
             .toDate()
         private var expenses: ArrayList<ExpenseModel> = arrayListOf()
-        //private val storage = FirebaseStorage.getInstance()
+        private var expense = ExpenseFragment()
+        private var income = IncomeFragment()
+        private val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name_main"
+        private lateinit var pickDateInflater: LayoutInflater
+        private lateinit var view: View
+        private lateinit var dateToSet: String
+        private lateinit var type: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +93,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         initViewPager()
         initAuth()
-        //expenses = ArrayList<ExpenseModel>()
         Log.d(HUNTR + "REF", databaseExpenseRef.toString())
 
         Log.d(HUNTR, expenses.toString())
@@ -125,73 +128,192 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             R.id.menu_income_category -> startActivity(Intent(this, CategoryIncomeSettingActivity::class.java))
             R.id.menu_expense_export -> showDialogExportExpense()
             R.id.menu_income_export -> showDialogExportIncome()
-            R.id.menu_expense_show -> showDialogShowExpense()
-            R.id.menu_expense_sort_by -> showDialogExpenseSortBy()
-            R.id.menu_income_show -> showDialogShowIncome()
-            R.id.menu_income_sort_by -> showDialogIncomeSortBy()
+            R.id.menu_expense_show -> {
+                type = "expense"
+                showDialogShowTransaction()
+            }
+            R.id.menu_expense_sort_by -> {
+                type = "expense"
+                showDialogSortBy()
+            }
+            R.id.menu_income_show -> {
+                type = "income"
+                showDialogShowTransaction()
+            }
+            R.id.menu_income_sort_by -> {
+                type = "income"
+                showDialogSortBy()
+            }
+            R.id.menu_more_about -> startActivity(Intent(this, AboutActivity::class.java))
         }
         return true
     }
 
-    private fun showDialogIncomeSortBy() {
+    private fun showDialogSortBy() {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder
-            .setTitle(getString(R.string.sort_income_by))
-            .setPositiveButton(getString(R.string.date), { dialog, which ->
+        val choices = arrayOf<CharSequence>(getString(R.string.amount), getString(R.string.date))
+        var checked = ""
 
-            })
-            .setNeutralButton(getString(R.string.category_title), { dialog, which ->
-
-            })
-            .show()
-    }
-
-    private fun showDialogShowIncome() {
-        val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder
-            .setTitle(getString(R.string.show_income))
-            .setPositiveButton(getString(R.string.show_only_me), { dialog, which ->
-
-            })
-            .setNeutralButton(getString(R.string.show_all), { dialog, which ->
-
-            })
-            .show()
-    }
-
-    private fun showDialogExpenseSortBy() {
-        val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
             .setTitle(getString(R.string.sort_expense_by))
-            .setPositiveButton(getString(R.string.date), { dialog, which ->
-
+            .setSingleChoiceItems(choices, -1, { dialog, item ->
+                when (item) {
+                    0 -> checked = "amount"
+                    1 -> checked = "date"
+                }
             })
-            .setNeutralButton(getString(R.string.category_title), { dialog, which ->
-
+            .setPositiveButton(getString(R.string.next), { dialog, which ->
+                Log.d(HUNTR, "type : " + type)
+                Log.d(HUNTR, "checked : " + checked)
+                when (checked) {
+                    "amount" -> showDialogSortByAmount()
+                    "date" -> showDialogPickDate()
+                }
             })
+            .create()
             .show()
     }
 
-    private fun showDialogShowExpense() {
-        Log.d(HUNTR, "In the showDialogShowExpense()")
+    private fun showDialogSortByAmount() {
         val dialogBuilder = AlertDialog.Builder(this)
+        val choices = arrayOf<CharSequence>(
+            getString(R.string.lowest_to_highest),
+            getString(R.string.highest_to_lowest),
+            getString(R.string.custom))
+        var checked = ""
+
+        dialogBuilder
+            .setTitle(getString(R.string.sort_by_amount))
+            .setSingleChoiceItems(choices, -1, { dialog, item ->
+                when (item) {
+                    0 -> checked = "lowToHi"
+                    1 -> checked = "hiToLow"
+                    2 -> checked = "custom"
+                }
+            })
+            .setPositiveButton(getString(R.string.ok), { dialog, which ->
+                Log.d(HUNTR, "type : " + type)
+                Log.d(HUNTR, "checked : " + checked)
+
+                when (type) {
+                    "expense" -> {
+                        when (checked) {
+                            "lowToHi" -> expense.sortExpenseAmountLowestToHighest()
+                            "hiToLow" -> expense.sortExpenseAmountHighestToLowest()
+                            "custom" -> showDialogSortAmountCustom()
+                        }
+                    }
+                    "income" -> {
+                        when (checked) {
+                            "lowToHi" -> income.sortIncomeAmountLowestToHighest()
+                            "hiToLow" -> income.sortIncomeAmountHighestToLowest()
+                            "custom" -> showDialogSortAmountCustom()
+                        }
+                    }
+                }
+
+            })
+            .create()
+            .show()
+    }
+
+    private fun showDialogSortAmountCustom() {
+
+    }
+
+    private fun showDialogPickDate() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        pickDateInflater = layoutInflater
+        view = pickDateInflater.inflate(R.layout.sort_by_date_layout, null)
+
+        view.sort_by_date_from.isFocusable = false
+        view.sort_by_date_from.setOnClickListener {
+            dateToSet = "from"
+            showCalendar()
+        }
+
+        view.sort_by_date_to.isFocusable = false
+        view.sort_by_date_to.setOnClickListener {
+            dateToSet = "to"
+            showCalendar()
+        }
+
+        Log.d(HUNTR, "type : " + type)
+        dialogBuilder
+            .setView(view)
+            .setTitle(getString(R.string.sort))
+            .setPositiveButton(getString(R.string.ok), { dialog, which ->
+                val fromDate = view.sort_by_date_from?.text.toString()
+                val toDate = view.sort_by_date_to?.text.toString()
+                when {
+                    fromDate.isEmpty() -> Toast.makeText(this, getString(R.string.prompt_empty_field),
+                        Toast.LENGTH_LONG).show()
+                    toDate.isEmpty() -> Toast.makeText(this, getString(R.string.prompt_empty_field),
+                        Toast.LENGTH_LONG).show()
+                    else -> {
+                        when (type) {
+                            "expense" -> expense.sortExpenseByDate(fromDate, toDate)
+                            "income" -> income.sortIncomeByDate(fromDate, toDate)
+                        }
+
+
+                    }
+                }
+            })
+            .create()
+            .show()
+    }
+
+    private fun showCalendar() {
+        val calendarDatePicker = CalendarDatePickerDialogFragment().setOnDateSetListener(this)
+        calendarDatePicker.show(supportFragmentManager, FRAG_TAG_DATE_PICKER)
+    }
+
+    override fun onDateSet(dialog: CalendarDatePickerDialogFragment?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        when (dateToSet) {
+            "from" -> view.sort_by_date_from?.setText(getString(R.string.calendar_date_picker_result_values,
+                year, monthOfYear + 1, dayOfMonth))
+            "to" -> view.sort_by_date_to?.setText(getString(R.string.calendar_date_picker_result_values,
+                year, monthOfYear + 1, dayOfMonth))
+        }
+
+    }
+
+    private fun showDialogShowTransaction() {
+        Log.d(HUNTR, "In the showDialogShowTransaction()")
+        val dialogBuilder = AlertDialog.Builder(this)
+        val choices = arrayOf<CharSequence>(getString(R.string.show_all), getString(R.string.show_only_me))
+        var checked = ""
+
         dialogBuilder
             .setTitle(getString(R.string.show_expense))
-            .setPositiveButton(getString(R.string.show_only_me), { dialog, which ->
-                Log.d(HUNTR, "Only me clicked!")
-                showExpenseOnlyMe()
+            .setSingleChoiceItems(choices, -1, { dialog, item ->
+                when (item) {
+                    0 -> checked = "all"
+                    1 -> checked = "onlyme"
+                }
             })
-            .setNeutralButton(getString(R.string.show_all), { dialog, which ->
-                dialog.dismiss()
-                Log.d(HUNTR, "All clicked!")
-            })
-            .show()
-    }
+            .setPositiveButton(getString(R.string.ok), { dialog, which ->
+                Log.d(HUNTR, "type : " + type)
+                Log.d(HUNTR, "checked : " + checked)
+                when (type) {
+                    "expense" -> {
+                        when (checked) {
+                            "all" -> expense.showExpenseAll()
+                            "onlyme" -> expense.showExpenseOnlyMe()
+                        }
+                    }
+                    "income" -> {
+                        when (checked) {
+                            "all" -> income.showIncomeAll()
+                            "onlyme" -> income.showIncomeOnlyMe()
+                        }
+                    }
+                }
 
-    private fun showExpenseOnlyMe() {
-        Log.d(HUNTR, "In the showExpenseOnlyMe()")
-        val expense = ExpenseFragment()
-        expense.showExpenseOnlyMe()
+            })
+            .create()
+            .show()
     }
 
     private fun initToolbar() {
@@ -365,7 +487,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                             }
 
                         dataSnapshot.children
-                            .map { it?.child("amount")?.value.toString().replace("^", "\nRp.") }
+                            .map { it?.child("amount")?.value.toString().plus("\n") }
                             .forEach {
                                 amounts.add(it)
                             }
@@ -400,13 +522,24 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             .setTitle(R.string.confirmation)
             .setMessage(R.string.confirmation_sign_out)
             .setPositiveButton(R.string.yes, { dialog, which ->
-                auth.signOut()
-                //showLogoutProgress()
+                signOut()
             })
             .setNegativeButton(R.string.no, { dialog, _ ->
                 dialog.cancel()
             })
             .show()
+    }
+
+    private fun signOut() {
+        auth.signOut()
+        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+        showLogoutProgress()
+    }
+
+    private fun showLogoutProgress() {
+        Log.d(HUNTR, "In the showLogoutProgress")
+        logout_progress_layout.visibility = View.VISIBLE
+        logout_progress.visibility = View.VISIBLE
     }
 
     private fun initViewPager() {
