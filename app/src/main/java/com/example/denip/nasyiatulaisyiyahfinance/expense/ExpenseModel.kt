@@ -6,13 +6,13 @@ package com.example.denip.nasyiatulaisyiyahfinance.expense
 
 class ExpenseModel(val addedByTreasurer: String?,
                    val addedByTreasurerUid: String?,
-                   val amount: String?,
+                   val amount: Int?,
                    val category: String?,
                    val dateCreated: String?,
                    val expenseId: String?,
                    val note: String?,
                    val addedByTreasurerInitial: String?,
                    val categoryId: String?) {
-    constructor() : this("","", "", "", "", "", "", "", "")
-    constructor(addedByTreasurer: String?) : this(addedByTreasurer, "", "", "", "", "", "", "", "")
+    constructor() : this("","", 0, "", "", "", "", "", "")
+    constructor(addedByTreasurer: String?) : this(addedByTreasurer, "", 0, "", "", "", "", "", "")
 }

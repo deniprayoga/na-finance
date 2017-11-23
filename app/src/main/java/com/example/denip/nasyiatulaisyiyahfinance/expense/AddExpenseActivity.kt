@@ -143,7 +143,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         val expense = ExpenseModel(
                             fullName + "^",
                             uid,
-                            amount + "^",
+                            amount.toInt(),
                             category + "^",
                             dateCreated + "^",
                             expenseId,

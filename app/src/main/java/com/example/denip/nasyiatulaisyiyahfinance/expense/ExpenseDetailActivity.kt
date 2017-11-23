@@ -243,7 +243,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             android.R.id.home -> onBackPressed()
             R.id.action_bar_save -> {
                 Log.d(HUNTR, "----------------action bar saved clicked-------------------")
-                val amount = expense_detail_amount_field.text.toString()
+                val amount = expense_detail_amount_field.text.toString().toInt()
                 val category = expense_detail_categories_field.text
                 val dateCreated = calendar_result_text_expense_detail.text.toString()
                 val expenseId = expense_detail_id_text_view.text.toString()
@@ -251,7 +251,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                 val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_EXPENSE))
 
                 when {
-                    amount.isEmpty() -> showWarningAnimation(expense_detail_amount_field)
+                    amount.toString().isEmpty() -> showWarningAnimation(expense_detail_amount_field)
                     note.isEmpty() -> showWarningAnimation(expense_detail_note_field)
 
                     else -> {
@@ -263,7 +263,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                         val expense = ExpenseModel(
                             fullName + "^",
                             currentUserUid,
-                            amount + "^",
+                            amount,
                             category.toString() + "^",
                             dateCreated + "^",
                             expenseId,
