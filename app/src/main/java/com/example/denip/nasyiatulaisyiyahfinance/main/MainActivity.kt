@@ -41,6 +41,7 @@ import java.io.FileWriter
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
     IncomeFragment.OnFragmentInteractionListener, CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -61,7 +62,8 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         private lateinit var categories: ArrayList<String>
         private lateinit var amounts: ArrayList<String>
         private lateinit var notes: ArrayList<String>
-        private lateinit var data: HashMap<String, Any>
+        private lateinit var data: HashMap<String, String>
+        private lateinit var arrayListHashMap: ArrayList<HashMap<String, String>>
         private val CSV_HEADER = arrayOf<String>(
             "Date",
             "Created_by",
@@ -97,12 +99,13 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         Log.d(HUNTR, expenses.toString())
         Log.d(HUNTR, "In the onCreate() event")
-        data = HashMap<String, Any>()
+        data = HashMap<String, String>()
         userFullNames = ArrayList<String>()
         dateCreated = ArrayList<String>()
         categories = ArrayList<String>()
         amounts = ArrayList<String>()
         notes = ArrayList<String>()
+        arrayListHashMap = ArrayList<HashMap<String, String>>()
     }
 
     override fun onStart() {
@@ -155,7 +158,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         var checked = ""
 
         dialogBuilder
-            .setTitle(getString(R.string.sort_expense_by))
+            .setTitle(getString(R.string.sort_by))
             .setSingleChoiceItems(choices, -1, { dialog, item ->
                 when (item) {
                     0 -> checked = "amount"
@@ -178,8 +181,8 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         val dialogBuilder = AlertDialog.Builder(this)
         val choices = arrayOf<CharSequence>(
             getString(R.string.lowest_to_highest),
-            getString(R.string.highest_to_lowest),
-            getString(R.string.custom))
+            getString(R.string.highest_to_lowest)
+        )
         var checked = ""
 
         dialogBuilder
@@ -188,7 +191,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 when (item) {
                     0 -> checked = "lowToHi"
                     1 -> checked = "hiToLow"
-                    2 -> checked = "custom"
                 }
             })
             .setPositiveButton(getString(R.string.ok), { dialog, which ->
@@ -200,14 +202,12 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                         when (checked) {
                             "lowToHi" -> expense.sortExpenseAmountLowestToHighest()
                             "hiToLow" -> expense.sortExpenseAmountHighestToLowest()
-                            "custom" -> showDialogSortAmountCustom()
                         }
                     }
                     "income" -> {
                         when (checked) {
                             "lowToHi" -> income.sortIncomeAmountLowestToHighest()
                             "hiToLow" -> income.sortIncomeAmountHighestToLowest()
-                            "custom" -> showDialogSortAmountCustom()
                         }
                     }
                 }
@@ -215,10 +215,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             })
             .create()
             .show()
-    }
-
-    private fun showDialogSortAmountCustom() {
-
     }
 
     private fun showDialogPickDate() {
@@ -286,7 +282,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         var checked = ""
 
         dialogBuilder
-            .setTitle(getString(R.string.show_expense))
+            .setTitle(getString(R.string.show))
             .setSingleChoiceItems(choices, -1, { dialog, item ->
                 when (item) {
                     0 -> checked = "all"
@@ -382,7 +378,11 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                     //write the header
                     if (!isAlreadyExist) mapWriter.writeHeader(*CSV_HEADER)
 
-                    mapWriter.write(data, CSV_HEADER, processors)
+                    if (data.size > 0) {
+                        for (n in arrayListHashMap) {
+                            mapWriter.write(n, CSV_HEADER, processors)
+                        }
+                    }
                     Log.d(HUNTR, "CSV_HEADER : " + CSV_HEADER[0])
                     Log.d(HUNTR, "CSV_HEADER size : " + CSV_HEADER.size)
                     Log.d(HUNTR, "processors size : " + processors.size)
@@ -503,11 +503,20 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 Log.d(HUNTR, "userFullNames : " + userFullNames)
                 Log.d(HUNTR, "userFullNames size : " + userFullNames.size)
 
-                data.put(CSV_HEADER[0], dateCreated)
-                data.put(CSV_HEADER[1], userFullNames)
-                data.put(CSV_HEADER[2], categories)
-                data.put(CSV_HEADER[3], amounts)
-                data.put(CSV_HEADER[4], notes)
+                if (dateCreated.size > 0) {
+                    var i = 0
+
+                    for (n in dateCreated) {
+                        data = HashMap()
+                        data.put(CSV_HEADER[0], dateCreated[i])
+                        data.put(CSV_HEADER[1], userFullNames[i])
+                        data.put(CSV_HEADER[2], categories[i])
+                        data.put(CSV_HEADER[3], amounts[i])
+                        data.put(CSV_HEADER[4], notes[i])
+                        i++
+                        arrayListHashMap.add(data)
+                    }
+                }
             }
             "income" -> {
 
