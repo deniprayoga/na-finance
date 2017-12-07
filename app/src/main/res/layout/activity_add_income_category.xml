@@ -48,7 +48,7 @@
         android:ems="10"
         android:hint="@string/zero"
         android:inputType="number"
-        android:maxLength="1"
+        android:maxLength="2"
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -99,7 +99,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/category_name"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         android:maxLength="100"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
