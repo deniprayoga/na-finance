@@ -47,7 +47,7 @@
             tools:layout_editor_absoluteY="0dp">
 
             <TextView
-                android:id="@+id/income_detail_amount_image_view"
+                android:id="@+id/rp_balance_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -71,9 +71,9 @@
                 android:maxLength="9"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorIconIncome"
-                app:layout_constraintBottom_toBottomOf="@+id/income_detail_amount_image_view"
-                app:layout_constraintLeft_toRightOf="@+id/income_detail_amount_image_view"
-                app:layout_constraintTop_toTopOf="@+id/income_detail_amount_image_view"
+                app:layout_constraintBottom_toBottomOf="@+id/rp_balance_text"
+                app:layout_constraintLeft_toRightOf="@+id/rp_balance_text"
+                app:layout_constraintTop_toTopOf="@+id/rp_balance_text"
                 app:layout_constraintVertical_bias="1.0" />
 
             <View
@@ -85,7 +85,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/income_detail_amount_image_view" />
+                app:layout_constraintTop_toBottomOf="@+id/rp_balance_text" />
 
             <ImageView
                 android:id="@+id/income_detail_note_image_view"
@@ -101,8 +101,8 @@
                 android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/income_detail_note_field"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/income_detail_amount_image_view"
-                app:layout_constraintRight_toRightOf="@+id/income_detail_amount_image_view"
+                app:layout_constraintLeft_toLeftOf="@+id/rp_balance_text"
+                app:layout_constraintRight_toRightOf="@+id/rp_balance_text"
                 app:layout_constraintTop_toTopOf="@+id/income_detail_note_field" />
 
             <EditText
