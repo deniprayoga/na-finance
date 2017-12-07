@@ -105,7 +105,7 @@
                 android:id="@+id/menu_more_about"
                 android:enabled="true"
                 android:orderInCategory="100"
-                android:title="@string/about"
+                android:title="@string/app_info"
                 android:titleCondensed="Areas"
                 android:visible="true"
                 app:showAsAction="never" />
