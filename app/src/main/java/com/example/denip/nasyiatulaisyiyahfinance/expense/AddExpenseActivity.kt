@@ -141,13 +141,13 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         Log.d(HUNTR, "fullName : " + fullName)
 
                         val expense = ExpenseModel(
-                            fullName + "^",
+                            fullName,
                             uid,
                             amount.toInt(),
-                            category + "^",
-                            dateCreated + "^",
+                            category,
+                            dateCreated,
                             expenseId,
-                            note + "^",
+                            note,
                             initial,
                             categoryId)
 

@@ -111,7 +111,6 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         val addAmountInflater: LayoutInflater = layoutInflater
         val view: View = addAmountInflater.inflate(R.layout.activity_add_amount_income, null)
 
-
         view.one_button?.setOnClickListener {
             val currentAmount = view.income_amount_field_add_amount?.text.toString()
             view.income_amount_field_add_amount?.setText(currentAmount.plus(1))
@@ -182,9 +181,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
                     income_amount_field.error = null
                 }
             })
-        val dialog: AlertDialog = dialogBuilder.create()
-        dialog.show()
-        hideCursorOnNoteField()
+        .create().show()
     }
 
     private fun hideCursorOnNoteField() {
@@ -246,11 +243,11 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
 
                         val income = IncomeModel(
                             incomeId,
-                            fullName + "^",
+                            fullName,
                             amount.toInt(),
-                            category + "^",
-                            dateCreated + "^",
-                            note + "^",
+                            category,
+                            dateCreated,
+                            note,
                             initial,
                             uid,
                             categoryId)
