@@ -21,6 +21,7 @@ import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.example.denip.nasyiatulaisyiyahfinance.about.AboutActivity
 import com.example.denip.nasyiatulaisyiyahfinance.expense.category.CategoryExpenseSettingActivity
+import com.example.denip.nasyiatulaisyiyahfinance.home.HomeFragment
 import com.example.denip.nasyiatulaisyiyahfinance.income.category.CategoryIncomeSettingActivity
 import com.example.denip.nasyiatulaisyiyahfinance.login.ChangePasswordActivity
 import com.example.denip.nasyiatulaisyiyahfinance.profile.ProfileActivity
@@ -44,12 +45,14 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionListener,
-    IncomeFragment.OnFragmentInteractionListener, CalendarDatePickerDialogFragment.OnDateSetListener {
+    IncomeFragment.OnFragmentInteractionListener, CalendarDatePickerDialogFragment.OnDateSetListener,
+    HomeFragment.OnFragmentInteractionListener {
 
     override fun onFragmentInteraction(uri: Uri) {
         Log.d(HUNTR, "onFragmentInteraction")
 
     }
+
 
     companion object {
         private val HUNTR = "huntr_MainActivity"
@@ -349,7 +352,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             .setPositiveButton(R.string.yes, { dialog, _ ->
                 toExport = "income"
                 exportToCsv()
-                Toast.makeText(this, "Make your export expense action.", Toast.LENGTH_SHORT).show()
+                showDialogLocation()
             })
             .setNegativeButton(R.string.no, { dialog, _ ->
                 dialog.cancel()
@@ -403,7 +406,38 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 }
             }
             "income" -> {
+                try {
+                    mapWriter = CsvMapWriter(FileWriter(destinationFile, true),
+                        CsvPreference.STANDARD_PREFERENCE)
 
+                    val processors: Array<CellProcessor> = getProcessors()
+
+                    //write the header
+                    if (!isAlreadyExist) mapWriter.writeHeader(*CSV_HEADER)
+
+                    if (data.size > 0) {
+                        for (n in arrayListHashMap) {
+                            mapWriter.write(n, CSV_HEADER, processors)
+                        }
+                    }
+                    Log.d(HUNTR, "CSV_HEADER : " + CSV_HEADER[0])
+                    Log.d(HUNTR, "CSV_HEADER size : " + CSV_HEADER.size)
+                    Log.d(HUNTR, "processors size : " + processors.size)
+                    Log.d(HUNTR, "data in writeDataOnCSV() : " + data)
+                    Log.d(HUNTR, "data.values.size in writeDataOnCSV() : " + data.values.size)
+                    Log.d(HUNTR, "data.keys.size in writeDataOnCSV() : " + data.keys.size)
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                } finally {
+                    if (mapWriter != null) {
+                        try {
+                            mapWriter.close()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
             }
         }
         Log.d(HUNTR, "-End of writeDataOnCSV()-")
@@ -469,31 +503,31 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                         notes.clear()
 
                         dataSnapshot!!.children
-                            .map { it?.child("addedByTreasurer")?.value.toString().replace("^", "\n") }
+                            .map { it?.child("addedByTreasurer")?.value.toString() }
                             .forEach {
                                 userFullNames.add(it)
                             }
 
                         dataSnapshot.children
-                            .map { it?.child("dateCreated")?.value.toString().replace("^", "\n") }
+                            .map { it?.child("dateCreated")?.value.toString() }
                             .forEach {
                                 dateCreated.add(it)
                             }
 
                         dataSnapshot.children
-                            .map { it?.child("category")?.value.toString().replace("^", "\n") }
+                            .map { it?.child("category")?.value.toString() }
                             .forEach {
                                 categories.add(it)
                             }
 
                         dataSnapshot.children
-                            .map { it?.child("amount")?.value.toString().plus("\n") }
+                            .map { it?.child("amount")?.value.toString() }
                             .forEach {
                                 amounts.add(it)
                             }
 
                         dataSnapshot.children
-                            .map { it?.child("note")?.value.toString().replace("^", "\n") }
+                            .map { it?.child("note")?.value.toString() }
                             .forEach {
                                 notes.add(it)
                             }
@@ -519,7 +553,71 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 }
             }
             "income" -> {
+                Log.d(HUNTR, "data in addData() : " + data)
+                Log.d(HUNTR, "data.values.size in addData() : " + data.values.size)
+                Log.d(HUNTR, "data.keys.size in addData() : " + data.keys.size)
 
+                databaseIncomeRef.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(databaseError: DatabaseError?) {
+
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        userFullNames.clear()
+                        dateCreated.clear()
+                        categories.clear()
+                        amounts.clear()
+                        notes.clear()
+
+                        dataSnapshot!!.children
+                            .map { it?.child("addedByTreasurer")?.value.toString() }
+                            .forEach {
+                                userFullNames.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("dateCreated")?.value.toString() }
+                            .forEach {
+                                dateCreated.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("category")?.value.toString() }
+                            .forEach {
+                                categories.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("amount")?.value.toString() }
+                            .forEach {
+                                amounts.add(it)
+                            }
+
+                        dataSnapshot.children
+                            .map { it?.child("note")?.value.toString() }
+                            .forEach {
+                                notes.add(it)
+                            }
+                    }
+                })
+
+                Log.d(HUNTR, "userFullNames : " + userFullNames)
+                Log.d(HUNTR, "userFullNames size : " + userFullNames.size)
+
+                if (dateCreated.size > 0) {
+                    var i = 0
+
+                    for (n in dateCreated) {
+                        data = HashMap()
+                        data.put(CSV_HEADER[0], dateCreated[i])
+                        data.put(CSV_HEADER[1], userFullNames[i])
+                        data.put(CSV_HEADER[2], categories[i])
+                        data.put(CSV_HEADER[3], amounts[i])
+                        data.put(CSV_HEADER[4], notes[i])
+                        i++
+                        arrayListHashMap.add(data)
+                    }
+                }
             }
         }
         Log.d(HUNTR, "-End of addData()-")
@@ -557,7 +655,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
         container!!.adapter = sectionsPagerAdapter
 
-        container!!.currentItem = 0
+        container!!.currentItem = 1
 
         tab_layout.setupWithViewPager(container)
         toolbar_main_layout.title = getString(R.string.app_name_long)
@@ -588,19 +686,21 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             Log.d(HUNTR, "In the getItem() event")
             when (position) {
                 0 -> return ExpenseFragment()
-                1 -> return IncomeFragment()
+                1 -> return HomeFragment()
+                2 -> return IncomeFragment()
             }
             Log.d(HUNTR, "position : " + position)
             return MainFragment.newInstance(position)
         }
 
-        override fun getCount(): Int = 2
+        override fun getCount(): Int = 3
 
         override fun getPageTitle(position: Int): CharSequence? {
             Log.d(HUNTR, "In the getPageTitle() event")
             when (position) {
                 0 -> return getString(R.string.expense)
-                1 -> return getString(R.string.income)
+                1 -> return getString(R.string.home)
+                2 -> return getString(R.string.income)
             }
             Log.d(HUNTR, "position : " + position)
             return null
