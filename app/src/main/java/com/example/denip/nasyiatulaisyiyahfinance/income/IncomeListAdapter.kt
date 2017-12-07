@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
@@ -17,7 +16,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.income_list_row_view.view.*
+import java.text.NumberFormat
+import java.util.*
 
 /**
  * Created by denip on 9/25/2017.
@@ -47,20 +47,23 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                holder!!.note.text = income.note.toString().replace("^", "")
-                holder.category.text = income.category.toString().replace("^", "")
-                holder.amount.text = "Rp ${income.amount.toString().replace("^", "")}"
-                holder.dateCreated.text = income.dateCreated.toString().replace("^", "")
+                val formattedAmount = formatAmount(income.amount!!)
+                holder!!.note.text = income.note.toString()
+                holder.category.text = income.category.toString()
+                holder.amount.text = "Rp $formattedAmount"
+                holder.dateCreated.text = income.dateCreated.toString()
                 holder.addedBy.text = dataSnapshot?.child(income.addedByTreasurerUid)
-                    ?.child("fullName")?.value.toString().replace("^", "")
-                holder.categoryId.text = income.categoryId.toString().replace("^", "")
+                    ?.child("fullName")?.value.toString()
+                holder.categoryId.text = income.categoryId.toString()
                 holder.addedByInitial.text = dataSnapshot?.child(income.addedByTreasurerUid)
-                    ?.child("initial")?.value.toString().replace("^", "")
-
+                    ?.child("initial")?.value.toString()
 
             }
         })
     }
+
+    private fun formatAmount(amount: Int): String =
+        NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     override fun getItemCount(): Int = incomes.size
 
@@ -92,12 +95,12 @@ class IncomeListAdapter(context: Context?, incomes: ArrayList<IncomeModel>) : Re
                         val fullName = dataSnapshot?.child(income.addedByTreasurerUid)?.child("fullName")?.value.toString()
                         val intent = Intent(v?.context, IncomeDetailActivity::class.java)
                         intent.putExtra(context?.getString(R.string.INCOME_ID), income.incomeId)
-                        intent.putExtra(context?.getString(R.string.INCOME_NOTE), income.note.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.INCOME_AMOUNT), income.amount.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.INCOME_CATEGORY), income.category.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.INCOME_DATE), income.dateCreated.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.INCOME_NOTE), income.note.toString())
+                        intent.putExtra(context?.getString(R.string.INCOME_AMOUNT), income.amount.toString())
+                        intent.putExtra(context?.getString(R.string.INCOME_CATEGORY), income.category.toString())
+                        intent.putExtra(context?.getString(R.string.INCOME_DATE), income.dateCreated.toString())
                         intent.putExtra(context?.getString(R.string.INCOME_NOTE_PHOTO_URI), income.addedByTreasurerInitial)
-                        intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER), fullName.replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER), fullName)
                         intent.putExtra(context?.getString(R.string.CATEGORY_ID_INCOME), income.categoryId)
                         intent.putExtra(context?.getString(R.string.INCOME_ADDED_BY_TREASURER_UID), income.addedByTreasurerUid.toString())
 

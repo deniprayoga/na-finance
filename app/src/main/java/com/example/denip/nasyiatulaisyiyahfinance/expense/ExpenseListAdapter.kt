@@ -16,6 +16,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.NumberFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -46,18 +48,22 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                holder!!.note.text = expense.note.toString().replace("^", "")
-                holder.category.text = expense.category.toString().replace("^", "")
-                holder.amount.text = "Rp ${expense.amount.toString().replace("^", "")}"
-                holder.dateCreated.text = expense.dateCreated.toString().replace("^", "")
+                val formattedAmount = formatAmount(expense.amount!!)
+                holder!!.note.text = expense.note.toString()
+                holder.category.text = expense.category.toString()
+                holder.amount.text = "Rp $formattedAmount"
+                holder.dateCreated.text = expense.dateCreated.toString()
                 holder.addedBy.text = dataSnapshot?.child(expense.addedByTreasurerUid)
-                    ?.child("fullName")?.value.toString().replace("^", "")
-                holder.categoryId.text = expense.categoryId.toString().replace("^", "")
+                    ?.child("fullName")?.value.toString()
+                holder.categoryId.text = expense.categoryId.toString()
                 holder.addedByInitial.text = dataSnapshot?.child(expense.addedByTreasurerUid)
                     ?.child("initial")?.value.toString()
             }
         })
     }
+
+    private fun formatAmount(amount: Int): String =
+        NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     override fun getItemCount(): Int = expenses.size
 
@@ -89,12 +95,12 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
                         val fullName = dataSnapshot?.child(expense.addedByTreasurerUid)?.child("fullName")?.value.toString()
                         val intent = Intent(v?.context, ExpenseDetailActivity::class.java)
                         intent.putExtra(context?.getString(R.string.EXPENSE_ID), expense.expenseId)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_NOTE), expense.note.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.EXPENSE_CATEGORY), expense.category.toString().replace("^", ""))
-                        intent.putExtra(context?.getString(R.string.EXPENSE_DATE), expense.dateCreated.toString().replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.EXPENSE_NOTE), expense.note.toString())
+                        intent.putExtra(context?.getString(R.string.EXPENSE_AMOUNT), expense.amount.toString())
+                        intent.putExtra(context?.getString(R.string.EXPENSE_CATEGORY), expense.category.toString())
+                        intent.putExtra(context?.getString(R.string.EXPENSE_DATE), expense.dateCreated.toString())
                         intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER_INITIAL), expense.addedByTreasurerInitial)
-                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER), fullName.replace("^", ""))
+                        intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER), fullName)
                         intent.putExtra(context?.getString(R.string.CATEGORY_ID_EXPENSE), expense.categoryId)
                         intent.putExtra(context?.getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID), expense.addedByTreasurerUid.toString())
                         //intent.putExtra(context?.getString(R.string.))
