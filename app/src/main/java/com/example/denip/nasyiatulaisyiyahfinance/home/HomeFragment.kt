@@ -109,10 +109,11 @@ class HomeFragment : Fragment() {
                     val incomes = postSnapshot.getValue(IncomeModel::class.java)
                     incomeTotal += incomes.amount!!
                 }
-                Log.d(HUNTR, "totalAmount value : " + incomeTotal)
+                Log.d(HUNTR, "totalIncome value : " + incomeTotal)
                 incomeTotalToBalance = incomeTotal
                 Log.d(HUNTR, "incomeTotalToBalance in getIncomeTotal : " + incomeTotalToBalance)
                 val formattedAmount = formatAmount(incomeTotalToBalance)
+                getBalance()
                 income_total_text?.setText(formattedAmount)
             }
         })
@@ -132,7 +133,7 @@ class HomeFragment : Fragment() {
                     val expenses = postSnapshot.getValue(ExpenseModel::class.java)
                     expenseTotal += expenses.amount!!
                 }
-                Log.d(HUNTR, "totalAmount value : " + expenseTotal)
+                Log.d(HUNTR, "totalExpense value : " + expenseTotal)
                 expenseTotalToBalance = expenseTotal
                 Log.d(HUNTR, "expenseTotalToBalance in getExpenseTotal : " + expenseTotalToBalance)
                 val formattedAmount = formatAmount(expenseTotalToBalance)
