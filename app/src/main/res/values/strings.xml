@@ -89,16 +89,19 @@
     <string name="EXPENSE_ID">com.example.denip.nasyiatulaisyiyahfinance.expenseid</string>
     <string name="EXPENSE_CATEGORY">com.example.denip.nasyiatulaisyiyahfinance.expensecategory</string>
     <string name="EXPENSE_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.expenseamount</string>
-    <string name="EXPENSE_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.expensenotephotouri</string>
+    <string name="EXPENSE_ADDED_BY_TREASURER_INITIAL">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasurerinitial</string>
+    <string name="EXPENSE_ADDED_BY_TREASURER_UID">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasureruid</string>
     <string name="EXPENSE_DATE">com.example.denip.nasyiatulaisyiyahfinance.expensedate</string>
-    <string name="EXPENSE_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasure</string>
+    <string name="EXPENSE_ADDED_BY_TREASURER">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasure</string>
     <string name="INCOME_NOTE">com.example.denip.nasyiatulaisyiyahfinance.incomenote</string>
     <string name="INCOME_ID">com.example.denip.nasyiatulaisyiyahfinance.incomeid</string>
     <string name="INCOME_CATEGORY">com.example.denip.nasyiatulaisyiyahfinance.incomecategory</string>
     <string name="INCOME_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.incomeamount</string>
     <string name="INCOME_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.incomenotephotouri</string>
     <string name="INCOME_DATE">com.example.denip.nasyiatulaisyiyahfinance.incomedate</string>
-    <string name="INCOME_ADDED_BY_TREASURE">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
+    <string name="INCOME_ADDED_BY_TREASURER">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
+    <string name="INCOME_ADDED_BY_TREASURER_UID">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasureruid</string>
+    <string name="INCOME_ADDED_BY_TREASURER_INITIAL">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasurerinitial</string>
     <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryid</string>
     <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorynumber</string>
     <string name="CATEGORY_CURRENT_AMOUNT_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorycurrentamount</string>
@@ -128,7 +131,7 @@
     <string name="ted_permission_denied">If you reject permission, you can not use this
         service\n\nPlease turn on permissions at [Setting] > [Permission]</string>
     <string name="category_number">Category Number</string>
-    <string name="prompt_empty_field">This field cannot be empty</string>
+    <string name="prompt_empty_field">Please fill the field</string>
     <string name="first_number_zero_error">First number cannot be zero</string>
     <string name="category_added">Category successfully added</string>
     <string name="category_deleted">Category successfully deleted</string>
@@ -148,4 +151,69 @@
     <string name="expense_amount_title">Amount</string>
     <string name="expense_note_title">Note</string>
     <string name="export_title">Export to CSV</string>
+    <string name="home">Home</string>
+    <string name="show_expense">Show expense</string>
+    <string name="show">Show</string>
+    <string name="show_all">All</string>
+    <string name="show_only_me">Only me</string>
+    <string name="sort_by">Sort by</string>
+    <string name="sort">Sort</string>
+    <string name="date">Date</string>
+    <string name="app_info">App Info</string>
+    <string name="more">More</string>
+    <string name="show_income">Show income</string>
+    <string name="sort_income_by">Sort income by</string>
+    <string name="fetching_data">Fetching data...</string>
+    <string name="app_name_long">Nasyiatul Aisyiyah Finance</string>
+    <string name="full_name">Full Name</string>
+    <string name="description">Description</string>
+    <string name="about_description">Nasyiatul Aisyiyah Finance or abbreviated as NA Finance is an
+        android-based app that is exclusively developed for the organization Nasyiatul Aisyiyah.
+        This application was developed with the aim of facilitating the Treasurer in recording
+        transactions, both expenses or income. In addition, the Treasurer can also export transactions
+        into files formatted .csv.</string>
+    <string name="detail">Detail</string>
+    <string name="detail_firebase_realtime">Firebase Realtime Database</string>
+    <string name="detail_firebase_realtime_description">
+        The Firebase Realtime Database is a cloud-hosted database. Data is stored as JSON and
+        synchronized in realtime to every connected client. When you build cross-platform apps
+        with our iOS, Android, and JavaScript SDKs, all of your clients share one Realtime Database
+        instance and automatically receive updates with the newest data.
+    </string>
+    <string name="detail_super_csv">Super CSV 2.4.0</string>
+    <string name="detail_super_csv_description">Motivation : The main motivation for Super CSV is to be
+        the foremost, fastest, and most programmer-friendly, free CSV package for Java.
+        \n\nFeatures :
+        \n\nPOJO Support : Read or write using any old Javabean. Perform deep mapping and
+        index-based mapping using the new Dozer extension! For the old-fashioned, you can read or
+        write with Lists and Maps as well.
+        \n\nAutomatic CSV Encoding : Forget about handling special
+        characters such as commas and double-quotes - Super CSV will take care of that for you!
+        All content is properly escaped/un-escaped according to the CSV specification.
+        \n\nHighly configurable : Choose your own delimiter, quote character and line separator -
+        or just use one of the predefined configurations. Comma-separated, tab-separated,
+        semicolon-separated (Germany/Denmark) - it\'s all possible.
+        \n\nData conversion : Powerful cell processors make it simple to parse input (to Booleans,
+        Integers, Dates, etc), transform values (trimming Strings, doing regular expression
+        replacement, etc) and format output like Dates and Numbers.
+        \n\nConstraint validation : Verify that your data conforms to one or more constraints,
+        such as number ranges, string lengths or uniqueness.
+        \n\nStream-based I/O : Operates on streams rather than filenames, and gives you the control
+        to flush or close the streams when you want. Write to a file, over the network, to a zip
+        file, whatever!.</string>
+    <string name="empty" />
+    <string name="me">Me</string>
+    <string name="sort_by_date_from">From</string>
+    <string name="sort_by_date_to">To</string>
+    <string name="sort_by_amount">Sort by amount</string>
+    <string name="lowest_to_highest">Lowest to highest</string>
+    <string name="highest_to_lowest">Highest to lowest</string>
+    <string name="custom">Customize</string>
+    <string name="next">Next</string>
+    <string name="balance">Balance</string>
+    <string name="expenditure_total">Expense Total</string>
+    <string name="income_total">Income Total</string>
+    <string name="rp">Rp</string>
+    <string name="latest_expenses">Latest Expenses</string>
+    <string name="latest_incomes">Latest Incomes</string>
 </resources>

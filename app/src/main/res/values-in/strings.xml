@@ -100,7 +100,7 @@
     <string name="ted_permission_denied">Jika Anda menolak izin, Anda tidak dapat menggunakan
         layanan ini\n\n.Harap aktifkan izin di [Pengaturan] > [Izin]</string>
     <string name="category_number">No. Kategori</string>
-    <string name="prompt_empty_field">Bagian ini tidak boleh kosong</string>
+    <string name="prompt_empty_field">Silahkan isi kolom terlebih dahulu</string>
     <string name="first_number_zero_error">Nomor pertama tidak boleh nol</string>
     <string name="category_added">Kategori berhasil ditambahkan</string>
     <string name="category_deleted">Kategori berhasil dihapus</string>
@@ -120,4 +120,101 @@
     <string name="expense_amount_title">Jumlah</string>
     <string name="expense_note_title">Catatan</string>
     <string name="export_title">Ekspor ke CSV</string>
+    <string name="EXPENSE_NOTE">com.example.denip.nasyiatulaisyiyahfinance.expensenote</string>
+    <string name="EXPENSE_ID">com.example.denip.nasyiatulaisyiyahfinance.expenseid</string>
+    <string name="EXPENSE_CATEGORY">com.example.denip.nasyiatulaisyiyahfinance.expensecategory</string>
+    <string name="EXPENSE_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.expenseamount</string>
+    <string name="EXPENSE_ADDED_BY_TREASURER_INITIAL">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasurerinitial</string>
+    <string name="EXPENSE_ADDED_BY_TREASURER_UID">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasureruid</string>
+    <string name="EXPENSE_DATE">com.example.denip.nasyiatulaisyiyahfinance.expensedate</string>
+    <string name="EXPENSE_ADDED_BY_TREASURER">com.example.denip.nasyiatulaisyiyahfinance.expenseaddedbytreasure</string>
+    <string name="INCOME_NOTE">com.example.denip.nasyiatulaisyiyahfinance.incomenote</string>
+    <string name="INCOME_ID">com.example.denip.nasyiatulaisyiyahfinance.incomeid</string>
+    <string name="INCOME_CATEGORY">com.example.denip.nasyiatulaisyiyahfinance.incomecategory</string>
+    <string name="INCOME_AMOUNT">com.example.denip.nasyiatulaisyiyahfinance.incomeamount</string>
+    <string name="INCOME_NOTE_PHOTO_URI">com.example.denip.nasyiatulaisyiyahfinance.incomenotephotouri</string>
+    <string name="INCOME_DATE">com.example.denip.nasyiatulaisyiyahfinance.incomedate</string>
+    <string name="INCOME_ADDED_BY_TREASURER">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasure</string>
+    <string name="INCOME_ADDED_BY_TREASURER_UID">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasureruid</string>
+    <string name="INCOME_ADDED_BY_TREASURER_INITIAL">com.example.denip.nasyiatulaisyiyahfinance.incomeaddedbytreasurerinitial</string>
+    <string name="CATEGORY_ID_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryid</string>
+    <string name="CATEGORY_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorynumber</string>
+    <string name="CATEGORY_CURRENT_AMOUNT_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategorycurrentamount</string>
+    <string name="CATEGORY_NAME_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensecategoryname</string>
+    <string name="CATEGORY_FIRST_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensefirstnumber</string>
+    <string name="CATEGORY_SECOND_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensesecondnumber</string>
+    <string name="CATEGORY_THIRD_NUMBER_EXPENSE">com.example.denip.nasyiatulaisyiyahfinance.expensethirdnumber</string>
+    <string name="CATEGORY_ID_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategoryid</string>
+    <string name="CATEGORY_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategorynumber</string>
+    <string name="CATEGORY_CURRENT_AMOUNT_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategorycurrentamount</string>
+    <string name="CATEGORY_NAME_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomecategoryname</string>
+    <string name="CATEGORY_FIRST_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomefirstnumber</string>
+    <string name="CATEGORY_SECOND_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomesecondnumber</string>
+    <string name="CATEGORY_THIRD_NUMBER_INCOME">com.example.denip.nasyiatulaisyiyahfinance.incomethirdnumber</string>
+    <string name="empty" />
+    <string name="home">Beranda</string>
+    <string name="show_expense">Tampilkan pengeluaran</string>
+    <string name="show">Tampilkan</string>
+    <string name="show_all">Semua</string>
+    <string name="show_only_me">Hanya saya</string>
+    <string name="sort_by">Sortir pengeluaran berdasarkan</string>
+    <string name="sort">Sortir</string>
+    <string name="date">Tanggal</string>
+    <string name="app_info">Info Aplikasi</string>
+    <string name="more">Lainnya</string>
+    <string name="show_income">Tampilkan pemasukan</string>
+    <string name="sort_income_by">Sortir pemasukan berdasarkan</string>
+    <string name="fetching_data">Mengambil data…</string>
+    <string name="app_name_long">Nasyiatul Aisyiyah Finance</string>
+    <string name="full_name">Nama Lengkap</string>
+    <string name="description">Deskripsi</string>
+    <string name="about_description">Nasyiatul Aisyiyah Finance atau disingkat NA Finance adalah sebuah
+        aplikasi berbasis android yang secara eksklusif dikembangkan untuk organisasi Nasyiatul Aisyiyah.
+    Aplikasi ini dikembangkan dengan tujuan memudahkan Bendahara dalam mencatat transaksi, baik pengeluaran
+    maupun pemasukan. Selain mencatat transaksi, Bendahara juga dapat mengekspor transaksi ke dalam file
+    berformat .csv. </string>
+    <string name="detail">Detail</string>
+    <string name="detail_firebase_realtime">Firebase Realtime Database</string>
+    <string name="detail_firebase_realtime_description">
+        The Firebase Realtime Database is a cloud-hosted database. Data is stored as JSON and
+        synchronized in realtime to every connected client. When you build cross-platform apps
+        with our iOS, Android, and JavaScript SDKs, all of your clients share one Realtime Database
+        instance and automatically receive updates with the newest data.
+    </string>
+    <string name="detail_super_csv">Super CSV 2.4.0</string>
+    <string name="detail_super_csv_description">Motivation : The main motivation for Super CSV is to be
+        the foremost, fastest, and most programmer-friendly, free CSV package for Java.
+        \n\nFeatures :
+        \n\nPOJO Support : Read or write using any old Javabean. Perform deep mapping and
+        index-based mapping using the new Dozer extension! For the old-fashioned, you can read or
+        write with Lists and Maps as well.
+        \n\nAutomatic CSV Encoding : Forget about handling special
+        characters such as commas and double-quotes - Super CSV will take care of that for you!
+        All content is properly escaped/un-escaped according to the CSV specification.
+        \n\nHighly configurable : Choose your own delimiter, quote character and line separator -
+        or just use one of the predefined configurations. Comma-separated, tab-separated,
+        semicolon-separated (Germany/Denmark) - it\'s all possible.
+        \n\nData conversion : Powerful cell processors make it simple to parse input (to Booleans,
+        Integers, Dates, etc), transform values (trimming Strings, doing regular expression
+        replacement, etc) and format output like Dates and Numbers.
+        \n\nConstraint validation : Verify that your data conforms to one or more constraints,
+        such as number ranges, string lengths or uniqueness.
+        \n\nStream-based I/O : Operates on streams rather than filenames, and gives you the control
+        to flush or close the streams when you want. Write to a file, over the network, to a zip
+        file, whatever!.</string>
+    <string name="me">Saya</string>
+    <string name="sort_by_date_to">Sampai</string>
+    <string name="sort_by_date_from">Dari</string>
+    <string name="sort_by_amount">Sortir berdasarkan jumlah</string>
+    <string name="lowest_to_highest">Terendah ke tertinggi</string>
+    <string name="highest_to_lowest">Tertinggi ke terendah</string>
+    <string name="custom">Sesuaikan</string>
+    <string name="next">Lanjut</string>
+    <string name="balance">Saldo</string>
+    <string name="expenditure_total">Total Pengeluaran</string>
+    <string name="income_total">Total Pemasukan</string>
+    <string name="rp">Rp</string>
+    <string name="latest_expenses">Pengeluaran Terakhir</string>
+    <string name="latest_incomes">Pemasukan Terakhir</string>
+
 </resources>
