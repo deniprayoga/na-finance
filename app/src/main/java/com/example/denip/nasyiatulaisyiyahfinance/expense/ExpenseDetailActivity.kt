@@ -261,13 +261,13 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                             .getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_INITIAL))
 
                         val expense = ExpenseModel(
-                            fullName + "^",
+                            fullName,
                             currentUserUid,
                             amount,
-                            category.toString() + "^",
-                            dateCreated + "^",
+                            category.toString(),
+                            dateCreated,
                             expenseId,
-                            note + "^",
+                            note,
                             addedByTreasurerInitial,
                             categoryId)
 

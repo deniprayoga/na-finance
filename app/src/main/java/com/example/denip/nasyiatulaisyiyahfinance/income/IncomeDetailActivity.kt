@@ -130,7 +130,6 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun updateIncome() {
-        //val addedByTreasure = auth.currentUser?.email
         val amount = income_detail_amount_field.text.toString().toInt()
         val category = income_detail_categories_field.text.toString()
         val dateCreated = calendar_result_text_income_detail.text.toString()
@@ -156,16 +155,17 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
                             .child(incomeId)
                         val income = IncomeModel(
                             incomeId,
-                            fullName + "^",
+                            fullName,
                             amount,
-                            category + "^",
-                            dateCreated + "^",
-                            note + "^",
+                            category,
+                            dateCreated,
+                            note,
                             addedByTreasurerInitial,
                             currentUserUid,
                             categoryId)
                         dbUpdateIncomeRef.setValue(income)
-                        Toast.makeText(applicationContext, getString(R.string.income_updated), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, getString(R.string.income_updated), Toast.LENGTH_SHORT)
+                            .show()
                         finish()
                     }
 
