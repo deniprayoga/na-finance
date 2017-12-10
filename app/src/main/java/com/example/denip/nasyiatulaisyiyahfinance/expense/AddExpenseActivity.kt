@@ -72,8 +72,9 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
-                finish()
+                auth.signOut()
                 launchLoginActivity()
+                finish()
             }
         }
         auth.addAuthStateListener(authListener)

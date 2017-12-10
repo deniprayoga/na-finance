@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance.login
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +11,7 @@ import android.widget.Toast
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_change_password.*
 
 class ChangePasswordActivity : AppCompatActivity(), View.OnClickListener {
@@ -92,5 +94,29 @@ class ChangePasswordActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initAuth()
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+                launchLoginActivity()
+                finish()
+            }
+        }
+
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

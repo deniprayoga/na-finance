@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.denip.nasyiatulaisyiyahfinance.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -65,6 +66,7 @@ class IncomeFragment : Fragment(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
+        initAuth()
         databaseIncomeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 incomes.clear()
@@ -258,5 +260,16 @@ class IncomeFragment : Fragment(), View.OnClickListener {
     override fun onDestroy() {
         Log.d(HUNTR, "In the onDestroy() event")
         super.onDestroy()
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+            }
+        }
+        auth.addAuthStateListener(authListener)
     }
 }

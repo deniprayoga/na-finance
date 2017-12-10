@@ -14,6 +14,8 @@ import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseListAdapter
 import com.example.denip.nasyiatulaisyiyahfinance.expense.ExpenseModel
 import com.example.denip.nasyiatulaisyiyahfinance.income.IncomeListAdapter
 import com.example.denip.nasyiatulaisyiyahfinance.income.IncomeModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +28,7 @@ import java.util.*
 class HomeFragment : Fragment() {
 
     companion object {
+        private val auth = FirebaseAuth.getInstance()
         private var mParam1: String? = null
         private var mParam2: String? = null
         private var mListener: OnFragmentInteractionListener? = null
@@ -80,6 +83,7 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         Log.d(HUNTR, "In the onStart()")
+        initAuth()
 
         expenseAdapter = ExpenseListAdapter(activity?.applicationContext, expenses)
         recycler_view_expense_list_home?.adapter = expenseAdapter
@@ -211,5 +215,16 @@ class HomeFragment : Fragment() {
     interface OnFragmentInteractionListener {
 
         fun onFragmentInteraction(uri: Uri)
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+            }
+        }
+        auth.addAuthStateListener(authListener)
     }
 }

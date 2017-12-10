@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         Log.d(HUNTR, expenses.toString())
         Log.d(HUNTR, "In the onStart() event")
         initToolbar()
+        initAuth()
     }
 
 
@@ -667,7 +668,9 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
+                auth.signOut()
                 launchLoginActivity()
+                finish()
             }
         }
 

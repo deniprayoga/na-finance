@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance.income.category
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +9,9 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -17,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_pick_category_income.*
 class PickCategoryIncomeActivity : AppCompatActivity() {
 
     companion object {
+        private val auth = FirebaseAuth.getInstance()
         val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/income")
         val categories = ArrayList<CategoryIncomeModel>()
         private val HUNTR = "huntr_pckctgryincm"
@@ -49,6 +54,7 @@ class PickCategoryIncomeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        initAuth()
         Log.d(HUNTR, "In the onStart() event")
 
         dbCategoryRef!!.orderByChild("categoryNumber").addValueEventListener(object : ValueEventListener {
@@ -93,5 +99,23 @@ class PickCategoryIncomeActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(HUNTR, "In the onDestroy() event")
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+                launchLoginActivity()
+                finish()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

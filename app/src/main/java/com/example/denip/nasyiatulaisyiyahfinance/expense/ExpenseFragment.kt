@@ -69,16 +69,9 @@ class ExpenseFragment : Fragment(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         Log.d(HUNTR, "In the onStart() event")
+        initAuth()
 
-        //databaseExpenseRef.orderByKey().startAt("01-10-2017").endAt("31-10-2017")
-        /*orderByChild("dateCreated").startAt("01-10-2017").endAt("31-10-2017")*/
         databaseExpenseRef
-            /*.orderByChild("dateCreated")
-            .startAt("2017-11-01")
-            .endAt("2017-11-13")*/
-            /*.orderByChild("category")
-            .equalTo("7-1-2 Perangko/Pengiriman (Dokumen/Paket)")*/
-
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot?) {
                     expenses.clear()

@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance.expense.category
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,12 +11,16 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_category_expense_detail.*
 
 class CategoryExpenseDetailActivity : AppCompatActivity() {
 
     private var HUNTR = "huntr_CatExpDetAct"
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +106,7 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d(HUNTR, "In the onStart() event")
+        initAuth()
     }
 
     private fun updateCategory(categoryId: String?,
@@ -146,5 +152,23 @@ class CategoryExpenseDetailActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(HUNTR, "In the onDestroy() event")
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+                launchLoginActivity()
+                finish()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

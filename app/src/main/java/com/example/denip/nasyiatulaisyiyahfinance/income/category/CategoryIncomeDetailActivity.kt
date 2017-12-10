@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance.income.category
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,12 +11,16 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_category_income_detail.*
 
 class CategoryIncomeDetailActivity : AppCompatActivity() {
 
     internal var HUNTER_TAG_LYFCYCL = "hunter_lifecycle"
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,6 +119,29 @@ class CategoryIncomeDetailActivity : AppCompatActivity() {
             categoryNumberBind, categoryName)
         dbUpdateCategoryRef.setValue(category)
         Toast.makeText(this, getString(R.string.category_updated), Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initAuth()
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+                launchLoginActivity()
+                finish()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
 }

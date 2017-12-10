@@ -1,5 +1,6 @@
 package com.example.denip.nasyiatulaisyiyahfinance.expense.category
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -7,6 +8,9 @@ import android.util.Log
 import android.view.MenuItem
 
 import com.example.denip.nasyiatulaisyiyahfinance.R
+import com.example.denip.nasyiatulaisyiyahfinance.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -16,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_pick_category_expense.*
 class PickCategoryExpenseActivity : AppCompatActivity() {
 
     companion object {
+        private val auth = FirebaseAuth.getInstance()
         private val HUNTR = "huntr_PickCategoryXpnse"
         val dbCategoryRef = FirebaseDatabase.getInstance()?.getReference("categories/expense")
         val categories = ArrayList<CategoryExpenseModel>()
@@ -35,6 +40,7 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        initAuth()
         Log.d(HUNTR, "In the onStart() event")
         dbCategoryRef!!.orderByChild("categoryNumber").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
@@ -100,5 +106,23 @@ class PickCategoryExpenseActivity : AppCompatActivity() {
         super.onBackPressed()
         Log.d(HUNTR, "In the onBackPressed() event")
 
+    }
+
+    private fun initAuth() {
+        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+
+            if (user == null) {
+                auth.signOut()
+                launchLoginActivity()
+                finish()
+            }
+        }
+        auth.addAuthStateListener(authListener)
+    }
+
+    private fun launchLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

@@ -56,8 +56,9 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             val user: FirebaseUser? = firebaseAuth.currentUser
 
             if (user == null) {
-                finish()
+                auth.signOut()
                 launchLoginActivity()
+                finish()
             }
         }
         auth.addAuthStateListener(authListener)
@@ -181,7 +182,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
                     income_amount_field.error = null
                 }
             })
-        .create().show()
+            .create().show()
     }
 
     private fun hideCursorOnNoteField() {
