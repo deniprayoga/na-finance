@@ -96,7 +96,7 @@ class HomeFragment : Fragment() {
 
     private fun getIncomeTotal() {
         Log.d(HUNTR, "In the getIncomeTotal()")
-        var incomeTotal = 0
+
         dbRef.child("incomes").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
 
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 Log.d(HUNTR, "In the onDataChange getIncomeTotal()")
-
+                var incomeTotal = 0
                 for (postSnapshot in dataSnapshot!!.children) {
                     val incomes = postSnapshot.getValue(IncomeModel::class.java)
                     incomeTotal += incomes.amount!!
@@ -157,13 +157,13 @@ class HomeFragment : Fragment() {
         NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     private fun showLatestExpense() {
-        databaseExpenseRef.limitToLast(3).addListenerForSingleValueEvent(object : ValueEventListener {
+        databaseExpenseRef.limitToLast(3).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError?) {
 
             }
 
             override fun onDataChange(dataSnapshotExpenses: DataSnapshot?) {
-                databaseIncomeRef.limitToLast(3).addListenerForSingleValueEvent(object : ValueEventListener {
+                databaseIncomeRef.limitToLast(3).addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(databaseError: DatabaseError?) {
 
                     }
