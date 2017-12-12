@@ -40,7 +40,6 @@ import org.supercsv.prefs.CsvPreference
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -321,6 +320,51 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
     }
 
     private fun showDialogExportExpense() {
+
+        databaseExpenseRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                userFullNames.clear()
+                dateCreated.clear()
+                categories.clear()
+                amounts.clear()
+                notes.clear()
+
+                dataSnapshot!!.children
+                    .map { it?.child("addedByTreasurer")?.value.toString() }
+                    .forEach {
+                        userFullNames.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("dateCreated")?.value.toString() }
+                    .forEach {
+                        dateCreated.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("category")?.value.toString() }
+                    .forEach {
+                        categories.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("amount")?.value.toString() }
+                    .forEach {
+                        amounts.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("note")?.value.toString() }
+                    .forEach {
+                        notes.add(it)
+                    }
+            }
+        })
+
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
             .setTitle(R.string.confirmation)
@@ -341,11 +385,112 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
             .setTitle("Location")
+            .setPositiveButton(getString(R.string.send_file), { dialog, which ->
+                sendFile()
+            })
             .setMessage("" + destinationFile.toString())
             .show()
     }
 
+    private fun sendFile() {
+        when (toExport) {
+            "expense" -> {
+                try {
+                    val stringFile = "" + Environment.getExternalStorageDirectory() +
+                        "/" + "Android/data/" + packageName.toString() + "/NA_Finance_Expense_" +
+                        currentDate.toString() + ".csv"
+                    val file = File(stringFile)
+                    if (!file.exists()) {
+                        Toast.makeText(this, getString(R.string.no_data_available), Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                    val emailIntent = Intent(android.content.Intent.ACTION_SEND)
+                    emailIntent
+                        .setType("plain/text")
+                        .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.na_finance_export_file))
+                        .putExtra(Intent.EXTRA_TEXT, getString(R.string.content))
+                        .putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + stringFile))
+                        .putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_expense) + " " + currentDate.toString())
+
+                    startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)))
+                } catch (t: Throwable) {
+                    Toast.makeText(this, getString(R.string.request_failed) + " " + t.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+            "income" -> {
+                try {
+                    val stringFile = "" + Environment.getExternalStorageDirectory() +
+                        "/" + "Android/data/" + packageName.toString() + "/NA_Finance_Income_" +
+                        currentDate.toString() + ".csv"
+                    val file = File(stringFile)
+                    if (!file.exists()) {
+                        Toast.makeText(this, getString(R.string.no_data_available), Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                    val emailIntent = Intent(android.content.Intent.ACTION_SEND)
+                    emailIntent
+                        .setType("plain/text")
+                        .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.na_finance_export_file))
+                        .putExtra(Intent.EXTRA_TEXT, getString(R.string.content))
+                        .putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + stringFile))
+                        .putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_income) + " " + currentDate.toString())
+
+                    startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)))
+                } catch (t: Throwable) {
+                    Toast.makeText(this, getString(R.string.request_failed) + " " + t.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        Log.d(HUNTR, "destionation folder in sendFile() : " + destinationFile)
+    }
+
     private fun showDialogExportIncome() {
+
+        databaseIncomeRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError?) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                userFullNames.clear()
+                dateCreated.clear()
+                categories.clear()
+                amounts.clear()
+                notes.clear()
+
+                dataSnapshot!!.children
+                    .map { it?.child("addedByTreasurer")?.value.toString() }
+                    .forEach {
+                        userFullNames.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("dateCreated")?.value.toString() }
+                    .forEach {
+                        dateCreated.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("category")?.value.toString() }
+                    .forEach {
+                        categories.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("amount")?.value.toString() }
+                    .forEach {
+                        amounts.add(it)
+                    }
+
+                dataSnapshot.children
+                    .map { it?.child("note")?.value.toString() }
+                    .forEach {
+                        notes.add(it)
+                    }
+            }
+        })
+
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
             .setTitle(R.string.confirmation)
@@ -491,50 +636,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 Log.d(HUNTR, "data.values.size in addData() : " + data.values.size)
                 Log.d(HUNTR, "data.keys.size in addData() : " + data.keys.size)
 
-                databaseExpenseRef.addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(databaseError: DatabaseError?) {
-
-                    }
-
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        userFullNames.clear()
-                        dateCreated.clear()
-                        categories.clear()
-                        amounts.clear()
-                        notes.clear()
-
-                        dataSnapshot!!.children
-                            .map { it?.child("addedByTreasurer")?.value.toString() }
-                            .forEach {
-                                userFullNames.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("dateCreated")?.value.toString() }
-                            .forEach {
-                                dateCreated.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("category")?.value.toString() }
-                            .forEach {
-                                categories.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("amount")?.value.toString() }
-                            .forEach {
-                                amounts.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("note")?.value.toString() }
-                            .forEach {
-                                notes.add(it)
-                            }
-                    }
-                })
-
                 Log.d(HUNTR, "userFullNames : " + userFullNames)
                 Log.d(HUNTR, "userFullNames size : " + userFullNames.size)
 
@@ -557,50 +658,6 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
                 Log.d(HUNTR, "data in addData() : " + data)
                 Log.d(HUNTR, "data.values.size in addData() : " + data.values.size)
                 Log.d(HUNTR, "data.keys.size in addData() : " + data.keys.size)
-
-                databaseIncomeRef.addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(databaseError: DatabaseError?) {
-
-                    }
-
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        userFullNames.clear()
-                        dateCreated.clear()
-                        categories.clear()
-                        amounts.clear()
-                        notes.clear()
-
-                        dataSnapshot!!.children
-                            .map { it?.child("addedByTreasurer")?.value.toString() }
-                            .forEach {
-                                userFullNames.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("dateCreated")?.value.toString() }
-                            .forEach {
-                                dateCreated.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("category")?.value.toString() }
-                            .forEach {
-                                categories.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("amount")?.value.toString() }
-                            .forEach {
-                                amounts.add(it)
-                            }
-
-                        dataSnapshot.children
-                            .map { it?.child("note")?.value.toString() }
-                            .forEach {
-                                notes.add(it)
-                            }
-                    }
-                })
 
                 Log.d(HUNTR, "userFullNames : " + userFullNames)
                 Log.d(HUNTR, "userFullNames size : " + userFullNames.size)
