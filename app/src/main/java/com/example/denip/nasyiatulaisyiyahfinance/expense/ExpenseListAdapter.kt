@@ -62,7 +62,7 @@ class ExpenseListAdapter(context: Context?, expenses: ArrayList<ExpenseModel>) :
         })
     }
 
-    private fun formatAmount(amount: Int): String =
+    private fun formatAmount(amount: Long): String =
         NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     override fun getItemCount(): Int = expenses.size
