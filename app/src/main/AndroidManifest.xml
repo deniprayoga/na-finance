@@ -96,10 +96,6 @@
             android:name=".about.AboutActivity"
             android:label="@string/app_info"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".home.HomeActivity"
-            android:label="@string/home"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
