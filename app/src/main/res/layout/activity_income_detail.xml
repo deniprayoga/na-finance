@@ -38,7 +38,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar_income_detail_layout"
-        app:layout_constraintVertical_bias="0.557">
+        app:layout_constraintVertical_bias="1.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -62,7 +62,6 @@
                 android:id="@+id/income_detail_amount_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_text_field"
                 android:ems="10"
@@ -71,11 +70,10 @@
                 android:maxLength="20"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorIconIncome"
-                app:layout_constraintBottom_toBottomOf="@+id/rp_balance_text"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toRightOf="@+id/rp_balance_text"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/rp_balance_text"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toTopOf="@+id/rp_balance_text" />
 
             <View
                 android:id="@+id/view4"
@@ -86,31 +84,26 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rp_balance_text" />
+                app:layout_constraintTop_toBottomOf="@+id/income_detail_amount_field" />
 
             <ImageView
                 android:id="@+id/income_detail_note_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/ic_description_black_24dp"
                 android:backgroundTint="@color/colorIcon"
-                app:layout_constraintBottom_toBottomOf="@+id/income_detail_note_field"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/rp_balance_text"
-                app:layout_constraintRight_toRightOf="@+id/rp_balance_text"
-                app:layout_constraintTop_toTopOf="@+id/income_detail_note_field" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
 
             <EditText
                 android:id="@+id/income_detail_note_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_text_field"
                 android:ems="10"
@@ -120,8 +113,7 @@
                 android:inputType="textMultiLine"
                 android:maxLength="100"
                 android:textColor="@color/bpblack"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/income_detail_amount_field"
+                app:layout_constraintLeft_toRightOf="@+id/income_detail_note_image_view"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view4" />
 
@@ -129,10 +121,10 @@
                 android:id="@+id/view6"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="17dp"
                 android:background="@color/calendar_selected_date_text"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/income_detail_note_field"
+                app:layout_constraintLeft_toRightOf="@+id/income_detail_note_image_view"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/income_detail_note_field" />
 
@@ -140,20 +132,19 @@
                 android:id="@+id/calendar_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/ic_today_black_24dp"
                 android:backgroundTint="@color/colorIcon"
-                app:layout_constraintBottom_toBottomOf="@+id/calendar_result_text_income_detail"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/income_detail_note_image_view"
-                app:layout_constraintRight_toRightOf="@+id/income_detail_note_image_view"
-                app:layout_constraintTop_toTopOf="@+id/calendar_result_text_income_detail" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view6" />
 
             <EditText
                 android:id="@+id/calendar_result_text_income_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_text_field"
                 android:cursorVisible="false"
@@ -165,37 +156,40 @@
                 android:scrollbars="vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/bpblack"
-                app:layout_constraintLeft_toLeftOf="@+id/income_detail_note_field"
-                app:layout_constraintRight_toRightOf="@+id/income_detail_note_field"
+                app:layout_constraintLeft_toRightOf="@+id/calendar_image_view"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view6" />
 
             <View
                 android:id="@+id/view7"
-                android:layout_width="368dp"
+                android:layout_width="0dp"
                 android:layout_height="1dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@color/calendar_selected_date_text"
-                app:layout_constraintLeft_toLeftOf="@+id/view6"
+                app:layout_constraintLeft_toRightOf="@+id/calendar_image_view"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendar_result_text_income_detail" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/ic_label_black_24dp"
                 android:backgroundTint="@color/colorIcon"
-                app:layout_constraintBottom_toBottomOf="@+id/income_detail_categories_field"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/calendar_image_view"
-                app:layout_constraintRight_toRightOf="@+id/calendar_image_view"
-                app:layout_constraintTop_toTopOf="@+id/income_detail_categories_field" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view7" />
 
             <EditText
                 android:id="@+id/income_detail_categories_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_text_field"
                 android:cursorVisible="false"
@@ -206,38 +200,40 @@
                 android:inputType="none"
                 android:scrollbars="vertical"
                 android:textColor="@color/bpblack"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/calendar_result_text_income_detail"
-                app:layout_constraintRight_toRightOf="@+id/calendar_result_text_income_detail"
+                app:layout_constraintLeft_toRightOf="@+id/imageView"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view7" />
 
             <View
                 android:id="@+id/view8"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@color/calendar_selected_date_text"
-                app:layout_constraintLeft_toLeftOf="@+id/view6"
+                app:layout_constraintLeft_toRightOf="@+id/imageView"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/income_detail_categories_field" />
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/ic_person_black_24dp"
                 android:backgroundTint="@color/colorIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/income_detail_added_by_treasurer_name"
-                app:layout_constraintLeft_toLeftOf="@+id/imageView"
-                app:layout_constraintRight_toRightOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="@+id/income_detail_added_by_treasurer_name" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view8" />
 
             <EditText
                 android:id="@+id/income_detail_added_by_treasurer_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_text_field"
                 android:cursorVisible="false"
@@ -250,10 +246,11 @@
                 android:scrollbars="vertical"
                 android:textColor="@color/bpblack"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/income_detail_categories_field"
-                app:layout_constraintRight_toRightOf="@+id/income_detail_categories_field"
-                app:layout_constraintTop_toBottomOf="@+id/view8" />
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintLeft_toRightOf="@+id/imageView2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view8"
+                app:layout_constraintVertical_bias="0.0" />
 
         </android.support.constraint.ConstraintLayout>
 
