@@ -22,7 +22,7 @@
                 android:id="@+id/expense_amount_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="Rp"
@@ -32,12 +32,14 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <com.autofit.et.lib.AutoFitEditText
                 android:id="@+id/expense_amount_field_add_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:drawablePadding="-24dp"
                 android:ems="10"
                 android:enabled="false"
@@ -45,13 +47,13 @@
                 android:hint="@string/zero"
                 android:inputType="none"
                 android:longClickable="false"
-                android:maxLength="9"
+                android:maxLength="15"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorIconExpense"
-                app:layout_constraintBottom_toBottomOf="@+id/expense_amount_image_view"
+                app:layout_constraintBottom_toTopOf="@+id/numpad_container"
                 app:layout_constraintLeft_toRightOf="@+id/expense_amount_image_view"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/expense_amount_image_view" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/numpad_container"
@@ -62,13 +64,11 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expense_amount_field_add_amount">
+                app:layout_constraintRight_toRightOf="parent">
 
                 <Button
                     android:id="@+id/one_button"
