@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_add_expense.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import java.text.NumberFormat
+import java.util.*
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -108,7 +110,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
     private fun saveExpense() {
         Log.d(HUNTR, "In saveExpense()")
         val dateCreated = calendar_result_text_expense?.text.toString()
-        val amount = expense_amount_field?.text.toString()
+        var amount = expense_amount_field?.text.toString()
         val note = expense_note_field?.text.toString()
         //val addedByTreasurerInitial = selectedUri.toString()
         val category = expense_categories_field?.text.toString()
@@ -120,7 +122,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             else -> {
 
                 val expenseId: String? = dbRef?.push()?.key
-
+                amount = expense_amount_field?.text.toString().replace(",", "")
                 //prefs get from PickCategoryExpenseAdapter class
                 val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddExpenseActivity)
                 val categoryId = prefs.getString(getString(R.string.CATEGORY_ID_EXPENSE), "")
@@ -144,7 +146,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
                         val expense = ExpenseModel(
                             fullName,
                             uid,
-                            amount.toInt(),
+                            amount.toLong(),
                             category,
                             dateCreated,
                             expenseId,
@@ -252,16 +254,25 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener,
             .setPositiveButton(getString(R.string.ok), { dialog, _ ->
                 run {
                     val currentAmount = view.expense_amount_field_add_amount?.text.toString()
-                    expense_amount_field.text.clear()
-                    expense_amount_field.setText(currentAmount)
-                    dialog.dismiss()
-                    expense_amount_field.error = null
+                    when (currentAmount) {
+                        "" -> showWarningAnimation(view.expense_amount_field_add_amount)
+                        else -> {
+                            expense_amount_field.text.clear()
+                            val formattedAmount = formatAmount(currentAmount.toLong())
+                            expense_amount_field.setText(formattedAmount)
+                            dialog.dismiss()
+                            expense_amount_field.error = null
+                        }
+                    }
                 }
             })
         val dialog: AlertDialog = dialogBuilder.create()
         dialog.show()
         hideCursorOnNoteField()
     }
+
+    private fun formatAmount(amount: Long) =
+        NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     override fun onClick(v: View?) {
         when (v?.id) {
