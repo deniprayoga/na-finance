@@ -58,21 +58,22 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <com.autofit.et.lib.AutoFitEditText
                 android:id="@+id/income_detail_amount_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_text_field"
-                android:drawablePadding="-24dp"
                 android:ems="10"
                 android:hint="@string/zero"
                 android:inputType="none"
-                android:maxLength="9"
+                android:maxLength="20"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorIconIncome"
                 app:layout_constraintBottom_toBottomOf="@+id/rp_balance_text"
                 app:layout_constraintLeft_toRightOf="@+id/rp_balance_text"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rp_balance_text"
                 app:layout_constraintVertical_bias="1.0" />
 
