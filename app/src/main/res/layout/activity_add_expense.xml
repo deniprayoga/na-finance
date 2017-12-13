@@ -56,22 +56,24 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <com.autofit.et.lib.AutoFitEditText
                 android:id="@+id/expense_amount_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="0dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_text_field"
-                android:drawablePadding="-24dp"
                 android:ems="10"
                 android:hint="@string/zero"
                 android:inputType="none"
-                android:maxLength="9"
+                android:maxLength="20"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorIconExpense"
                 app:layout_constraintBottom_toBottomOf="@+id/expense_amount_image_view"
                 app:layout_constraintLeft_toRightOf="@+id/expense_amount_image_view"
-                app:layout_constraintTop_toTopOf="@+id/expense_amount_image_view" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/expense_amount_image_view"
+                app:layout_constraintVertical_bias="0.0" />
 
             <View
                 android:id="@+id/view4"
