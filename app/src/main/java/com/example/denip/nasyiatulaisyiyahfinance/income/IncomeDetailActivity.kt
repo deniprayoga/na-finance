@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_add_amount_income.view.*
 import kotlinx.android.synthetic.main.activity_income_detail.*
+import java.text.NumberFormat
+import java.util.*
 
 class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -56,7 +58,8 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
 
         income_detail_id_text_view?.text = incomeId
         income_detail_note_field?.setText(note)
-        income_detail_amount_field.setText(amount)
+        val formattedAmount = formatAmount(amount?.toLong())
+        income_detail_amount_field.setText(formattedAmount)
         income_detail_categories_field?.setText(category)
         calendar_result_text_income_detail?.setText(dateCreated)
         income_detail_category_id_text_view?.text = categoryId
@@ -132,7 +135,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun updateIncome() {
-        val amount = income_detail_amount_field.text.toString().toInt()
+        var amount = income_detail_amount_field?.text.toString()
         val category = income_detail_categories_field.text.toString()
         val dateCreated = calendar_result_text_income_detail.text.toString()
         val incomeId = income_detail_id_text_view.text.toString()
@@ -140,9 +143,10 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val categoryId = intent.getStringExtra(getString(R.string.CATEGORY_ID_INCOME))
 
         when {
-            amount.toString().isEmpty() -> showWarningAnimation(income_detail_amount_field)
+            amount.isEmpty() -> showWarningAnimation(income_detail_amount_field)
             note.isEmpty() -> showWarningAnimation(income_detail_note_field)
             else -> {
+                amount = income_detail_amount_field.text.toString().replace(",", "")
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
                 dbRef.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
@@ -158,7 +162,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
                         val income = IncomeModel(
                             incomeId,
                             fullName,
-                            amount,
+                            amount.toLong(),
                             category,
                             dateCreated,
                             note,
@@ -178,6 +182,9 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
             }
         }
     }
+
+    private fun formatAmount(amount: Long?) =
+        NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     private fun showWarningAnimation(view: View) {
         val shake = AnimationUtils.loadAnimation(this@IncomeDetailActivity, R.anim.shake)
@@ -212,7 +219,7 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val addAmountInflater: LayoutInflater = layoutInflater
         val view: View = addAmountInflater.inflate(R.layout.activity_add_amount_income, null)
-        view.income_amount_field_add_amount.text = amount
+        view.income_amount_field_add_amount.setText(amount.toString().replace(",", ""))
 
         view.one_button?.setOnClickListener {
             val currentAmount = view.income_amount_field_add_amount?.text.toString()
@@ -277,10 +284,16 @@ class IncomeDetailActivity : AppCompatActivity(), View.OnClickListener,
         dialogBuilder.setPositiveButton(getString(R.string.ok), { dialog, _ ->
             run {
                 val currentAmount = view.income_amount_field_add_amount?.text.toString()
-                income_detail_amount_field.text.clear()
-                income_detail_amount_field.setText(currentAmount)
-                dialog.dismiss()
-                income_detail_amount_field.error = null
+                when (currentAmount) {
+                    "" -> showWarningAnimation(view.income_amount_field_add_amount)
+                    else -> {
+                        income_detail_amount_field.text.clear()
+                        val formattedAmount = formatAmount(currentAmount.toLong())
+                        income_detail_amount_field.setText(formattedAmount)
+                        dialog.dismiss()
+                        income_detail_amount_field.error = null
+                    }
+                }
             }
         })
         val dialog: AlertDialog = dialogBuilder.create()
