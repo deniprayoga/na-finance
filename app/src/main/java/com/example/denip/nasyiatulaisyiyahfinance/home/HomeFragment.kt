@@ -42,8 +42,8 @@ class HomeFragment : Fragment() {
         private var expenses: ArrayList<ExpenseModel> = arrayListOf()
         private var incomes: ArrayList<IncomeModel> = arrayListOf()
         private val dbRef = FirebaseDatabase.getInstance().reference
-        private var expenseTotalToBalance = 0
-        private var incomeTotalToBalance = 0
+        private var expenseTotalToBalance: Long = 0
+        private var incomeTotalToBalance: Long = 0
 
         fun newInstance(param1: String, param2: String): HomeFragment {
             val fragment = HomeFragment()
@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 Log.d(HUNTR, "In the onDataChange getIncomeTotal()")
-                var incomeTotal = 0
+                var incomeTotal: Long = 0
                 for (postSnapshot in dataSnapshot!!.children) {
                     val incomes = postSnapshot.getValue(IncomeModel::class.java)
                     incomeTotal += incomes.amount!!
@@ -132,7 +132,7 @@ class HomeFragment : Fragment() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 Log.d(HUNTR, "In the onDataChange getExpenseTotal()")
-                var expenseTotal = 0
+                var expenseTotal: Long = 0
                 for (postSnapshot in dataSnapshot!!.children) {
                     val expenses = postSnapshot.getValue(ExpenseModel::class.java)
                     expenseTotal += expenses.amount!!
@@ -157,7 +157,7 @@ class HomeFragment : Fragment() {
         view?.balance_text?.setText(formattedBalance)
     }
 
-    private fun formatAmount(amount: Int): String =
+    private fun formatAmount(amount: Long): String =
         NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     private fun showLatestExpense() {
