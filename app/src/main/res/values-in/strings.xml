@@ -216,5 +216,13 @@
     <string name="rp">Rp</string>
     <string name="latest_expenses">Pengeluaran Terakhir</string>
     <string name="latest_incomes">Pemasukan Terakhir</string>
+    <string name="send_file">Kirim file</string>
+    <string name="no_data_available">Data tidak tersedia</string>
+    <string name="na_finance_export_file">NA Finance Ekspor Dokumen</string>
+    <string name="content">Isi</string>
+    <string name="email_text_expense">NA Finance App ekspor dokumen pengeluaran pada</string>
+    <string name="email_text_income">NA Finance App ekspor dokumen pemasukan pada</string>
+    <string name="send_email">Kirim email…</string>
+    <string name="request_failed">Permintaan gagal :</string>
 
 </resources>
