@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_add_amount_expense.view.*
 import kotlinx.android.synthetic.main.activity_expense_detail.*
+import java.text.NumberFormat
+import java.util.*
 
 class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
     CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -50,9 +52,10 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         val addedByTreasurerInitial = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_INITIAL))
         val addedByTreasurerUid = intent.getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER_UID))
 
+        val formattedAmount = formatAmount(amount?.toLong())
         expense_detail_id_text_view?.text = expenseId
         expense_detail_note_field?.setText(note)
-        expense_detail_amount_field.setText(amount)
+        expense_detail_amount_field.setText(formattedAmount)
         expense_detail_categories_field?.setText(category)
         calendar_result_text_expense_detail?.setText(dateCreated)
         expense_detail_category_id_text_view?.text = categoryId
@@ -125,7 +128,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val addAmountInflater: LayoutInflater = layoutInflater
         val view: View = addAmountInflater.inflate(R.layout.activity_add_amount_expense, null)
-        view.expense_amount_field_add_amount.text = amount
+        view.expense_amount_field_add_amount.setText(amount.toString().replace(",", ""))
         view.expense_amount_field_add_amount.movementMethod = null
         view.expense_amount_field_add_amount.isLongClickable = false
 
@@ -192,10 +195,16 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         dialogBuilder.setPositiveButton(getString(R.string.ok), { dialog, _ ->
             run {
                 val currentAmount = view.expense_amount_field_add_amount?.text.toString()
-                expense_detail_amount_field.text.clear()
-                expense_detail_amount_field.setText(currentAmount)
-                dialog.dismiss()
-                expense_detail_amount_field.error = null
+                when (currentAmount) {
+                    "" -> showWarningAnimation(view.expense_amount_field_add_amount)
+                    else -> {
+                        expense_detail_amount_field.text.clear()
+                        val formattedAmount = formatAmount(currentAmount.toLong())
+                        expense_detail_amount_field.setText(formattedAmount)
+                        dialog.dismiss()
+                        expense_detail_amount_field.error = null
+                    }
+                }
             }
         })
         val dialog: AlertDialog = dialogBuilder.create()
@@ -243,7 +252,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
             android.R.id.home -> onBackPressed()
             R.id.action_bar_save -> {
                 Log.d(HUNTR, "----------------action bar saved clicked-------------------")
-                val amount = expense_detail_amount_field.text.toString().toInt()
+                var amount = expense_detail_amount_field.text.toString()
                 val category = expense_detail_categories_field.text
                 val dateCreated = calendar_result_text_expense_detail.text.toString()
                 val expenseId = expense_detail_id_text_view.text.toString()
@@ -255,6 +264,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                     note.isEmpty() -> showWarningAnimation(expense_detail_note_field)
 
                     else -> {
+                        amount = expense_detail_amount_field.text.toString().replace(",", "")
                         val fullName = intent
                             .getStringExtra(getString(R.string.EXPENSE_ADDED_BY_TREASURER))
                         val addedByTreasurerInitial = intent
@@ -263,7 +273,7 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
                         val expense = ExpenseModel(
                             fullName,
                             currentUserUid,
-                            amount,
+                            amount.toLong(),
                             category.toString(),
                             dateCreated,
                             expenseId,
@@ -311,6 +321,9 @@ class ExpenseDetailActivity : AppCompatActivity(), View.OnClickListener,
         Toast.makeText(applicationContext, getString(R.string.expense_updated), Toast.LENGTH_SHORT).show()
         finish()
     }
+
+    private fun formatAmount(amount: Long?) =
+        NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     override fun onRestart() {
         super.onRestart()
