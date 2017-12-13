@@ -26,12 +26,13 @@ import kotlinx.android.synthetic.main.activity_add_amount_income.view.*
 import kotlinx.android.synthetic.main.activity_add_income.*
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import java.text.NumberFormat
+import java.util.*
 
 class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDatePickerDialogFragment.OnDateSetListener {
 
     companion object {
         val FRAG_TAG_DATE_PICKER = "fragment_date_picker_name"
-        var selectedUri: Uri? = null
         lateinit var glideRequestManager: RequestManager
         private val auth = FirebaseAuth.getInstance()
         private val uid = auth.currentUser?.uid
@@ -44,9 +45,6 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
         setContentView(R.layout.activity_add_income)
         glideRequestManager = Glide.with(this)
 
-        val bundle: Bundle? = intent!!.extras
-        val amount: String? = bundle?.getString(getString(R.string.EXTRA_AMOUNT))
-        income_amount_field.setText(amount)
         initLayout()
         initAuth()
     }
@@ -176,10 +174,16 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             .setPositiveButton(getString(R.string.ok), { dialog, which ->
                 run {
                     val currentAmount = view.income_amount_field_add_amount?.text.toString()
-                    income_amount_field.text.clear()
-                    income_amount_field.setText(currentAmount)
-                    dialog.dismiss()
-                    income_amount_field.error = null
+                    when (currentAmount) {
+                        "" -> showWarningAnimation(view.income_amount_field_add_amount)
+                        else -> {
+                            income_amount_field.text.clear()
+                            val formattedAmount = formatAmount(currentAmount.toLong())
+                            income_amount_field.setText(formattedAmount)
+                            dialog.dismiss()
+                            income_amount_field.error = null
+                        }
+                    }
                 }
             })
             .create().show()
@@ -217,7 +221,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
 
     private fun saveIncome() {
         val dateCreated = calendar_result_text_income?.text.toString()
-        val amount = income_amount_field?.text.toString()
+        var amount = income_amount_field?.text.toString()
         val note = income_note_field?.text.toString()
         //val notePhotoUri = selectedUri.toString()
         val category = income_categories_field?.text.toString()
@@ -228,7 +232,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             category.isEmpty() -> showWarningAnimation(income_categories_field)
             else -> {
                 val dbRef = FirebaseDatabase.getInstance().getReference("users")
-
+                amount = income_amount_field?.text.toString().replace(",", "")
                 val prefs = PreferenceManager.getDefaultSharedPreferences(this@AddIncomeActivity)
                 val categoryId = prefs.getString(getString(R.string.CATEGORY_ID_INCOME), "")
                 dbRef.addValueEventListener(object : ValueEventListener {
@@ -245,7 +249,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
                         val income = IncomeModel(
                             incomeId,
                             fullName,
-                            amount.toInt(),
+                            amount.toLong(),
                             category,
                             dateCreated,
                             note,
@@ -274,6 +278,9 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, CalendarDat
             }
         }
     }
+
+    private fun formatAmount(amount: Long) =
+        NumberFormat.getNumberInstance(Locale.US).format(amount)
 
     private fun showWarningAnimation(view: View) {
         val shake = AnimationUtils.loadAnimation(this@AddIncomeActivity, R.anim.shake)
