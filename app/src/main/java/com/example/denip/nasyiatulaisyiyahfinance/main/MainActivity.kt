@@ -321,49 +321,51 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     private fun showDialogExportExpense() {
 
-        databaseExpenseRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError?) {
+        databaseExpenseRef
+            .orderByChild("addedByTreasurer")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError?) {
 
-            }
+                }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                userFullNames.clear()
-                dateCreated.clear()
-                categories.clear()
-                amounts.clear()
-                notes.clear()
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    userFullNames.clear()
+                    dateCreated.clear()
+                    categories.clear()
+                    amounts.clear()
+                    notes.clear()
 
-                dataSnapshot!!.children
-                    .map { it?.child("addedByTreasurer")?.value.toString() }
-                    .forEach {
-                        userFullNames.add(it)
-                    }
+                    dataSnapshot!!.children
+                        .map { it?.child("addedByTreasurer")?.value.toString() }
+                        .forEach {
+                            userFullNames.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("dateCreated")?.value.toString() }
-                    .forEach {
-                        dateCreated.add(it)
-                    }
+                    dataSnapshot.children
+                        .map { it?.child("dateCreated")?.value.toString() }
+                        .forEach {
+                            dateCreated.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("category")?.value.toString() }
-                    .forEach {
-                        categories.add(it)
-                    }
+                    dataSnapshot.children
+                        .map { it?.child("category")?.value.toString() }
+                        .forEach {
+                            categories.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("amount")?.value.toString() }
-                    .forEach {
-                        amounts.add(it)
-                    }
+                    dataSnapshot.children
+                        .map { it?.child("amount")?.value.toString() }
+                        .forEach {
+                            amounts.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("note")?.value.toString() }
-                    .forEach {
-                        notes.add(it)
-                    }
-            }
-        })
+                    dataSnapshot.children
+                        .map { it?.child("note")?.value.toString() }
+                        .forEach {
+                            notes.add(it)
+                        }
+                }
+            })
 
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
@@ -447,49 +449,51 @@ class MainActivity : AppCompatActivity(), ExpenseFragment.OnFragmentInteractionL
 
     private fun showDialogExportIncome() {
 
-        databaseIncomeRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError?) {
+        databaseIncomeRef
+            .orderByChild("addedByTreasurer")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError?) {
 
-            }
+                }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                userFullNames.clear()
-                dateCreated.clear()
-                categories.clear()
-                amounts.clear()
-                notes.clear()
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    userFullNames.clear()
+                    dateCreated.clear()
+                    categories.clear()
+                    amounts.clear()
+                    notes.clear()
 
-                dataSnapshot!!.children
-                    .map { it?.child("addedByTreasurer")?.value.toString() }
-                    .forEach {
-                        userFullNames.add(it)
-                    }
+                    dataSnapshot!!.children
+                        .map { it?.child("addedByTreasurer")?.value.toString() }
+                        .forEach {
+                            userFullNames.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("dateCreated")?.value.toString() }
-                    .forEach {
-                        dateCreated.add(it)
-                    }
+                    dataSnapshot.children
+                        .map { it?.child("dateCreated")?.value.toString() }
+                        .forEach {
+                            dateCreated.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("category")?.value.toString() }
-                    .forEach {
-                        categories.add(it)
-                    }
+                    dataSnapshot.children
+                        .map { it?.child("category")?.value.toString() }
+                        .forEach {
+                            categories.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("amount")?.value.toString() }
-                    .forEach {
-                        amounts.add(it)
-                    }
+                    dataSnapshot.children
+                        .map { it?.child("amount")?.value.toString() }
+                        .forEach {
+                            amounts.add(it)
+                        }
 
-                dataSnapshot.children
-                    .map { it?.child("note")?.value.toString() }
-                    .forEach {
-                        notes.add(it)
-                    }
-            }
-        })
+                    dataSnapshot.children
+                        .map { it?.child("note")?.value.toString() }
+                        .forEach {
+                            notes.add(it)
+                        }
+                }
+            })
 
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder
